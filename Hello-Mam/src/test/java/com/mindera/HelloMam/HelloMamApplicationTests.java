@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -22,19 +23,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 class HelloMamApplicationTests {
 
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private RatingRepository ratingRepository;
-
-	@Autowired
-	private MediaRepository mediaRepository;
+//	@Autowired
+//	private UserRepository userRepository;
+//
+//	@Autowired
+//	private RatingRepository ratingRepository;
+//
+//	@Autowired
+//	private MediaRepository mediaRepository;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
