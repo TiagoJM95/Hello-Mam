@@ -5,6 +5,7 @@ import com.mindera.HelloMam.Dto.Get.UserGetDto;
 import com.mindera.HelloMam.Entity.User;
 import com.mindera.HelloMam.Service.Implementation.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<User> createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
+    public ResponseEntity<User> createUser(@RequestBody UserCreateDto userCreateDto) {
         User user = new User().builder()
                 .username(userCreateDto.username())
                 .email(userCreateDto.email())
@@ -36,6 +37,6 @@ public class UserController {
                 .dateOfBirth(userCreateDto.dateOfBirth())
                 .build();
         userServiceImpl.create(user);
-        return ResponseEntity.ok(userServiceImpl.create(user));
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 }
