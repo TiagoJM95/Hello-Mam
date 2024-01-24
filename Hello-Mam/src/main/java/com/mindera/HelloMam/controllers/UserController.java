@@ -1,15 +1,14 @@
-package com.mindera.HelloMam.Controller;
+package com.mindera.HelloMam.controllers;
 
-import com.mindera.HelloMam.Dto.Create.UserCreateDto;
-import com.mindera.HelloMam.Dto.Get.UserGetDto;
-import com.mindera.HelloMam.Entity.User;
-import com.mindera.HelloMam.Service.Implementation.UserServiceImpl;
+import com.mindera.HelloMam.dtos.creates.UserCreateDto;
+import com.mindera.HelloMam.dtos.gets.UserGetDto;
+import com.mindera.HelloMam.entities.User;
+import com.mindera.HelloMam.services.implementations.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,16 +28,8 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<User> createUser(@RequestBody UserCreateDto userCreateDto) {
-        User user = new User().builder()
-                .username(userCreateDto.username())
-                .email(userCreateDto.email())
-                .name(userCreateDto.name())
-                .dateOfBirth(userCreateDto.dateOfBirth())
-                .active(true)
-                .build();
-        userServiceImpl.create(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    public ResponseEntity<UserGetDto> createUser(@RequestBody UserCreateDto userCreateDto) {
+        return new ResponseEntity<>(userServiceImpl.create(userCreateDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

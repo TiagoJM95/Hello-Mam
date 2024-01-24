@@ -1,4 +1,4 @@
-package com.mindera.HelloMam.Dto.Create;
+package com.mindera.HelloMam.dtos.creates;
 
 import java.time.LocalDate;
 
