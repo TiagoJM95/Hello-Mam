@@ -24,19 +24,15 @@ public class User {
     private Long userId;
 
     @Column(unique = true)
-    @NotBlank(message = "Username is mandatory")
     private String username;
 
     @Column(unique = true)
-    @NotBlank(message = "Email is mandatory")
     private String email;
 
     @Column
-    @NotBlank(message = "Name is mandatory")
     private String name;
 
     @Column
-    @NotBlank(message = "Date Of Birth is mandatory")
     private LocalDate dateOfBirth;
 
     @Column
