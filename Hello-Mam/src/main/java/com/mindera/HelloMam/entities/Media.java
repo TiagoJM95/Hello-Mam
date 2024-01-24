@@ -1,5 +1,6 @@
-package com.mindera.HelloMam.model;
+package com.mindera.HelloMam.entities;
 
+import com.mindera.HelloMam.enums.MediaType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,9 +14,11 @@ import lombok.*;
 public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     Integer id;
-    @Column(unique = true)
+    @Column
     String refId;
+    @Column
     MediaType type;
 
     public Media(String refId, MediaType type) {

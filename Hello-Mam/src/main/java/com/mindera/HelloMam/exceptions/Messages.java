@@ -1,4 +1,4 @@
-package com.mindera.HelloMam.exception;
+package com.mindera.HelloMam.exceptions;
 
 public class Messages {
 
@@ -6,5 +6,6 @@ public class Messages {
     public static final String MEDIA_NOT_FOUND = "This media does not exist.";
     public static final String TYPE_NOT_FOUND = "This media type does not exist.";
     public static final String MEDIA_FOUND = "This media already exists.";
+    public static final String EMPTY_LIST = "This list is empty.";
 
 }
