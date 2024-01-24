@@ -1,10 +1,9 @@
-package com.mindera.HelloMam.Repository;
+package com.mindera.HelloMam.repositories;
 
-import com.mindera.HelloMam.Dto.Get.UserGetDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import com.mindera.HelloMam.Entity.User;
+import com.mindera.HelloMam.entities.User;
 import java.util.Optional;
 
 @Repository

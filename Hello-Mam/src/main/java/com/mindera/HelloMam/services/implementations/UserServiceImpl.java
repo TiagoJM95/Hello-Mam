@@ -1,9 +1,11 @@
-package com.mindera.HelloMam.Service.Implementation;
+package com.mindera.HelloMam.services.implementations;
 
-import com.mindera.HelloMam.Dto.Get.UserGetDto;
-import com.mindera.HelloMam.Entity.User;
-import com.mindera.HelloMam.Repository.UserRepository;
-import com.mindera.HelloMam.Service.Interface.UserService;
+import com.mindera.HelloMam.converters.UserConverter;
+import com.mindera.HelloMam.dtos.creates.UserCreateDto;
+import com.mindera.HelloMam.dtos.gets.UserGetDto;
+import com.mindera.HelloMam.entities.User;
+import com.mindera.HelloMam.repositories.UserRepository;
+import com.mindera.HelloMam.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +22,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(User user) {
-        userRepository.save(user);
-        return user;
+    public UserGetDto create(UserCreateDto userCreateDto) {
+        User user = UserConverter.toUser(userCreateDto);
+        return UserConverter.toUserGetDto(userRepository.save(user));
     }
 
     @Override
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserGetDto> findAll() {
-        return userRepository.findAll().stream().map(user -> new UserGetDto(user.getUsername())).toList();
+        return userRepository.findAll().stream().map(user -> new UserGetDto(user.getUserId(), user.getUsername(), user.getName(), user.getEmail(), user.getDateOfBirth())).toList();
     }
 
     @Override

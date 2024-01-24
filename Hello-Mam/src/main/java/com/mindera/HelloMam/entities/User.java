@@ -1,6 +1,6 @@
-package com.mindera.HelloMam.Entity;
+package com.mindera.HelloMam.entities;
 
-import com.mindera.HelloMam.Enum.Interests;
+import com.mindera.HelloMam.enums.MediaType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,7 +40,7 @@ public class User {
     private LocalDate dateOfBirth;
 
     @Column
-    private List<Interests> interests;
+    private List<MediaType> interests;
 
     private boolean active;
 

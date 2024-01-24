@@ -1,7 +1,8 @@
-package com.mindera.HelloMam.Service.Interface;
+package com.mindera.HelloMam.services.interfaces;
 
-import com.mindera.HelloMam.Dto.Get.UserGetDto;
-import com.mindera.HelloMam.Entity.User;
+import com.mindera.HelloMam.dtos.creates.UserCreateDto;
+import com.mindera.HelloMam.dtos.gets.UserGetDto;
+import com.mindera.HelloMam.entities.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 @Service
 public interface UserService {
 
-    User create(User user);
+    UserGetDto create(UserCreateDto userCreateDto);
 
     User findById(Long id);
 
