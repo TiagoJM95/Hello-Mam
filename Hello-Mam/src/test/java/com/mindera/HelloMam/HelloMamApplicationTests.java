@@ -1,6 +1,7 @@
 package com.mindera.HelloMam;
 
 import com.jayway.jsonpath.JsonPath;
+import com.mindera.HelloMam.Repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,8 +30,8 @@ class HelloMamApplicationTests {
 	@Autowired
 	private MockMvc mockMvc;
 
-//	@Autowired
-//	private UserRepository userRepository;
+@Autowired
+private UserRepository userRepository;
 //
 //	@Autowired
 //	private RatingRepository ratingRepository;
@@ -44,16 +45,10 @@ class HelloMamApplicationTests {
 	@AfterEach
 	void tearDown() {
 		//reset database
-		//resetAutoIncrement
+		userRepository.deleteAll();
+		jdbcTemplate.execute("ALTER TABLE user AUTO_INCREMENT = 1");
 	}
 
-	@AfterEach
-	void reset() {
-		// Specific reset auto-increment for MySQL:
-		jdbcTemplate.execute("ALTER TABLE car AUTO_INCREMENT = 1");
-		jdbcTemplate.execute("ALTER TABLE client AUTO_INCREMENT = 1");
-		jdbcTemplate.execute("ALTER TABLE rental AUTO_INCREMENT = 1");
-	}
 
 	@Test
 	void contextLoads() {
@@ -69,7 +64,7 @@ class HelloMamApplicationTests {
 	@Test
 	@DisplayName("Test to determine if a get to an empty User database returns an empty database")
 	void getToUserEmptyDB() throws Exception {
-		this.mockMvc.perform(get("/api/v1/usersAPI/")).andDo(print())
+		this.mockMvc.perform(get("/user/")).andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content().string(containsString("[]")));
 	}
@@ -77,7 +72,7 @@ class HelloMamApplicationTests {
 	@Test
 	@DisplayName("Test to determine the creation of a User and that it returns with id 1")
 	void createUserAndCheckIdNumber() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/usersAPI")
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/user/")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("{\"name\":\"Mam\",\"age\":60,\"email\":\"mam@test.com\"}"))
 				.andExpect(status().isCreated())
@@ -88,15 +83,16 @@ class HelloMamApplicationTests {
 	@Test
 	@DisplayName("Test to determine the creation of a User and that it returns with all values correctly attributed")
 	void createUserAndCheckValues() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/usersAPI")
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/user/")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"name\":\"Mam\",\"age\":60,\"email\":\"mam@test.com\"}"))
+						.content("{\"name\":\"Mrs Mam\",\"username\":\"Mam\",\"email\":\"mam@test.com\",\"dateOfBirth\":\"1960-01-01\"}"))
 				.andExpect(status().isCreated())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.userId").value(1))
-				.andExpect(jsonPath("$.name").value("Mam"))
-				.andExpect(jsonPath("$.age").value(60))
-				.andExpect(jsonPath("$.email").value("mam@test.pt"));
+				.andExpect(jsonPath("$.name").value("Mrs Mam"))
+				.andExpect(jsonPath("$.username").value("Mam"))
+				.andExpect(jsonPath("$.email").value("mam@test.com"))
+				.andExpect(jsonPath("$.dateOfBirth").value("1960-01-01"));
 	}
 
 	@Test
