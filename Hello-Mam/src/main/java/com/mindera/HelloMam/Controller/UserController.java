@@ -35,8 +35,33 @@ public class UserController {
                 .email(userCreateDto.email())
                 .name(userCreateDto.name())
                 .dateOfBirth(userCreateDto.dateOfBirth())
+                .active(true)
                 .build();
         userServiceImpl.create(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserCreateDto userCreateDto) {
+        User user = userServiceImpl.findById(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        user.setUsername(userCreateDto.username());
+        user.setEmail(userCreateDto.email());
+        user.setName(userCreateDto.name());
+        user.setDateOfBirth(userCreateDto.dateOfBirth());
+        userServiceImpl.update(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
+        User user = userServiceImpl.findById(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        user.setActive(false);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

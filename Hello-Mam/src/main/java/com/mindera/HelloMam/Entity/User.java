@@ -42,6 +42,8 @@ public class User {
     @Column
     private List<Interests> interests;
 
+    private boolean active;
+
 
 
 }
