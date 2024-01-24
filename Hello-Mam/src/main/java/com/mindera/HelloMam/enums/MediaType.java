@@ -1,4 +1,4 @@
-package com.mindera.HelloMam.model;
+package com.mindera.HelloMam.enums;
 
 public enum MediaType {
     MOVIE,
