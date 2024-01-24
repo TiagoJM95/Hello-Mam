@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class MediaServiceImpl implements MediaService {
 
-    private final MediaRepository mediaRepository;
+    private MediaRepository mediaRepository;
 
     @Autowired
     public MediaServiceImpl(MediaRepository mediaRepository) {
@@ -26,22 +26,26 @@ public class MediaServiceImpl implements MediaService {
     }
 
     public List<MediaGetDto> getAllMedia() {
-        return mediaRepository.findAll().stream()
+        List<Media> medias = mediaRepository.findAll();
+
+        return medias.stream()
                 .map(MediaConverter::fromMediaToMediaDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
 
     public MediaGetDto getMediaById(Integer id){
-        Media media = mediaRepository.findById(id)
-                .orElseThrow(MediaNotFoundException::new);
-
-        return MediaConverter.fromMediaToMediaDto(media);
+        Optional<Media> media = mediaRepository.findById(id);
+        if(media.isEmpty()) {
+            throw new MediaNotFoundException();
+        }
+        return MediaConverter.fromMediaToMediaDto(media.get());
     }
 
 
     public List<MediaGetDto> getMediaByType(MediaType type) {
         List<Media> medias = mediaRepository.getMediaByType(type);
+
         if(medias.isEmpty()){
             throw new TypeNotFoundException();
         }
