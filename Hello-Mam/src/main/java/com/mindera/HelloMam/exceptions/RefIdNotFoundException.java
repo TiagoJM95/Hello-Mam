@@ -1,4 +1,4 @@
-package com.mindera.HelloMam.exception;
+package com.mindera.HelloMam.exceptions;
 
 public class RefIdNotFoundException extends IllegalStateException{
 
