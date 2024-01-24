@@ -35,17 +35,15 @@ public class MediaServiceImpl implements MediaService {
 
 
     public MediaGetDto getMediaById(Integer id){
-        Optional<Media> media = mediaRepository.findById(id);
-        if(media.isEmpty()) {
-            throw new MediaNotFoundException();
-        }
-        return MediaConverter.fromMediaToMediaDto(media.get());
+        Media media = mediaRepository.findById(id)
+                .orElseThrow(MediaNotFoundException::new);
+
+        return MediaConverter.fromMediaToMediaDto(media);
     }
 
 
     public List<MediaGetDto> getMediaByType(MediaType type) {
         List<Media> medias = mediaRepository.getMediaByType(type);
-
         if(medias.isEmpty()){
             throw new TypeNotFoundException();
         }
