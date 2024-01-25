@@ -40,8 +40,8 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         user.setUsername(userCreateDto.username());
-        user.setEmail(userCreateDto.email());
         user.setName(userCreateDto.name());
+        user.setEmail(userCreateDto.email());
         user.setDateOfBirth(userCreateDto.dateOfBirth());
         userServiceImpl.update(user);
         return new ResponseEntity<>(user, HttpStatus.OK);

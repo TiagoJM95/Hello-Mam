@@ -1,5 +1,6 @@
 package com.mindera.HelloMam;
 
+import com.mindera.HelloMam.repositories.MediaRepository;
 import com.mindera.HelloMam.repositories.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,8 +35,8 @@ private UserRepository userRepository;
 //	@Autowired
 //	private RatingRepository ratingRepository;
 //
-//	@Autowired
-//	private MediaRepository mediaRepository;
+@Autowired
+private MediaRepository mediaRepository;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -44,7 +45,9 @@ private UserRepository userRepository;
 	void tearDown() {
 		//reset database
 		userRepository.deleteAll();
+		mediaRepository.deleteAll();
 		jdbcTemplate.execute("ALTER TABLE user AUTO_INCREMENT = 1");
+		jdbcTemplate.execute("ALTER TABLE media AUTO_INCREMENT = 1");
 	}
 
 
@@ -129,7 +132,7 @@ private UserRepository userRepository;
 	@Test
 	@DisplayName("Test to determine if a get to an empty Media database returns an empty database")
 	public void getToMediaEmptyDB() throws Exception {
-		this.mockMvc.perform(get("/api/v1/mediaAPI/")).andDo(print())
+		this.mockMvc.perform(get("/api/v1/media/")).andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content().string(containsString("[]")));
 	}
@@ -137,25 +140,25 @@ private UserRepository userRepository;
 	@Test
 	@DisplayName("Test to determine the creation of a Media and that it returns with id 1")
 	public void createMediaAndCheckIdNumber() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/mediaAPI")
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/media/")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"title\":\"Mam\",\"description\":\"Mam is the best\",\"type\":\"Movie\",\"releaseDate\":\"2021-05-05\",\"userId\":1}"))
+						.content("{\"refId\":\"refIdTest\",\"type\":\"MOVIE\"}"))
 				.andExpect(status().isCreated())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.mediaId").value(1));
+				.andExpect(jsonPath("$.id").value(1));
 	}
 
 	@Test
 	@DisplayName("Test to determine the creation of a Media and that it returns with all values correctly attributed")
 	public void createMediaAndCheckValues() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/mediaAPI")
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/media/")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"refId\":1,\"type\":1"))
+						.content("{\"refId\":\"refIdTest\",\"type\":\"MOVIE\"}"))
 				.andExpect(status().isCreated())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.mediaId").value(1))
-				.andExpect(jsonPath("$.refId").value(1))
-				.andExpect(jsonPath("$.type").value(1));
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.refId").value("refIdTest"))
+				.andExpect(jsonPath("$.type").value("MOVIE"));
 	}
 
 
