@@ -1,26 +1,12 @@
 package com.mindera.dto;
 
-import lombok.*;
+public record MovieDto(
+        String title,
 
-@Getter
-@Setter
-@Builder
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-//Falta quarkus
+        String director,
 
-public class MovieDto {
+        String genre,
 
-    private String title;
-
-    private String director;
-
-    private String genre;
-
-    private String rating;
-
-
+        String rating
+) {
 }
-
-
