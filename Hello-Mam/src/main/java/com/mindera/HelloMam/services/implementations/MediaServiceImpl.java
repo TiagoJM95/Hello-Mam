@@ -1,8 +1,8 @@
 package com.mindera.HelloMam.services.implementations;
 
 import com.mindera.HelloMam.converters.MediaConverter;
-import com.mindera.HelloMam.dto.MediaCreateDto;
-import com.mindera.HelloMam.dto.MediaGetDto;
+import com.mindera.HelloMam.dtos.creates.MediaCreateDto;
+import com.mindera.HelloMam.dtos.gets.MediaGetDto;
 import com.mindera.HelloMam.exceptions.*;
 import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.enums.MediaType;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
