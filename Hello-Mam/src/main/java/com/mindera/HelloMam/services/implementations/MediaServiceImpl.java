@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class MediaServiceImpl implements MediaService {
 
-    private MediaRepository mediaRepository;
+    private final MediaRepository mediaRepository;
 
     @Autowired
     public MediaServiceImpl(MediaRepository mediaRepository) {
@@ -26,11 +26,9 @@ public class MediaServiceImpl implements MediaService {
     }
 
     public List<MediaGetDto> getAllMedia() {
-        List<Media> medias = mediaRepository.findAll();
-
-        return medias.stream()
+        return mediaRepository.findAll().stream()
                 .map(MediaConverter::fromMediaToMediaDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
