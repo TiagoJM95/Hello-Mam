@@ -12,6 +12,11 @@ public class HomeController {
             return "home";
         }
 
+        @GetMapping("/secured")
+        public String secured(){
+            return "secured";
+        }
+
         @GetMapping("/register")
         public String register(){
             return "register";
