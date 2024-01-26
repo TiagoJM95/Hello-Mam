@@ -7,6 +7,7 @@ import com.mindera.HelloMam.dtos.updates.RatingUpdateDto;
 import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.entities.Rating;
 import com.mindera.HelloMam.entities.User;
+import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.rating_exceptions.RatingNotFoundException;
 import com.mindera.HelloMam.repositories.RatingRepository;
 import com.mindera.HelloMam.services.interfaces.RatingService;
@@ -54,7 +55,7 @@ public class RatingServiceImpl implements RatingService {
                 .toList();
     }
 
-    public List<RatingGetDto> getRatingByMediaId(Integer mediaId) {
+    public List<RatingGetDto> getRatingByMediaId(Integer mediaId) throws MediaNotFoundException {
 
         Media media = mediaService.findById(mediaId);
 
@@ -64,7 +65,7 @@ public class RatingServiceImpl implements RatingService {
                 .toList();
     }
 
-    public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) {
+    public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) throws MediaNotFoundException {
         Rating addedRating = ratingRepository.save(fromRatingDtoToRating(ratingCreateDto,
                 userService.findById(ratingCreateDto.userId()),
                 mediaService.findById(ratingCreateDto.mediaId())));

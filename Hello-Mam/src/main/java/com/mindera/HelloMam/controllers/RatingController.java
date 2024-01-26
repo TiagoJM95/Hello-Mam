@@ -3,6 +3,7 @@ package com.mindera.HelloMam.controllers;
 import com.mindera.HelloMam.dtos.creates.RatingCreateDto;
 import com.mindera.HelloMam.dtos.gets.RatingGetDto;
 import com.mindera.HelloMam.dtos.updates.RatingUpdateDto;
+import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.rating_exceptions.RatingNotFoundException;
 import com.mindera.HelloMam.services.implementations.RatingServiceImpl;
 import jakarta.validation.Valid;
@@ -42,12 +43,12 @@ public class RatingController {
     }
 
     @GetMapping("/media/{mediaId}")
-    public ResponseEntity<List<RatingGetDto>> getRatingByMediaId(@PathVariable Integer mediaId) {
+    public ResponseEntity<List<RatingGetDto>> getRatingByMediaId(@PathVariable Integer mediaId) throws MediaNotFoundException {
         return new ResponseEntity<>(ratingService.getRatingByMediaId(mediaId), HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<RatingGetDto> addNewRating(@Valid @RequestBody RatingCreateDto ratingCreateDto) {
+    public ResponseEntity<RatingGetDto> addNewRating(@Valid @RequestBody RatingCreateDto ratingCreateDto) throws MediaNotFoundException {
         return new ResponseEntity<>(ratingService.addNewRating(ratingCreateDto), HttpStatus.CREATED);
     }
 

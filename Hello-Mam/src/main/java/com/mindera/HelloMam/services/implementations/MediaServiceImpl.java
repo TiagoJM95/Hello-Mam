@@ -30,6 +30,9 @@ public class MediaServiceImpl implements MediaService {
                 .toList();
     }
 
+    Media findById(Integer id) throws MediaNotFoundException {
+        return mediaRepository.findById(id).orElseThrow(MediaNotFoundException::new);
+    }
 
     public MediaGetDto getMediaById(Integer id) throws MediaNotFoundException {
         Media media = mediaRepository.findById(id)
