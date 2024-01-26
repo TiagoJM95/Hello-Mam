@@ -42,7 +42,7 @@ public class RatingController {
     }
 
     @GetMapping("/media/{mediaId}")
-    public ResponseEntity<RatingGetDto> getRatingByMediaId(@PathVariable Integer mediaId) {
+    public ResponseEntity<List<RatingGetDto>> getRatingByMediaId(@PathVariable Integer mediaId) {
         return new ResponseEntity<>(ratingService.getRatingByMediaId(mediaId), HttpStatus.OK);
     }
 

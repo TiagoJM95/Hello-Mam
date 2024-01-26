@@ -11,7 +11,7 @@ public interface RatingService {
     List<RatingGetDto> getAllRating();
     RatingGetDto getRatingById(Integer id) throws RatingNotFoundException;
     List<RatingGetDto> getRatingByUserId(Long userId);
-    RatingGetDto getRatingByMediaId(Integer mediaId);
+    List <RatingGetDto> getRatingByMediaId(Integer mediaId);
     RatingGetDto addNewRating(RatingCreateDto ratingCreateDto);
     RatingGetDto updateRating(Integer ratingId, RatingUpdateDto ratingUpdateDto) throws RatingNotFoundException;
 

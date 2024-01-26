@@ -4,6 +4,7 @@ import com.mindera.HelloMam.converters.RatingConverter;
 import com.mindera.HelloMam.dtos.creates.RatingCreateDto;
 import com.mindera.HelloMam.dtos.gets.RatingGetDto;
 import com.mindera.HelloMam.dtos.updates.RatingUpdateDto;
+import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.entities.Rating;
 import com.mindera.HelloMam.entities.User;
 import com.mindera.HelloMam.exceptions.rating_exceptions.RatingNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import static com.mindera.HelloMam.converters.RatingConverter.*;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class RatingServiceImpl implements RatingService {
@@ -50,23 +52,16 @@ public class RatingServiceImpl implements RatingService {
                 .filter(rating -> rating.getUserId().equals(user))
                 .map(RatingConverter::fromRatingToRatingDto)
                 .toList();
-
-        /*List<Rating> ratings = ratingRepository.getRatingByUserId(userId);
-        if(ratings.isEmpty()) {
-            throw new ListOrUserIdNotFoundException();
-        }
-        return ratings.stream()
-                .map(RatingConverter::fromRatingToRatingDto)
-                .toList();*/
     }
 
-    public RatingGetDto getRatingByMediaId(Integer mediaId) {
+    public List<RatingGetDto> getRatingByMediaId(Integer mediaId) {
 
-        /*Rating rating = ratingRepository.getRatingByMediaId(mediaId);
-        if(rating == null) {
-            throw new RatingOrMediaIdNotFoundException();
-        }
-        return fromRatingToRatingDto(rating);*/
+        Media media = mediaService.findById(mediaId);
+
+        return ratingRepository.findAll().stream()
+                .filter(rating -> rating.getMediaId().equals(media))
+                .map(RatingConverter::fromRatingToRatingDto)
+                .toList();
     }
 
     public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) {
