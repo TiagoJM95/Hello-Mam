@@ -2,6 +2,7 @@ package com.mindera.HelloMam.controllers;
 
 import com.mindera.HelloMam.dtos.creates.UserCreateDto;
 import com.mindera.HelloMam.dtos.gets.UserGetDto;
+import com.mindera.HelloMam.dtos.updates.UserUpdateDto;
 import com.mindera.HelloMam.entities.User;
 import com.mindera.HelloMam.services.implementations.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.mindera.HelloMam.converters.UserConverter.toUserGetDto;
 
 @RestController
 @RequestMapping("/user")
@@ -24,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<UserGetDto>> getUser() {
+    public ResponseEntity<List<UserGetDto>> getAllUsers() {
         return ResponseEntity.ok(userServiceImpl.findAll());
     }
 
@@ -33,27 +36,17 @@ public class UserController {
         return new ResponseEntity<>(userServiceImpl.create(userCreateDto), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserCreateDto userCreateDto) {
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<UserGetDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDto userUpdateDto) throws Exception {
         User user = userServiceImpl.findById(id);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        user.setUsername(userCreateDto.username());
-        user.setName(userCreateDto.name());
-        user.setEmail(userCreateDto.email());
-        user.setDateOfBirth(userCreateDto.dateOfBirth());
-        userServiceImpl.update(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        user.setUsername(userUpdateDto.username());
+        return new ResponseEntity<>(toUserGetDto(userServiceImpl.update(user)), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) throws Exception {
         User user = userServiceImpl.findById(id);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         user.setActive(false);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("user deleted", HttpStatus.NO_CONTENT);
     }
 }

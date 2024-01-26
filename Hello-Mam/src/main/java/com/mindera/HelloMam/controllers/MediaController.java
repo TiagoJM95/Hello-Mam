@@ -31,23 +31,17 @@ public class MediaController {
         return ResponseEntity.ok(mediaServiceImpl.getAllMedia());
     }
 
-//    @GetMapping("/")
-//    public ResponseEntity<List<UserGetDto>> getUser() {
-//        return ResponseEntity.ok(userServiceImpl.findAll());
-//    }
-
-    @GetMapping(path = "{mediaId}")
+    @GetMapping("/{mediaId}")
     public ResponseEntity<MediaGetDto> getMediaById(@PathVariable("mediaId") Integer id) throws MediaNotFoundException {
         return new ResponseEntity<>(mediaServiceImpl.getMediaById(id), HttpStatus.OK);
     }
 
-    @GetMapping(path = "{mediaType}")
+    @GetMapping("/type/{mediaType}")
     public ResponseEntity<List<MediaGetDto>> getMediaByType(@PathVariable("mediaType") MediaType type) {
         return new ResponseEntity<>(mediaServiceImpl.getMediaByType(type), HttpStatus.OK);
     }
 
-
-    @GetMapping(path = "{mediaRefId}")
+    @GetMapping("/ref/{mediaRefId}")
     public ResponseEntity<MediaGetDto> getMediaByRefId(@PathVariable("mediaRefId") String refId) {
         return new ResponseEntity<>(mediaServiceImpl.getMediaByRefId(refId), HttpStatus.OK);
     }

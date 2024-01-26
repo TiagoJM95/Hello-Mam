@@ -35,10 +35,7 @@ public class MediaServiceImpl implements MediaService {
     }
 
     public MediaGetDto getMediaById(Integer id) throws MediaNotFoundException {
-        Media media = mediaRepository.findById(id)
-                .orElseThrow(MediaNotFoundException::new);
-
-        return MediaConverter.fromMediaToMediaDto(media);
+        return MediaConverter.fromMediaToMediaDto(findById(id));
     }
 
 

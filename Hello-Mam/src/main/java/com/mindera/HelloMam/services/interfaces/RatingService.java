@@ -11,9 +11,9 @@ import java.util.List;
 public interface RatingService {
     List<RatingGetDto> getAllRating();
     RatingGetDto getRatingById(Integer id) throws RatingNotFoundException;
-    List<RatingGetDto> getRatingByUserId(Long userId);
+    List<RatingGetDto> getRatingByUserId(Long userId) throws Exception;
     List <RatingGetDto> getRatingByMediaId(Integer mediaId) throws MediaNotFoundException;
-    RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) throws MediaNotFoundException;
+    RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) throws Exception;
     RatingGetDto updateRating(Integer ratingId, RatingUpdateDto ratingUpdateDto) throws RatingNotFoundException;
 
 }

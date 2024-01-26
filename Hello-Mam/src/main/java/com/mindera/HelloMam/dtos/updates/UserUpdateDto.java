@@ -1,8 +1,8 @@
 package com.mindera.HelloMam.dtos.updates;
 
-import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
 
-public record UserUpdateDto(String username, String name, String email, LocalDate dateOfBirth) {
-
-
+public record UserUpdateDto(
+        @NotBlank(message = "Username is mandatory")
+        String username) {
 }

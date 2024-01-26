@@ -12,7 +12,7 @@ public interface UserService {
 
     UserGetDto create(UserCreateDto userCreateDto);
 
-    User findById(Long id);
+    User findById(Long id) throws Exception;
 
     List<UserGetDto> findAll();
 

@@ -29,7 +29,6 @@ public class RatingController {
     @GetMapping("/")
     public ResponseEntity<List<RatingGetDto>> getAllRating() {
         return new ResponseEntity<>(ratingService.getAllRating(), HttpStatus.OK);
-        //return ResponseEntity.ok(ratingService.getAllRating());
     }
 
     @GetMapping("/{ratingId}")
@@ -38,7 +37,7 @@ public class RatingController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<RatingGetDto>> getRatingByUserId(@PathVariable("userId") Long userId) {
+    public ResponseEntity<List<RatingGetDto>> getRatingByUserId(@PathVariable("userId") Long userId) throws Exception {
         return new ResponseEntity<>(ratingService.getRatingByUserId(userId), HttpStatus.OK);
     }
 
@@ -48,7 +47,7 @@ public class RatingController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<RatingGetDto> addNewRating(@Valid @RequestBody RatingCreateDto ratingCreateDto) throws MediaNotFoundException {
+    public ResponseEntity<RatingGetDto> addNewRating(@Valid @RequestBody RatingCreateDto ratingCreateDto) throws Exception {
         return new ResponseEntity<>(ratingService.addNewRating(ratingCreateDto), HttpStatus.CREATED);
     }
 

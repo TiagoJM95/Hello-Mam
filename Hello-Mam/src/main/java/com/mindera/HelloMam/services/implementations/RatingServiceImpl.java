@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import static com.mindera.HelloMam.converters.RatingConverter.*;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class RatingServiceImpl implements RatingService {
@@ -47,14 +46,13 @@ public class RatingServiceImpl implements RatingService {
         return fromRatingToRatingDto(findById(id));
     }
 
-    public List<RatingGetDto> getRatingByUserId(Long userId) {
+    public List<RatingGetDto> getRatingByUserId(Long userId) throws Exception {
         User user = userService.findById(userId);
         return ratingRepository.findAll().stream()
                 .filter(rating -> rating.getUserId().equals(user))
                 .map(RatingConverter::fromRatingToRatingDto)
                 .toList();
     }
-
     public List<RatingGetDto> getRatingByMediaId(Integer mediaId) throws MediaNotFoundException {
 
         Media media = mediaService.findById(mediaId);
@@ -65,7 +63,7 @@ public class RatingServiceImpl implements RatingService {
                 .toList();
     }
 
-    public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) throws MediaNotFoundException {
+    public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) throws Exception {
         Rating addedRating = ratingRepository.save(fromRatingDtoToRating(ratingCreateDto,
                 userService.findById(ratingCreateDto.userId()),
                 mediaService.findById(ratingCreateDto.mediaId())));
@@ -76,8 +74,8 @@ public class RatingServiceImpl implements RatingService {
 
 
     public RatingGetDto updateRating(Integer ratingId, RatingUpdateDto ratingUpdateDto) throws RatingNotFoundException {
-        findById(ratingId);
-        Rating savedRating = ratingRepository.save(fromRatingUpdateDtoToRating(ratingUpdateDto));
-        return fromRatingToRatingDto(savedRating);
+        Rating rating = findById(ratingId);
+        rating.setRating(ratingUpdateDto.rating());
+        return fromRatingToRatingDto(rating);
     }
 }

@@ -26,12 +26,4 @@ public class RatingConverter {
                 .rating(ratingCreateDto.rating())
                 .build();
     }
-
-
-    public static Rating fromRatingUpdateDtoToRating(RatingUpdateDto ratingUpdateDto) {
-        return Rating.builder()
-                .rating(ratingUpdateDto.rating())
-                .build();
-    }
-
 }

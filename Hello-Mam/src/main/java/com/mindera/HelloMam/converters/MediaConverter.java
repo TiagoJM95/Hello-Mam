@@ -15,13 +15,9 @@ public class MediaConverter {
     }
 
     public static Media fromMediaDtoToMedia(MediaCreateDto mediaDto) {
-        Media media = Media.builder()
+        return Media.builder()
                 .refId(mediaDto.refId())
                 .type(mediaDto.type())
                 .build();
-        return new Media(
-                mediaDto.refId(),
-                mediaDto.type()
-        );
     }
 }
