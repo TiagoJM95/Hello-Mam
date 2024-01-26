@@ -4,6 +4,7 @@ import com.mindera.HelloMam.dtos.creates.MediaCreateDto;
 import com.mindera.HelloMam.dtos.gets.MediaGetDto;
 import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.enums.MediaType;
+import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
 import com.mindera.HelloMam.services.implementations.MediaServiceImpl;
 import com.mindera.HelloMam.services.interfaces.MediaService;
 import jakarta.validation.Valid;
@@ -36,7 +37,7 @@ public class MediaController {
 //    }
 
     @GetMapping(path = "{mediaId}")
-    public ResponseEntity<MediaGetDto> getMediaById(@PathVariable("mediaId") Integer id) {
+    public ResponseEntity<MediaGetDto> getMediaById(@PathVariable("mediaId") Integer id) throws MediaNotFoundException {
         return new ResponseEntity<>(mediaServiceImpl.getMediaById(id), HttpStatus.OK);
     }
 

@@ -3,7 +3,7 @@ package com.mindera.HelloMam.services.implementations;
 import com.mindera.HelloMam.converters.MediaConverter;
 import com.mindera.HelloMam.dtos.creates.MediaCreateDto;
 import com.mindera.HelloMam.dtos.gets.MediaGetDto;
-import com.mindera.HelloMam.exceptions.*;
+import com.mindera.HelloMam.exceptions.media_exceptions.*;
 import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.enums.MediaType;
 import com.mindera.HelloMam.repositories.MediaRepository;
@@ -31,7 +31,7 @@ public class MediaServiceImpl implements MediaService {
     }
 
 
-    public MediaGetDto getMediaById(Integer id){
+    public MediaGetDto getMediaById(Integer id) throws MediaNotFoundException {
         Media media = mediaRepository.findById(id)
                 .orElseThrow(MediaNotFoundException::new);
 
