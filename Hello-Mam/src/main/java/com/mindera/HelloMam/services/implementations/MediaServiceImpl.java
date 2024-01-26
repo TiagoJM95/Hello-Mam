@@ -3,13 +3,9 @@ package com.mindera.HelloMam.services.implementations;
 import com.mindera.HelloMam.converters.MediaConverter;
 import com.mindera.HelloMam.dtos.creates.MediaCreateDto;
 import com.mindera.HelloMam.dtos.gets.MediaGetDto;
+import com.mindera.HelloMam.exceptions.media_exceptions.*;
 import com.mindera.HelloMam.entities.Media;
-import com.mindera.HelloMam.entities.Rating;
 import com.mindera.HelloMam.enums.MediaType;
-import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
-import com.mindera.HelloMam.exceptions.media_exceptions.RefIdNotFoundException;
-import com.mindera.HelloMam.exceptions.media_exceptions.TypeNotFoundException;
-import com.mindera.HelloMam.exceptions.rating_exceptions.RatingNotFoundException;
 import com.mindera.HelloMam.repositories.MediaRepository;
 import com.mindera.HelloMam.services.interfaces.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +30,12 @@ public class MediaServiceImpl implements MediaService {
                 .toList();
     }
 
-    Media findById(Integer id) throws MediaNotFoundException {
-        return mediaRepository.findById(id).orElseThrow(MediaNotFoundException::new);
-    }
 
-    public MediaGetDto getMediaById(Integer id) {
-        return MediaConverter.fromMediaToMediaDto(findById(id));
+    public MediaGetDto getMediaById(Integer id) throws MediaNotFoundException {
+        Media media = mediaRepository.findById(id)
+                .orElseThrow(MediaNotFoundException::new);
+
+        return MediaConverter.fromMediaToMediaDto(media);
     }
 
 
