@@ -1,7 +1,8 @@
 package com.mindera.HelloMam.controllers;
 
-import com.mindera.HelloMam.dto.MediaCreateDto;
-import com.mindera.HelloMam.dto.MediaGetDto;
+
+import com.mindera.HelloMam.dtos.creates.MediaCreateDto;
+import com.mindera.HelloMam.dtos.gets.MediaGetDto;
 import com.mindera.HelloMam.enums.MediaType;
 import com.mindera.HelloMam.services.interfaces.MediaService;
 import jakarta.validation.Valid;

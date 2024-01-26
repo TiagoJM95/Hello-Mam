@@ -1,11 +1,14 @@
 package com.mindera.HelloMam.dtos.creates;
 
-import com.mindera.HelloMam.entities.Media;
-import com.mindera.HelloMam.entities.User;
+
+import javax.validation.constraints.NotNull;
 
 public record RatingCreateDto(
-        User userId,
-        Media mediaId,
+        @NotNull
+        Long userId,
+        @NotNull
+        Integer mediaId,
+        @NotNull
         Float rating
 ) {
 }

@@ -5,24 +5,28 @@ import com.mindera.HelloMam.dtos.creates.RatingCreateDto;
 import com.mindera.HelloMam.dtos.gets.RatingGetDto;
 import com.mindera.HelloMam.dtos.updates.RatingUpdateDto;
 import com.mindera.HelloMam.entities.Rating;
-import com.mindera.HelloMam.exceptions.rating_exceptions.ListOrUserIdNotFoundException;
+import com.mindera.HelloMam.entities.User;
 import com.mindera.HelloMam.exceptions.rating_exceptions.RatingNotFoundException;
-import com.mindera.HelloMam.exceptions.rating_exceptions.RatingOrMediaIdNotFoundException;
 import com.mindera.HelloMam.repositories.RatingRepository;
 import com.mindera.HelloMam.services.interfaces.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.mindera.HelloMam.converters.RatingConverter.*;
 import java.util.List;
 
 @Service
 public class RatingServiceImpl implements RatingService {
 
     private final RatingRepository ratingRepository;
+    private final UserServiceImpl userService;
+    private final MediaServiceImpl mediaService;
 
     @Autowired
-    public RatingServiceImpl(RatingRepository ratingRepository) {
+    public RatingServiceImpl(RatingRepository ratingRepository, UserServiceImpl userService, MediaServiceImpl mediaService) {
         this.ratingRepository = ratingRepository;
+        this.userService = userService;
+        this.mediaService = mediaService;
     }
 
 
@@ -32,50 +36,52 @@ public class RatingServiceImpl implements RatingService {
                 .toList();
     }
 
-    public RatingGetDto getRatingById(Integer id) {
-        Rating rating = ratingRepository.findById(id)
-                .orElseThrow(RatingNotFoundException::new);
-        return RatingConverter.fromRatingToRatingDto(rating);
+    private Rating findById(Integer id) throws RatingNotFoundException {
+        return ratingRepository.findById(id).orElseThrow(RatingNotFoundException::new);
     }
 
-    public List<RatingGetDto> getRatingByUserId(Integer userId) {
-        List<Rating> ratings = ratingRepository.getRatingByUserId(userId);
+    public RatingGetDto getRatingById(Integer id) throws RatingNotFoundException {
+        return fromRatingToRatingDto(findById(id));
+    }
+
+    public List<RatingGetDto> getRatingByUserId(Long userId) {
+        User user = userService.findById(userId);
+        return ratingRepository.findAll().stream()
+                .filter(rating -> rating.getUserId().equals(user))
+                .map(RatingConverter::fromRatingToRatingDto)
+                .toList();
+
+        /*List<Rating> ratings = ratingRepository.getRatingByUserId(userId);
         if(ratings.isEmpty()) {
             throw new ListOrUserIdNotFoundException();
         }
         return ratings.stream()
                 .map(RatingConverter::fromRatingToRatingDto)
-                .toList();
+                .toList();*/
     }
 
     public RatingGetDto getRatingByMediaId(Integer mediaId) {
-        Rating rating = ratingRepository.getRatingByMediaId(mediaId);
+
+        /*Rating rating = ratingRepository.getRatingByMediaId(mediaId);
         if(rating == null) {
             throw new RatingOrMediaIdNotFoundException();
         }
-        return RatingConverter.fromRatingToRatingDto(rating);
+        return fromRatingToRatingDto(rating);*/
     }
 
     public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) {
-        Rating ratingToAdd = RatingConverter.fromRatingDtoToRating(ratingCreateDto);
-        Rating addedRating = ratingRepository.save(ratingToAdd);
+        Rating addedRating = ratingRepository.save(fromRatingDtoToRating(ratingCreateDto,
+                userService.findById(ratingCreateDto.userId()),
+                mediaService.findById(ratingCreateDto.mediaId())));
 
-        return RatingConverter.fromRatingToRatingDto(addedRating);
+        return fromRatingToRatingDto(addedRating);
     }
 
 
 
-    public RatingGetDto updateRating(Integer ratingId, RatingUpdateDto ratingUpdateDto) {
-
-        Rating previousRating = ratingRepository.findById(ratingId).orElse(null);
-
-        if (previousRating == null) {
-            throw new RatingNotFoundException();
-        }
-
-        Rating updatedRating = RatingConverter.fromRatingUpdateDtoToRating(ratingUpdateDto);
-        Rating savedRating = ratingRepository.save(updatedRating);
-
-        return RatingConverter.fromRatingToRatingDto(savedRating);
+    public RatingGetDto updateRating(Integer ratingId, RatingUpdateDto ratingUpdateDto) throws RatingNotFoundException {
+        findById(ratingId);
+        Rating savedRating = ratingRepository.save(fromRatingUpdateDtoToRating(ratingUpdateDto));
+        return fromRatingToRatingDto(savedRating);
     }
 }

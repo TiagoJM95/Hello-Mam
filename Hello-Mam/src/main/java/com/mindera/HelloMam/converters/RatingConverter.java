@@ -3,7 +3,9 @@ package com.mindera.HelloMam.converters;
 import com.mindera.HelloMam.dtos.creates.RatingCreateDto;
 import com.mindera.HelloMam.dtos.gets.RatingGetDto;
 import com.mindera.HelloMam.dtos.updates.RatingUpdateDto;
+import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.entities.Rating;
+import com.mindera.HelloMam.entities.User;
 
 public class RatingConverter {
 
@@ -17,10 +19,10 @@ public class RatingConverter {
     }
 
 
-    public static Rating fromRatingDtoToRating(RatingCreateDto ratingCreateDto) {
+    public static Rating fromRatingDtoToRating(RatingCreateDto ratingCreateDto, User user, Media media) {
         return Rating.builder()
-                .userId(ratingCreateDto.userId())
-                .mediaId(ratingCreateDto.mediaId())
+                .userId(user)
+                .mediaId(media)
                 .rating(ratingCreateDto.rating())
                 .build();
     }

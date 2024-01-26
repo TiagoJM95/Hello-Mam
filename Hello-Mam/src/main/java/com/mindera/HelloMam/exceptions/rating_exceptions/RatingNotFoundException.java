@@ -1,10 +1,10 @@
 package com.mindera.HelloMam.exceptions.rating_exceptions;
 
-import com.mindera.HelloMam.messages.Messages;
+import static com.mindera.HelloMam.messages.Messages.*;
 
-public class RatingNotFoundException extends IllegalStateException{
+public class RatingNotFoundException extends RatingException{
 
     public RatingNotFoundException() {
-        super(Messages.RATING_NOT_FOUND);
+        super(RATING_NOT_FOUND);
     }
 }
