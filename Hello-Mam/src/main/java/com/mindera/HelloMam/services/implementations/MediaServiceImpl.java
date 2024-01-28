@@ -30,16 +30,16 @@ public class MediaServiceImpl implements MediaService {
                 .toList();
     }
 
-    Media findById(Integer id) throws MediaNotFoundException {
+    Media findById(Long id) throws MediaNotFoundException {
         return mediaRepository.findById(id).orElseThrow(MediaNotFoundException::new);
     }
 
-    public MediaGetDto getMediaById(Integer id) throws MediaNotFoundException {
+    public MediaGetDto getMediaById(Long id) throws MediaNotFoundException {
         return MediaConverter.fromMediaToMediaDto(findById(id));
     }
 
 
-    public List<MediaGetDto> getMediaByType(MediaType type) {
+    public List<MediaGetDto> getMediaByType(MediaType type) throws TypeNotFoundException {
         List<Media> medias = mediaRepository.getMediaByType(type);
         if(medias.isEmpty()){
             throw new TypeNotFoundException();
@@ -50,7 +50,7 @@ public class MediaServiceImpl implements MediaService {
     }
 
 
-    public MediaGetDto getMediaByRefId(String refId) {
+    public MediaGetDto getMediaByRefId(String refId) throws RefIdNotFoundException {
         if(refId == null) {
             throw new RefIdNotFoundException();
         }

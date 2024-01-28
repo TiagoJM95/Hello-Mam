@@ -1,11 +1,12 @@
 package com.mindera.HelloMam.exceptions.media_exceptions;
 
-import com.mindera.HelloMam.entities.Media;
-import com.mindera.HelloMam.messages.Messages;
+import com.mindera.HelloMam.utils.Messages;
+
+import static com.mindera.HelloMam.utils.Messages.MEDIA_NOT_FOUND;
 
 public class MediaNotFoundException extends MediaException {
 
     public MediaNotFoundException() {
-        super(Messages.MEDIA_NOT_FOUND);
+        super(MEDIA_NOT_FOUND);
     }
 }

@@ -2,11 +2,11 @@ package com.mindera.HelloMam.controllers;
 
 import com.mindera.HelloMam.dtos.creates.MediaCreateDto;
 import com.mindera.HelloMam.dtos.gets.MediaGetDto;
-import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.enums.MediaType;
 import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
+import com.mindera.HelloMam.exceptions.media_exceptions.RefIdNotFoundException;
+import com.mindera.HelloMam.exceptions.media_exceptions.TypeNotFoundException;
 import com.mindera.HelloMam.services.implementations.MediaServiceImpl;
-import com.mindera.HelloMam.services.interfaces.MediaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,18 +32,18 @@ public class MediaController {
     }
 
     @GetMapping("/{mediaId}")
-    public ResponseEntity<MediaGetDto> getMediaById(@PathVariable("mediaId") Integer id) throws MediaNotFoundException {
-        return new ResponseEntity<>(mediaServiceImpl.getMediaById(id), HttpStatus.OK);
+    public ResponseEntity<MediaGetDto> getMediaById(@PathVariable("mediaId") Long id) throws MediaNotFoundException {
+        return ResponseEntity.ok(mediaServiceImpl.getMediaById(id));
     }
 
     @GetMapping("/type/{mediaType}")
-    public ResponseEntity<List<MediaGetDto>> getMediaByType(@PathVariable("mediaType") MediaType type) {
-        return new ResponseEntity<>(mediaServiceImpl.getMediaByType(type), HttpStatus.OK);
+    public ResponseEntity<List<MediaGetDto>> getMediaByType(@PathVariable("mediaType") MediaType type) throws TypeNotFoundException {
+        return ResponseEntity.ok(mediaServiceImpl.getMediaByType(type));
     }
 
     @GetMapping("/ref/{mediaRefId}")
-    public ResponseEntity<MediaGetDto> getMediaByRefId(@PathVariable("mediaRefId") String refId) {
-        return new ResponseEntity<>(mediaServiceImpl.getMediaByRefId(refId), HttpStatus.OK);
+    public ResponseEntity<MediaGetDto> getMediaByRefId(@PathVariable("mediaRefId") String refId) throws RefIdNotFoundException {
+        return ResponseEntity.ok(mediaServiceImpl.getMediaByRefId(refId));
     }
 
     @PostMapping("/")

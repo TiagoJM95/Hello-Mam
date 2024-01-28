@@ -1,10 +1,12 @@
 package com.mindera.HelloMam.exceptions.media_exceptions;
 
-import com.mindera.HelloMam.messages.Messages;
+import com.mindera.HelloMam.utils.Messages;
 
-public class RefIdNotFoundException extends IllegalStateException{
+import static com.mindera.HelloMam.utils.Messages.REF_ID_NOT_FOUND;
+
+public class RefIdNotFoundException extends MediaException{
 
     public RefIdNotFoundException() {
-        super(Messages.REF_ID_NOT_FOUND);
+        super(REF_ID_NOT_FOUND);
     }
 }

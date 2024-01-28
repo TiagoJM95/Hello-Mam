@@ -7,16 +7,21 @@ import com.mindera.HelloMam.entities.User;
 public class UserConverter {
 
     public static UserGetDto toUserGetDto(User user) {
-        return new UserGetDto(user.getUserId(), user.getUsername(), user.getEmail(), user.getName(), user.getDateOfBirth());
+        return new UserGetDto(
+                user.getUserId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getName(),
+                user.getDateOfBirth()
+        );
     }
 
     public static User toUser(UserCreateDto userCreateDto) {
-        User user = new User().builder()
+        return User.builder()
                 .username(userCreateDto.username())
                 .email(userCreateDto.email())
                 .name(userCreateDto.name())
                 .dateOfBirth(userCreateDto.dateOfBirth())
                 .build();
-        return user;
     }
 }
