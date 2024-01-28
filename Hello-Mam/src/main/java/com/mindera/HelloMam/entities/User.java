@@ -2,21 +2,21 @@ package com.mindera.HelloMam.entities;
 
 import com.mindera.HelloMam.enums.MediaType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.validation.constraints.NotBlank;
+
 import java.time.LocalDate;
 import java.util.List;
 
 
 @Entity
-@Data
+//@Data
+@Table(name = "user")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -29,14 +29,24 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @Column
     private String name;
 
-    @Column
     private LocalDate dateOfBirth;
+/*
+    @OneToMany(
+            cascade = {CascadeType.ALL},
+            orphanRemoval = true,
+            mappedBy = "user"
+    )*/
 
-    @Column
     private List<MediaType> interests;
+
+    @OneToMany(
+            cascade = {CascadeType.ALL},
+            orphanRemoval = true,
+            mappedBy = "user"
+    )
+    private List<Rating> ratings;
 
     private boolean active;
 

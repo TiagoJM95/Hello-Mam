@@ -28,22 +28,22 @@ public class RatingController {
 
     @GetMapping("/")
     public ResponseEntity<List<RatingGetDto>> getAllRating() {
-        return new ResponseEntity<>(ratingService.getAllRating(), HttpStatus.OK);
+        return ResponseEntity.ok(ratingService.getAllRating());
     }
 
     @GetMapping("/{ratingId}")
-    public ResponseEntity<RatingGetDto> getRatingById(@PathVariable("ratingId") Integer id) throws RatingNotFoundException {
-        return new ResponseEntity<>(ratingService.getRatingById(id), HttpStatus.OK);
+    public ResponseEntity<RatingGetDto> getRatingById(@PathVariable("ratingId") Long id) throws RatingNotFoundException {
+        return ResponseEntity.ok(ratingService.getRatingById(id));
     }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<RatingGetDto>> getRatingByUserId(@PathVariable("userId") Long userId) throws Exception {
-        return new ResponseEntity<>(ratingService.getRatingByUserId(userId), HttpStatus.OK);
+        return ResponseEntity.ok(ratingService.getRatingByUserId(userId));
     }
 
     @GetMapping("/media/{mediaId}")
-    public ResponseEntity<List<RatingGetDto>> getRatingByMediaId(@PathVariable Integer mediaId) throws MediaNotFoundException {
-        return new ResponseEntity<>(ratingService.getRatingByMediaId(mediaId), HttpStatus.OK);
+    public ResponseEntity<List<RatingGetDto>> getRatingByMediaId(@PathVariable Long mediaId) throws MediaNotFoundException {
+        return ResponseEntity.ok(ratingService.getRatingByMediaId(mediaId));
     }
 
     @PostMapping("/")
@@ -52,7 +52,8 @@ public class RatingController {
     }
 
     @PutMapping("/update/{ratingId}")
-    public ResponseEntity<RatingGetDto> updateRating(@PathVariable("ratingId") Integer ratingId, @Valid @RequestBody RatingUpdateDto ratingUpdateDto) throws RatingNotFoundException {
+    public ResponseEntity<RatingGetDto> updateRating(@PathVariable("ratingId") Long ratingId,
+                                                     @Valid @RequestBody RatingUpdateDto ratingUpdateDto) throws RatingNotFoundException {
         return new ResponseEntity<>(ratingService.updateRating(ratingId, ratingUpdateDto), HttpStatus.ACCEPTED);
     }
 }

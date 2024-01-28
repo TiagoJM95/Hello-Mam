@@ -9,6 +9,7 @@ import com.mindera.HelloMam.entities.Rating;
 import com.mindera.HelloMam.entities.User;
 import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.rating_exceptions.RatingNotFoundException;
+import com.mindera.HelloMam.exceptions.user_exceptions.UserNotFoundException;
 import com.mindera.HelloMam.repositories.RatingRepository;
 import com.mindera.HelloMam.services.interfaces.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,22 +39,22 @@ public class RatingServiceImpl implements RatingService {
                 .toList();
     }
 
-    private Rating findById(Integer id) throws RatingNotFoundException {
+    private Rating findById(Long id) throws RatingNotFoundException {
         return ratingRepository.findById(id).orElseThrow(RatingNotFoundException::new);
     }
 
-    public RatingGetDto getRatingById(Integer id) throws RatingNotFoundException {
+    public RatingGetDto getRatingById(Long id) throws RatingNotFoundException {
         return fromRatingToRatingDto(findById(id));
     }
 
-    public List<RatingGetDto> getRatingByUserId(Long userId) throws Exception {
+    public List<RatingGetDto> getRatingByUserId(Long userId) throws UserNotFoundException {
         User user = userService.findById(userId);
         return ratingRepository.findAll().stream()
                 .filter(rating -> rating.getUserId().equals(user))
                 .map(RatingConverter::fromRatingToRatingDto)
                 .toList();
     }
-    public List<RatingGetDto> getRatingByMediaId(Integer mediaId) throws MediaNotFoundException {
+    public List<RatingGetDto> getRatingByMediaId(Long mediaId) throws MediaNotFoundException {
 
         Media media = mediaService.findById(mediaId);
 
@@ -73,7 +74,7 @@ public class RatingServiceImpl implements RatingService {
 
 
 
-    public RatingGetDto updateRating(Integer ratingId, RatingUpdateDto ratingUpdateDto) throws RatingNotFoundException {
+    public RatingGetDto updateRating(Long ratingId, RatingUpdateDto ratingUpdateDto) throws RatingNotFoundException {
         Rating rating = findById(ratingId);
         rating.setRating(ratingUpdateDto.rating());
         return fromRatingToRatingDto(rating);

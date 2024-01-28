@@ -1,10 +1,12 @@
 package com.mindera.HelloMam.exceptions.media_exceptions;
 
-import com.mindera.HelloMam.messages.Messages;
+import com.mindera.HelloMam.utils.Messages;
 
-public class TypeNotFoundException extends IllegalStateException{
+import static com.mindera.HelloMam.utils.Messages.TYPE_NOT_FOUND;
+
+public class TypeNotFoundException extends MediaException{
 
     public TypeNotFoundException() {
-        super(Messages.TYPE_NOT_FOUND);
+        super(TYPE_NOT_FOUND);
     }
 }

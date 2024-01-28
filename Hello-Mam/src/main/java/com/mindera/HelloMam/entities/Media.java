@@ -15,7 +15,7 @@ public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    Integer id;
+    Long id;
     @Column
     String refId;
     @Column
