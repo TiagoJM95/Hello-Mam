@@ -39,22 +39,14 @@ public class MediaServiceImpl implements MediaService {
     }
 
 
-    public List<MediaGetDto> getMediaByType(MediaType type) throws TypeNotFoundException {
-        List<Media> medias = mediaRepository.getMediaByType(type);
-        if(medias.isEmpty()){
-            throw new TypeNotFoundException();
-        }
-        return medias.stream()
-                .map(MediaConverter::fromMediaToMediaDto)
-                .collect(Collectors.toList());
+    public List<MediaGetDto> getMediaByType(String type) throws TypeNotFoundException {
+        checkIfMediaTypeExists(type);
+        return mediaRepository.findByMediaType(type);
     }
 
 
     public MediaGetDto getMediaByRefId(String refId) throws RefIdNotFoundException {
-        if(refId == null) {
-            throw new RefIdNotFoundException();
-        }
-        Media media = mediaRepository.getMediaByRefId(refId);
+        Media media = mediaRepository.findByRefId(refId).orElseThrow(RefIdNotFoundException::new);
         return MediaConverter.fromMediaToMediaDto(media);
     }
 
@@ -64,5 +56,18 @@ public class MediaServiceImpl implements MediaService {
         Media addedMedia = mediaRepository.save(mediaToAdd);
 
         return MediaConverter.fromMediaToMediaDto(addedMedia);
+    }
+
+    private static void checkIfMediaTypeExists(String type) throws TypeNotFoundException {
+        boolean exists = false;
+        for(MediaType mediaType: MediaType.values()){
+            if (mediaType.getDescription().equalsIgnoreCase(type)) {
+                exists = true;
+                break;
+            }
+        }
+        if(!exists){
+            throw new TypeNotFoundException();
+        }
     }
 }

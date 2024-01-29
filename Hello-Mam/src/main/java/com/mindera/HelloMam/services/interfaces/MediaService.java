@@ -13,7 +13,7 @@ public interface MediaService {
 
     List<MediaGetDto> getAllMedia();
     MediaGetDto getMediaById(Long id) throws MediaNotFoundException;
-    List<MediaGetDto> getMediaByType(MediaType type) throws TypeNotFoundException;
+    List<MediaGetDto> getMediaByType(String type) throws TypeNotFoundException;
     MediaGetDto getMediaByRefId(String refId) throws RefIdNotFoundException;
     MediaGetDto addNewMedia(MediaCreateDto mediaCreateDto);
 

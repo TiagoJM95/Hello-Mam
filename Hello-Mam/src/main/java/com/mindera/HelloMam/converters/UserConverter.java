@@ -4,14 +4,17 @@ import com.mindera.HelloMam.dtos.creates.UserCreateDto;
 import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.entities.User;
 
+import java.util.List;
+
 public class UserConverter {
 
     public static UserGetDto toUserGetDto(User user) {
         return new UserGetDto(
-                user.getUserId(),
+                user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getName(),
+                user.getInterests(),
                 user.getDateOfBirth()
         );
     }
@@ -21,6 +24,7 @@ public class UserConverter {
                 .username(userCreateDto.username())
                 .email(userCreateDto.email())
                 .name(userCreateDto.name())
+                .interests(userCreateDto.interests())
                 .dateOfBirth(userCreateDto.dateOfBirth())
                 .build();
     }

@@ -1,6 +1,5 @@
 package com.mindera.HelloMam.entities;
 
-import com.mindera.HelloMam.enums.MediaType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,18 +9,17 @@ import java.util.List;
 
 
 @Entity
-//@Data
-@Table(name = "user")
+@Table
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
+
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
 
     @Column(unique = true)
     private String username;
@@ -32,24 +30,11 @@ public class User {
     private String name;
 
     private LocalDate dateOfBirth;
-/*
-    @OneToMany(
-            cascade = {CascadeType.ALL},
-            orphanRemoval = true,
-            mappedBy = "user"
-    )*/
 
-    private List<MediaType> interests;
+    private List<String> interests;
 
-    @OneToMany(
-            cascade = {CascadeType.ALL},
-            orphanRemoval = true,
-            mappedBy = "user"
-    )
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "userId")
     private List<Rating> ratings;
 
     private boolean active;
-
-
-
 }

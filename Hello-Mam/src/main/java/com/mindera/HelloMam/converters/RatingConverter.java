@@ -6,13 +6,16 @@ import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.entities.Rating;
 import com.mindera.HelloMam.entities.User;
 
+import static com.mindera.HelloMam.converters.UserConverter.*;
+import static com.mindera.HelloMam.converters.MediaConverter.*;
+
 public class RatingConverter {
 
     public static RatingGetDto fromRatingToRatingDto(Rating rating) {
         return new RatingGetDto(
                 rating.getId(),
-                rating.getUserId(),
-                rating.getMediaId(),
+                toUserGetDto(rating.getUserId()),
+                fromMediaToMediaDto(rating.getMediaId()),
                 rating.getRating()
         );
     }

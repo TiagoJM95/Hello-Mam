@@ -1,24 +1,14 @@
 package com.mindera.HelloMam.dtos.gets;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-
-import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.List;
 
 public record UserGetDto(
-
-        @NotNull
-        Long userId,
-        @NotBlank
+        Long id,
         String username,
-        @NotBlank
         String email,
-        @NotBlank
         String name,
-        @NotBlank
-        @Past
+        List<String> interests,
         LocalDate dateOfBirth
 ) {
 }
