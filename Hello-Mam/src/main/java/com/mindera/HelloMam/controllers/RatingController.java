@@ -2,9 +2,10 @@ package com.mindera.HelloMam.controllers;
 
 import com.mindera.HelloMam.dtos.creates.RatingCreateDto;
 import com.mindera.HelloMam.dtos.gets.RatingGetDto;
-import com.mindera.HelloMam.dtos.updates.RatingUpdateDto;
+import com.mindera.HelloMam.dtos.updates.RatingUpdateRatingDto;
 import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.rating_exceptions.RatingNotFoundException;
+import com.mindera.HelloMam.exceptions.user_exceptions.UserNotFoundException;
 import com.mindera.HelloMam.services.implementations.RatingServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class RatingController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<RatingGetDto>> getRatingByUserId(@PathVariable("userId") Long userId) throws Exception {
+    public ResponseEntity<List<RatingGetDto>> getRatingByUserId(@PathVariable("userId") Long userId) throws UserNotFoundException {
         return ResponseEntity.ok(ratingService.getRatingByUserId(userId));
     }
 
@@ -47,13 +48,13 @@ public class RatingController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<RatingGetDto> addNewRating(@Valid @RequestBody RatingCreateDto ratingCreateDto) throws Exception {
+    public ResponseEntity<RatingGetDto> addNewRating(@Valid @RequestBody RatingCreateDto ratingCreateDto) throws UserNotFoundException, MediaNotFoundException {
         return new ResponseEntity<>(ratingService.addNewRating(ratingCreateDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{ratingId}")
     public ResponseEntity<RatingGetDto> updateRating(@PathVariable("ratingId") Long ratingId,
-                                                     @Valid @RequestBody RatingUpdateDto ratingUpdateDto) throws RatingNotFoundException {
-        return new ResponseEntity<>(ratingService.updateRating(ratingId, ratingUpdateDto), HttpStatus.ACCEPTED);
+                                                     @Valid @RequestBody RatingUpdateRatingDto ratingUpdateRatingDto) throws RatingNotFoundException {
+        return new ResponseEntity<>(ratingService.updateRating(ratingId, ratingUpdateRatingDto), HttpStatus.ACCEPTED);
     }
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "rating")
+@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -16,16 +16,12 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @MapsId
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    //@JoinColumn(name = "user_id", nullable = false)
     private User userId;
 
-    @ManyToOne
-    @MapsId
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "media_id", referencedColumnName = "id")
-    //@JoinColumn(name = "media_id", nullable = false)
     private Media mediaId;
 
     private Float rating;

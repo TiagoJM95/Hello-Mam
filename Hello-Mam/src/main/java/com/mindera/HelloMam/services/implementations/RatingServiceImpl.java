@@ -3,7 +3,7 @@ package com.mindera.HelloMam.services.implementations;
 import com.mindera.HelloMam.converters.RatingConverter;
 import com.mindera.HelloMam.dtos.creates.RatingCreateDto;
 import com.mindera.HelloMam.dtos.gets.RatingGetDto;
-import com.mindera.HelloMam.dtos.updates.RatingUpdateDto;
+import com.mindera.HelloMam.dtos.updates.RatingUpdateRatingDto;
 import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.entities.Rating;
 import com.mindera.HelloMam.entities.User;
@@ -64,7 +64,7 @@ public class RatingServiceImpl implements RatingService {
                 .toList();
     }
 
-    public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) throws Exception {
+    public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) throws UserNotFoundException, MediaNotFoundException {
         Rating addedRating = ratingRepository.save(fromRatingDtoToRating(ratingCreateDto,
                 userService.findById(ratingCreateDto.userId()),
                 mediaService.findById(ratingCreateDto.mediaId())));
@@ -74,9 +74,9 @@ public class RatingServiceImpl implements RatingService {
 
 
 
-    public RatingGetDto updateRating(Long ratingId, RatingUpdateDto ratingUpdateDto) throws RatingNotFoundException {
+    public RatingGetDto updateRating(Long ratingId, RatingUpdateRatingDto ratingUpdateRatingDto) throws RatingNotFoundException {
         Rating rating = findById(ratingId);
-        rating.setRating(ratingUpdateDto.rating());
+        rating.setRating(ratingUpdateRatingDto.rating());
         return fromRatingToRatingDto(rating);
     }
 }

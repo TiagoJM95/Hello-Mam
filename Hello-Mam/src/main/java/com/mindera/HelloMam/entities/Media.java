@@ -1,8 +1,9 @@
 package com.mindera.HelloMam.entities;
 
-import com.mindera.HelloMam.enums.MediaType;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table
@@ -15,14 +16,9 @@ public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    Long id;
-    @Column
-    String refId;
-    @Column
-    MediaType type;
-
-    public Media(String refId, MediaType type) {
-        this.refId = refId;
-        this.type = type;
-    }
+    private Long id;
+    private String refId;
+    private String mediaType;
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "mediaId")
+    private List<Rating> ratings;
 }

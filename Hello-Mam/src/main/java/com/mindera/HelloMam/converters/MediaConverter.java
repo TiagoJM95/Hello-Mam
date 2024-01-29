@@ -10,14 +10,14 @@ public class MediaConverter {
         return new MediaGetDto(
                 media.getId(),
                 media.getRefId(),
-                media.getType()
+                media.getMediaType()
         );
     }
 
     public static Media fromMediaDtoToMedia(MediaCreateDto mediaDto) {
         return Media.builder()
                 .refId(mediaDto.refId())
-                .type(mediaDto.type())
+                .mediaType(mediaDto.mediaType())
                 .build();
     }
 }

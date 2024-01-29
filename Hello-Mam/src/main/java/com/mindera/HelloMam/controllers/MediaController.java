@@ -37,7 +37,7 @@ public class MediaController {
     }
 
     @GetMapping("/type/{mediaType}")
-    public ResponseEntity<List<MediaGetDto>> getMediaByType(@PathVariable("mediaType") MediaType type) throws TypeNotFoundException {
+    public ResponseEntity<List<MediaGetDto>> getMediaByType(@PathVariable("mediaType") String type) throws TypeNotFoundException {
         return ResponseEntity.ok(mediaServiceImpl.getMediaByType(type));
     }
 
