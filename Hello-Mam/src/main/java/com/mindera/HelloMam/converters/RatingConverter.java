@@ -11,17 +11,17 @@ import static com.mindera.HelloMam.converters.MediaConverter.*;
 
 public class RatingConverter {
 
-    public static RatingGetDto fromRatingToRatingDto(Rating rating) {
+    public static RatingGetDto toRatingGetDto(Rating rating) {
         return new RatingGetDto(
                 rating.getId(),
                 toUserGetDto(rating.getUserId()),
-                fromMediaToMediaDto(rating.getMediaId()),
+                toMediaGetDto(rating.getMediaId()),
                 rating.getRating()
         );
     }
 
 
-    public static Rating fromRatingDtoToRating(RatingCreateDto ratingCreateDto, User user, Media media) {
+    public static Rating toRating(RatingCreateDto ratingCreateDto, User user, Media media) {
         return Rating.builder()
                 .userId(user)
                 .mediaId(media)
