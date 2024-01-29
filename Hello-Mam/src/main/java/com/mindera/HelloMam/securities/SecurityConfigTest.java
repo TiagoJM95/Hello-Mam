@@ -2,28 +2,27 @@ package com.mindera.HelloMam.securities;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-@Profile("!test")
-public class SecurityConfig {
+@Profile("test")
+public class SecurityConfigTest {
 
    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-       System.out.println("Config Accessed");
-        return http
-               .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/").permitAll();
-                    auth.anyRequest().authenticated();
-               })
-               .oauth2Login(withDefaults())
-              .build();
+   @Primary
+    SecurityFilterChain TestSecurityFilterChain(HttpSecurity http) throws Exception {
+        System.out.println("Security Config Test Accessed");
+        http
+               .csrf(AbstractHttpConfigurer::disable)
+               .authorizeRequests().anyRequest().permitAll();
+        return http.build();
     }
 }
