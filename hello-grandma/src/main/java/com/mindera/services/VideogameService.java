@@ -6,12 +6,13 @@ import com.mindera.dtos.get.VideogameGetDto;
 import com.mindera.entities.Videogame;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
 import com.mindera.repositories.VideogameRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import org.bson.types.ObjectId;
 
 import java.util.List;
 
 import static com.mindera.util.Messages.VIDEOGAME_NOT_FOUND;
-
+@ApplicationScoped
 public class VideogameService implements VideogameRepository {
 
     public List<VideogameGetDto> getAllVideogames(){

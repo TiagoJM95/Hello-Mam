@@ -6,13 +6,15 @@ import com.mindera.dtos.get.MusicGetDto;
 import com.mindera.entities.Music;
 import com.mindera.exceptions.music.MusicNotFoundException;
 import com.mindera.repositories.MusicRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.bson.types.ObjectId;
 
 import java.util.List;
 
 import static com.mindera.util.Messages.MUSIC_NOT_FOUND;
-
-public class MusicService implements MusicRepository {
+@ApplicationScoped
+public class MusicService implements MusicRepository{
 
     public List<MusicGetDto> getAllMusics(){
         return listAll().stream().map(MusicConverter::fromEntityToGetDto).toList();
