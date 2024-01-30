@@ -9,6 +9,12 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 public interface MovieExtensionClient {
 
     @GET
+    @Path("/movie/{movie_id}")
+    String getMovieById(@PathParam("movie_id") String movieId,
+                        @HeaderParam("accept") String acceptHeader,
+                        @QueryParam("api_key") String authorizationHeader);
+
+    @GET
     @Path("/movie/{movie_id}/recommendations")
     String getMovieRecommendation(@PathParam("movie_id") String movieId,
                                       @HeaderParam("accept") String acceptHeader,

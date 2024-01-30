@@ -38,21 +38,10 @@ public class MovieController {
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/id/{id}")
     public RestResponse<MovieGetDto> getMovieById(@PathParam("id") String id) throws MovieNotFoundException {
         return RestResponse.ok(movieService.findById(id));
     }
-
-    @GET
-    @Path("/director/{director}")
-    public RestResponse<List<MovieGetDto>> getMovieByDirector(@PathParam("director") String director) {
-        return RestResponse.ok(movieService.findByDirector(director));
-    }
-
-    /*@POST
-    public RestResponse<MovieGetDto> create(MovieCreateDto movie) {
-        return RestResponse.accepted(movieService.create(movie));
-    }*/
 
     @POST
     public RestResponse<MovieGetDto> create(Movie movie) {
@@ -60,19 +49,27 @@ public class MovieController {
     }
 
     @GET
+    @Path("/external/{movieId}")
+    public RestResponse<MovieDetails> getMovieByIdExternal(@PathParam("movieId") String movieId) throws JsonProcessingException {
+        String jsonString = movieExtensionClient.getMovieById(movieId, ACCEPT_HEADER, API_KEY);
+        ObjectMapper mapper = new ObjectMapper();
+        return RestResponse.ok(mapper.readValue(jsonString, MovieDetails.class));
+    }
+
+    @GET
     @Path("/recommendations/{movieId}")
-    public List<MovieGetDto> getMovieRecommendation(@PathParam("movieId") String movieId) throws JsonProcessingException {
+    public RestResponse<List<MovieGetDto>> getMovieRecommendation(@PathParam("movieId") String movieId) throws JsonProcessingException {
         String jsonString = movieExtensionClient.getMovieRecommendation(movieId, ACCEPT_HEADER, API_KEY);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(jsonString, MovieResponse.class).getResults().stream().map(MovieConverter::fromEntityToGetDto).toList();
+        return RestResponse.ok(mapper.readValue(jsonString, MovieResponse.class).getResults().stream().map(MovieConverter::fromEntityToGetDto).toList());
     }
 
     @GET
     @Path("/discover/{genre}")
-    public List<MovieGetDto> discoverMovies(@PathParam("genre") String genre) throws InvalidGenreException, JsonProcessingException {
+    public RestResponse<List<MovieGetDto>> discoverMovies(@PathParam("genre") String genre) throws InvalidGenreException, JsonProcessingException {
         MovieGenres movieGenres = MovieGenres.getMovieGenreByName(genre).orElseThrow(() -> new InvalidGenreException("Invalid Genre"));
         String jsonString = movieExtensionClient.discoverMovies(1, "vote_average.desc", 100, "en", String.valueOf(movieGenres.getId()), ACCEPT_HEADER, API_KEY);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(jsonString, MovieResponse.class).getResults().stream().map(MovieConverter::fromEntityToGetDto).toList();
+        return RestResponse.ok(mapper.readValue(jsonString, MovieResponse.class).getResults().stream().map(MovieConverter::fromEntityToGetDto).toList());
     }
 }
