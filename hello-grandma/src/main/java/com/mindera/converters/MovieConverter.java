@@ -1,19 +1,37 @@
 package com.mindera.converters;
 
-import com.mindera.dtos.create.MovieCreateDto;
 import com.mindera.dtos.get.MovieGetDto;
 import com.mindera.entities.Movie;
+import com.mindera.enums.MovieGenres;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieConverter {
 
-    public static Movie fromCreateDtoToEntity(MovieCreateDto movieCreateDto){
-        return Movie.builder()
-                .title(movieCreateDto.title())
-                .director(movieCreateDto.director())
-                .runtime(movieCreateDto.runtime())
-                .releaseDate(movieCreateDto.releaseDate())
-                .genres(movieCreateDto.genres())
-                .build();
+    public static MovieGenres getGenreById(Integer id){
+        for(MovieGenres movieGenres : MovieGenres.values()){
+            if(movieGenres.getId() == id){
+                return movieGenres;
+            }
+        }
+        return null;
+    }
+
+    public static List<MovieGenres> fromIntegerListToGenreList(List<Integer> genreIds) {
+        List<MovieGenres> genres = new ArrayList<>();
+        for (Integer genreId : genreIds) {
+            genres.add(getGenreById(genreId));
+        }
+        return genres;
+    }
+
+    public static List<String> fromGenreListToStringList(List<Integer> genreIds) {
+        List<String> genres = new ArrayList<>();
+        for (Integer genreId : genreIds) {
+            genres.add(MovieGenres.getMovieGenreById(genreId).getName());
+        }
+        return genres;
     }
 
     public static MovieGetDto fromEntityToGetDto(Movie movie){
@@ -22,9 +40,8 @@ public class MovieConverter {
                 movie.getTmdbId(),
                 movie.getTitle(),
                 movie.getReleaseDate(),
-                movie.getRuntime(),
-                movie.getGenres(),
-                movie.getDirector()
+                movie.getVoteAverage(),
+                fromGenreListToStringList(movie.getGenreIds())
         );
     }
 }

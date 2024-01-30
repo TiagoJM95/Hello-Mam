@@ -8,7 +8,7 @@ import java.util.Optional;
 @Getter
 @AllArgsConstructor
 
-public enum MovieGenre {
+public enum MovieGenres {
     ACTION(28, "Action"),
     ADVENTURE(12, "Adventure"),
     ANIMATION(16, "Animation"),
@@ -32,12 +32,21 @@ public enum MovieGenre {
     private final int id;
     private final String name;
 
-    public static Optional<MovieGenre> getMovieGenreByName(String name) {
-        for (MovieGenre movieGenre : MovieGenre.values()) {
-            if (movieGenre.getName().equalsIgnoreCase(name)) {
-                return Optional.of(movieGenre);
+    public static Optional<MovieGenres> getMovieGenreByName(String name) {
+        for (MovieGenres movieGenres : MovieGenres.values()) {
+            if (movieGenres.getName().equalsIgnoreCase(name)) {
+                return Optional.of(movieGenres);
             }
         }
         return Optional.empty();
+    }
+
+    public static MovieGenres getMovieGenreById(int id) {
+        for (MovieGenres movieGenres : MovieGenres.values()) {
+            if (movieGenres.getId() == id) {
+                return movieGenres;
+            }
+        }
+        return null;
     }
 }

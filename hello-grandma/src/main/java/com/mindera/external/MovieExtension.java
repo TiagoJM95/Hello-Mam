@@ -1,3 +1,4 @@
+/*
 package com.mindera.external;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -17,7 +18,7 @@ import java.util.List;
 public class MovieExtension {
 
     @JsonProperty("id")
-    private long id;
+    private long tmdbId;
 
     @JsonProperty("title")
     private String title;
@@ -30,4 +31,4 @@ public class MovieExtension {
 
     @JsonProperty("genre_ids")
     private List<Integer> genreIds;
-}
+}*/

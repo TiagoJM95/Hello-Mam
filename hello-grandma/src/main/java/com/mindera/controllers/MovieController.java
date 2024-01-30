@@ -2,16 +2,16 @@ package com.mindera.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mindera.converters.MovieConverter;
 import com.mindera.dtos.create.MovieCreateDto;
 import com.mindera.dtos.get.MovieGetDto;
-import com.mindera.enums.MovieGenre;
+import com.mindera.entities.Movie;
+import com.mindera.enums.MovieGenres;
 import com.mindera.exceptions.movie.InvalidGenreException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
 import com.mindera.external.*;
 import com.mindera.services.MovieService;
 import jakarta.inject.Inject;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -49,25 +49,30 @@ public class MovieController {
         return RestResponse.ok(movieService.findByDirector(director));
     }
 
-    @POST
+    /*@POST
     public RestResponse<MovieGetDto> create(MovieCreateDto movie) {
+        return RestResponse.accepted(movieService.create(movie));
+    }*/
+
+    @POST
+    public RestResponse<MovieGetDto> create(Movie movie) {
         return RestResponse.accepted(movieService.create(movie));
     }
 
     @GET
     @Path("/recommendations/{movieId}")
-    public List<MovieExtensionGetDto> getMovieRecommendation(@PathParam("movieId") String movieId) throws JsonProcessingException {
+    public List<MovieGetDto> getMovieRecommendation(@PathParam("movieId") String movieId) throws JsonProcessingException {
         String jsonString = movieExtensionClient.getMovieRecommendation(movieId, ACCEPT_HEADER, API_KEY);
         ObjectMapper mapper = new ObjectMapper();
-        return MovieExtensionConverter.convertList(mapper.readValue(jsonString, MovieResponse.class).getResults());
+        return mapper.readValue(jsonString, MovieResponse.class).getResults().stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
 
     @GET
     @Path("/discover/{genre}")
-    public List<MovieExtensionGetDto> discoverMovies(@PathParam("genre") String genre) throws InvalidGenreException, JsonProcessingException {
-        MovieGenre movieGenre = MovieGenre.getMovieGenreByName(genre).orElseThrow(() -> new InvalidGenreException("Invalid Genre"));
-        String jsonString = movieExtensionClient.discoverMovies(1, "vote_average.desc", 100, "en", String.valueOf(movieGenre.getId()), ACCEPT_HEADER, API_KEY);
+    public List<MovieGetDto> discoverMovies(@PathParam("genre") String genre) throws InvalidGenreException, JsonProcessingException {
+        MovieGenres movieGenres = MovieGenres.getMovieGenreByName(genre).orElseThrow(() -> new InvalidGenreException("Invalid Genre"));
+        String jsonString = movieExtensionClient.discoverMovies(1, "vote_average.desc", 100, "en", String.valueOf(movieGenres.getId()), ACCEPT_HEADER, API_KEY);
         ObjectMapper mapper = new ObjectMapper();
-        return MovieExtensionConverter.convertList(mapper.readValue(jsonString, MovieResponse.class).getResults());
+        return mapper.readValue(jsonString, MovieResponse.class).getResults().stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
 }

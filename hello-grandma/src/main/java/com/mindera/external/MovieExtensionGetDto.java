@@ -1,3 +1,4 @@
+/*
 package com.mindera.external;
 
 import java.util.List;
@@ -9,4 +10,4 @@ public record MovieExtensionGetDto(
         double voteAverage,
         List<String> genres
 ) {
-}
+}*/
