@@ -1,3 +1,4 @@
+/*
 package com.mindera.HelloMam.securities;
 
 import org.springframework.context.annotation.Bean;
@@ -26,3 +27,4 @@ public class SecurityConfigTest {
         return http.build();
     }
 }
+*/

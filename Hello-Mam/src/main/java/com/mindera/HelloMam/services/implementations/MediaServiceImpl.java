@@ -8,7 +8,9 @@ import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.enums.MediaType;
 import com.mindera.HelloMam.repositories.MediaRepository;
 import com.mindera.HelloMam.services.interfaces.MediaService;
+import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class MediaServiceImpl implements MediaService {
         this.mediaRepository = mediaRepository;
     }
 
+    @Cacheable("media")
     public List<MediaGetDto> getAllMedia() {
         return mediaRepository.findAll().stream()
                 .map(MediaConverter::toMediaGetDto)

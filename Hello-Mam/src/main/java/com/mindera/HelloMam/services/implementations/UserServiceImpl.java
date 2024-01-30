@@ -12,6 +12,7 @@ import com.mindera.HelloMam.exceptions.user_exceptions.*;
 import com.mindera.HelloMam.repositories.UserRepository;
 import com.mindera.HelloMam.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Cacheable("users")
     public List<UserGetDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(UserConverter::toUserGetDto)
