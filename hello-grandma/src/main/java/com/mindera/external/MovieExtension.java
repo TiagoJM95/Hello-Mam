@@ -22,18 +22,12 @@ public class MovieExtension {
     @JsonProperty("title")
     private String title;
 
-    @JsonProperty("original_language")
-    private String originalLanguage;
-
-    @JsonProperty("original_title")
-    private String originalTitle;
-
-    @JsonProperty("overview")
-    private String overview;
-
     @JsonProperty("release_date")
     private String releaseDate;
 
     @JsonProperty("vote_average")
     private double voteAverage;
+
+    @JsonProperty("genre_ids")
+    private List<Integer> genreIds;
 }

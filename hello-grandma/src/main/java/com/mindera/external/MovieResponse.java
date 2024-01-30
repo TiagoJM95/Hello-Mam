@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 
 public class MovieResponse {
-    @JsonProperty("movie_results")
+    @JsonProperty("results")
     private List<MovieExtension> results;
 }
