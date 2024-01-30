@@ -6,15 +6,17 @@ import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.mindera.HelloMam.utils.ValidationMessages.*;
+
 public record UserCreateDto(
-        @NotBlank(message = "Username is mandatory")
+        @NotBlank(message = USERNAME_IS_MANDATORY)
         String username,
-        @NotBlank(message = "Name is mandatory")
+        @NotBlank(message = NAME_IS_MANDATORY)
         String name,
-        @NotBlank(message = "Email is mandatory")
+        @NotBlank(message = EMAIL_IS_MANDATORY)
         String email,
         List<String> interests,
-        @NotNull(message = "Date Of Birth is mandatory")
-        @Past(message = "Date of birth must be in the past")
+        @NotNull(message = DATE_IS_MANDATORY)
+        @Past(message = DATE_IN_PAST)
         LocalDate dateOfBirth) {
 }

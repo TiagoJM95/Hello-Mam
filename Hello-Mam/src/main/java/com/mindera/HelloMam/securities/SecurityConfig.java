@@ -1,3 +1,4 @@
+/*
 package com.mindera.HelloMam.securities;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class SecurityConfig {
        System.out.println("Config Accessed");
         return http
                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/", "/css/**", "/js/**", "/images/**").permitAll();
+                    auth.requestMatchers("/", "/css/**", "/js/**", "/images/**", "/api/v1/user/redistest/").permitAll();
                     auth.anyRequest().authenticated();
                })
                 .oauth2Login(oauth2 -> oauth2.defaultSuccessUrl("/profile", true))
@@ -36,3 +37,4 @@ public class SecurityConfig {
                 .build();
     }
 }
+*/
