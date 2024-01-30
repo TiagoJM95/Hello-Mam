@@ -11,7 +11,7 @@ public class MovieConverter {
                 .title(movieCreateDto.title())
                 .director(movieCreateDto.director())
                 .runtime(movieCreateDto.runtime())
-                .year(movieCreateDto.year())
+                .releaseDate(movieCreateDto.releaseDate())
                 .genres(movieCreateDto.genres())
                 .build();
     }
@@ -19,8 +19,9 @@ public class MovieConverter {
     public static MovieGetDto fromEntityToGetDto(Movie movie){
         return new MovieGetDto(
                 movie.id,
+                movie.getTmdbId(),
                 movie.getTitle(),
-                movie.getYear(),
+                movie.getReleaseDate(),
                 movie.getRuntime(),
                 movie.getGenres(),
                 movie.getDirector()
