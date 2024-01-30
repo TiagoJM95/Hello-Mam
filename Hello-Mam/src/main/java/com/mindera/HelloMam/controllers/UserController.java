@@ -1,5 +1,7 @@
 package com.mindera.HelloMam.controllers;
 
+import com.mindera.HelloMam.caches.Redis;
+import com.mindera.HelloMam.caches.RedisTest;
 import com.mindera.HelloMam.dtos.creates.UserCreateDto;
 import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.dtos.updates.UserDateOfBirthUpdateDto;
@@ -9,6 +11,7 @@ import com.mindera.HelloMam.dtos.updates.UserUsernameUpdateDto;
 import com.mindera.HelloMam.exceptions.user_exceptions.*;
 import com.mindera.HelloMam.services.implementations.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +24,12 @@ import java.util.List;
 public class UserController {
 
     private final UserServiceImpl userService;
+    private final RedisTest redisTest;
 
     @Autowired
-    public UserController(UserServiceImpl userServiceImpl) {
+    public UserController(UserServiceImpl userServiceImpl, StringRedisTemplate redis) {
         this.userService = userServiceImpl;
+        this.redisTest = new RedisTest(redis);
     }
 
     @GetMapping("/")
@@ -77,4 +82,16 @@ public class UserController {
         userService.deleteById(id);
         return new ResponseEntity<>("user deleted", HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/redistest")
+    public ResponseEntity<String> testRedis() {
+        try {
+            redisTest.testRedis();
+            return new ResponseEntity<>("Redis test completed", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Redis test failed: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }
