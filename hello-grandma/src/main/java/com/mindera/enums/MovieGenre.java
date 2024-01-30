@@ -3,6 +3,8 @@ package com.mindera.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Optional;
+
 @Getter
 @AllArgsConstructor
 
@@ -29,4 +31,13 @@ public enum MovieGenre {
 
     private final int id;
     private final String name;
+
+    public static Optional<MovieGenre> getMovieGenreByName(String name) {
+        for (MovieGenre movieGenre : MovieGenre.values()) {
+            if (movieGenre.getName().equalsIgnoreCase(name)) {
+                return Optional.of(movieGenre);
+            }
+        }
+        return Optional.empty();
+    }
 }
