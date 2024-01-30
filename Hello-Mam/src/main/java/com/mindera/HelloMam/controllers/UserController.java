@@ -3,6 +3,7 @@ package com.mindera.HelloMam.controllers;
 import com.mindera.HelloMam.dtos.creates.UserCreateDto;
 import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.dtos.updates.*;
+import com.mindera.HelloMam.exceptions.media_exceptions.IncompatibleTypeException;
 import com.mindera.HelloMam.exceptions.user_exceptions.*;
 import com.mindera.HelloMam.services.implementations.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class UserController {
         return ResponseEntity.ok(userService.findByUsername(username));
     }
     @PostMapping("/")
-    public ResponseEntity<UserGetDto> createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
+    public ResponseEntity<UserGetDto> createUser(@Valid @RequestBody UserCreateDto userCreateDto) throws IncompatibleTypeException {
         return new ResponseEntity<>(userService.create(userCreateDto), HttpStatus.CREATED);
     }
 
@@ -71,7 +72,7 @@ public class UserController {
     }
 
     @PatchMapping("/interests/{id}")
-    public ResponseEntity<UserGetDto> updateInterests(@PathVariable("id") Long id, @Valid @RequestBody UserInterestsUpdateDto userInterestsUpdateDto) throws UserNotFoundException {
+    public ResponseEntity<UserGetDto> updateInterests(@PathVariable("id") Long id, @Valid @RequestBody UserInterestsUpdateDto userInterestsUpdateDto) throws UserNotFoundException, IncompatibleTypeException {
 
         return new ResponseEntity<>(userService.updateInterests(id, userInterestsUpdateDto), HttpStatus.ACCEPTED);
     }

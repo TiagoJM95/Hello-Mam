@@ -1,10 +1,13 @@
 package com.mindera.HelloMam.services.implementations;
 
+import com.mindera.HelloMam.converters.MediaConverter;
 import com.mindera.HelloMam.converters.UserConverter;
 import com.mindera.HelloMam.dtos.creates.UserCreateDto;
 import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.dtos.updates.*;
 import com.mindera.HelloMam.entities.User;
+import com.mindera.HelloMam.enums.MediaType;
+import com.mindera.HelloMam.exceptions.media_exceptions.IncompatibleTypeException;
 import com.mindera.HelloMam.exceptions.user_exceptions.*;
 import com.mindera.HelloMam.repositories.UserRepository;
 import com.mindera.HelloMam.services.interfaces.UserService;
@@ -47,7 +50,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
     }
 
-    public UserGetDto create(UserCreateDto userCreateDto) {
+    public UserGetDto create(UserCreateDto userCreateDto) throws IncompatibleTypeException {
         User user = toUser(userCreateDto);
         user.setActive(true);
         return toUserGetDto(userRepository.save(user));
@@ -83,9 +86,9 @@ public class UserServiceImpl implements UserService {
         return toUserGetDto(user);
     }
 
-    public UserGetDto updateInterests(Long userId, UserInterestsUpdateDto userInterestsUpdateDto) throws UserNotFoundException {
+    public UserGetDto updateInterests(Long userId, UserInterestsUpdateDto userInterestsUpdateDto) throws UserNotFoundException, IncompatibleTypeException {
         User user = findById(userId);
-        user.setInterests(userInterestsUpdateDto.interests());
+        user.setInterests(UserConverter.fromStringListToEnumList(userInterestsUpdateDto.interests()));
         return toUserGetDto(user);
     }
 
