@@ -1,8 +1,11 @@
-package com.mindera.util;
+package com.mindera.enums;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
+
 public enum MovieGenre {
     ACTION(28, "Action"),
     ADVENTURE(12, "Adventure"),
@@ -26,9 +29,4 @@ public enum MovieGenre {
 
     private final int id;
     private final String name;
-
-    MovieGenre(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }
