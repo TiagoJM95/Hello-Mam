@@ -6,7 +6,7 @@ import com.mindera.HelloMam.entities.Media;
 
 public class MediaConverter {
 
-    public static MediaGetDto fromMediaToMediaDto(Media media) {
+    public static MediaGetDto toMediaGetDto(Media media) {
         return new MediaGetDto(
                 media.getId(),
                 media.getRefId(),
@@ -14,7 +14,7 @@ public class MediaConverter {
         );
     }
 
-    public static Media fromMediaDtoToMedia(MediaCreateDto mediaDto) {
+    public static Media toMedia(MediaCreateDto mediaDto) {
         return Media.builder()
                 .refId(mediaDto.refId())
                 .mediaType(mediaDto.mediaType())
