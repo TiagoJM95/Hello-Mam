@@ -26,4 +26,6 @@ public interface UserService {
     UserGetDto updateName(Long userId, UserNameUpdateDto userNameUpdateDto) throws UserNotFoundException;
     UserGetDto updateDateOfBirth(Long userId, UserDateOfBirthUpdateDto userDateOfBirthUpdateDto) throws UserNotFoundException;
     void deleteById(Long id) throws UserNotFoundException;
+
+    void updateUser(Long userId, UserCreateDto userCreateDto) throws UserNotFoundException;
 }
