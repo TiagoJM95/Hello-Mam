@@ -1,5 +1,6 @@
 package com.mindera.HelloMam.entities;
 
+import com.mindera.HelloMam.enums.MediaType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,10 +32,12 @@ public class User implements Serializable {
 
     private LocalDate dateOfBirth;
 
-    private List<String> interests;
+    private List<MediaType> interests;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "userId")
     private List<Rating> ratings;
 
     private boolean active;
+
+
 }

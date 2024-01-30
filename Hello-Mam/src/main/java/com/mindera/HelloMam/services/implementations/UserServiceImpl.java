@@ -1,13 +1,13 @@
 package com.mindera.HelloMam.services.implementations;
 
+import com.mindera.HelloMam.converters.MediaConverter;
 import com.mindera.HelloMam.converters.UserConverter;
 import com.mindera.HelloMam.dtos.creates.UserCreateDto;
 import com.mindera.HelloMam.dtos.gets.UserGetDto;
-import com.mindera.HelloMam.dtos.updates.UserDateOfBirthUpdateDto;
-import com.mindera.HelloMam.dtos.updates.UserEmailUpdateDto;
-import com.mindera.HelloMam.dtos.updates.UserNameUpdateDto;
-import com.mindera.HelloMam.dtos.updates.UserUsernameUpdateDto;
+import com.mindera.HelloMam.dtos.updates.*;
 import com.mindera.HelloMam.entities.User;
+import com.mindera.HelloMam.enums.MediaType;
+import com.mindera.HelloMam.exceptions.media_exceptions.IncompatibleTypeException;
 import com.mindera.HelloMam.exceptions.user_exceptions.*;
 import com.mindera.HelloMam.repositories.UserRepository;
 import com.mindera.HelloMam.services.interfaces.UserService;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.mindera.HelloMam.converters.UserConverter.toUser;
 import static com.mindera.HelloMam.converters.UserConverter.toUserGetDto;
 
 @Service
@@ -51,8 +52,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
     }
 
-    public UserGetDto create(UserCreateDto userCreateDto) {
-        User user = UserConverter.toUser(userCreateDto);
+    public UserGetDto create(UserCreateDto userCreateDto) throws IncompatibleTypeException {
+        User user = toUser(userCreateDto);
         user.setActive(true);
         return toUserGetDto(userRepository.save(user));
     }
@@ -66,10 +67,10 @@ public class UserServiceImpl implements UserService {
         return toUserGetDto(user);
     }
 
-    public UserGetDto updateEmail(Long userId, UserEmailUpdateDto userEmailUpdateDto) throws UserNotFoundException, EmailFoundException {
+    public UserGetDto updateEmail(Long userId, UserEmailUpdateDto userEmailUpdateDto) throws UserNotFoundException, DuplicateEmailException {
         User user = findById(userId);
         if(userRepository.findByEmail(userEmailUpdateDto.email()).isPresent()){
-            throw new EmailFoundException();
+            throw new DuplicateEmailException();
         }
         user.setEmail(userEmailUpdateDto.email());
         return toUserGetDto(user);
@@ -84,6 +85,12 @@ public class UserServiceImpl implements UserService {
     public UserGetDto updateDateOfBirth(Long userId, UserDateOfBirthUpdateDto userDateOfBirthUpdateDto) throws UserNotFoundException {
         User user = findById(userId);
         user.setDateOfBirth(userDateOfBirthUpdateDto.dateOfBirth());
+        return toUserGetDto(user);
+    }
+
+    public UserGetDto updateInterests(Long userId, UserInterestsUpdateDto userInterestsUpdateDto) throws UserNotFoundException, IncompatibleTypeException {
+        User user = findById(userId);
+        user.setInterests(UserConverter.fromStringListToEnumList(userInterestsUpdateDto.interests()));
         return toUserGetDto(user);
     }
 

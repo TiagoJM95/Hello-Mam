@@ -14,7 +14,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.mindera.HelloMam.converters.MediaConverter.toMedia;
+import static com.mindera.HelloMam.converters.MediaConverter.toMediaGetDto;
 
 @Service
 public class MediaServiceImpl implements MediaService {
@@ -29,7 +31,7 @@ public class MediaServiceImpl implements MediaService {
     @Cacheable("media")
     public List<MediaGetDto> getAllMedia() {
         return mediaRepository.findAll().stream()
-                .map(MediaConverter::fromMediaToMediaDto)
+                .map(MediaConverter::toMediaGetDto)
                 .toList();
     }
 
@@ -38,7 +40,7 @@ public class MediaServiceImpl implements MediaService {
     }
 
     public MediaGetDto getMediaById(Long id) throws MediaNotFoundException {
-        return MediaConverter.fromMediaToMediaDto(findById(id));
+        return toMediaGetDto(findById(id));
     }
 
 
@@ -50,15 +52,15 @@ public class MediaServiceImpl implements MediaService {
 
     public MediaGetDto getMediaByRefId(String refId) throws RefIdNotFoundException {
         Media media = mediaRepository.findByRefId(refId).orElseThrow(RefIdNotFoundException::new);
-        return MediaConverter.fromMediaToMediaDto(media);
+        return toMediaGetDto(media);
     }
 
 
     public MediaGetDto addNewMedia(MediaCreateDto mediaCreateDto) {
-        Media mediaToAdd = MediaConverter.fromMediaDtoToMedia(mediaCreateDto);
+        Media mediaToAdd = toMedia(mediaCreateDto);
         Media addedMedia = mediaRepository.save(mediaToAdd);
 
-        return MediaConverter.fromMediaToMediaDto(addedMedia);
+        return toMediaGetDto(addedMedia);
     }
 
     private static void checkIfMediaTypeExists(String type) throws TypeNotFoundException {

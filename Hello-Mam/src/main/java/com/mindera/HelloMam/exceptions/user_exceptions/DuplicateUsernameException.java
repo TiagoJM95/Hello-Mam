@@ -1,9 +1,9 @@
 package com.mindera.HelloMam.exceptions.user_exceptions;
 
-import static com.mindera.HelloMam.utils.Messages.USERNAME_FOUND;
+import static com.mindera.HelloMam.utils.ExceptionMessages.DUPLICATE_USERNAME;
 
 public class DuplicateUsernameException extends UserException{
     public DuplicateUsernameException() {
-        super(USERNAME_FOUND);
+        super(DUPLICATE_USERNAME);
     }
 }

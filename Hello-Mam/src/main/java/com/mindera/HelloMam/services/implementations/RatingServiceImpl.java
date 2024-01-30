@@ -37,7 +37,7 @@ public class RatingServiceImpl implements RatingService {
     @Cacheable("ratings")
     public List<RatingGetDto> getAllRating() {
         return ratingRepository.findAll().stream()
-                .map(RatingConverter::fromRatingToRatingDto)
+                .map(RatingConverter::toRatingGetDto)
                 .toList();
     }
 
@@ -46,14 +46,14 @@ public class RatingServiceImpl implements RatingService {
     }
 
     public RatingGetDto getRatingById(Long id) throws RatingNotFoundException {
-        return fromRatingToRatingDto(findById(id));
+        return toRatingGetDto(findById(id));
     }
 
     public List<RatingGetDto> getRatingByUserId(Long userId) throws UserNotFoundException {
         User user = userService.findById(userId);
         return ratingRepository.findAll().stream()
                 .filter(rating -> rating.getUserId().equals(user))
-                .map(RatingConverter::fromRatingToRatingDto)
+                .map(RatingConverter::toRatingGetDto)
                 .toList();
     }
     public List<RatingGetDto> getRatingByMediaId(Long mediaId) throws MediaNotFoundException {
@@ -62,16 +62,16 @@ public class RatingServiceImpl implements RatingService {
 
         return ratingRepository.findAll().stream()
                 .filter(rating -> rating.getMediaId().equals(media))
-                .map(RatingConverter::fromRatingToRatingDto)
+                .map(RatingConverter::toRatingGetDto)
                 .toList();
     }
 
     public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) throws UserNotFoundException, MediaNotFoundException {
-        Rating addedRating = ratingRepository.save(fromRatingDtoToRating(ratingCreateDto,
+        Rating addedRating = ratingRepository.save(toRating(ratingCreateDto,
                 userService.findById(ratingCreateDto.userId()),
                 mediaService.findById(ratingCreateDto.mediaId())));
 
-        return fromRatingToRatingDto(addedRating);
+        return toRatingGetDto(addedRating);
     }
 
 
@@ -79,6 +79,6 @@ public class RatingServiceImpl implements RatingService {
     public RatingGetDto updateRating(Long ratingId, RatingUpdateRatingDto ratingUpdateRatingDto) throws RatingNotFoundException {
         Rating rating = findById(ratingId);
         rating.setRating(ratingUpdateRatingDto.rating());
-        return fromRatingToRatingDto(rating);
+        return toRatingGetDto(rating);
     }
 }
