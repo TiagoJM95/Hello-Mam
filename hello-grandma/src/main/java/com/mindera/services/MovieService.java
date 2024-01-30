@@ -1,7 +1,6 @@
 package com.mindera.services;
 
 import com.mindera.converters.MovieConverter;
-import com.mindera.dtos.create.MovieCreateDto;
 import com.mindera.dtos.get.MovieGetDto;
 import com.mindera.entities.Movie;
 import com.mindera.exceptions.movie.MovieNotFoundException;
@@ -20,10 +19,15 @@ public class MovieService implements MovieRepository {
         return listAll().stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
 
-    public MovieGetDto create(MovieCreateDto movie){
+    /*public MovieGetDto create(MovieCreateDto movie){
         Movie movieEntity = MovieConverter.fromCreateDtoToEntity(movie);
         persist(movieEntity);
         return MovieConverter.fromEntityToGetDto(movieEntity);
+    }*/
+
+    public MovieGetDto create(Movie movie){
+        persist(movie);
+        return MovieConverter.fromEntityToGetDto(movie);
     }
 
     public MovieGetDto findById(String id) throws MovieNotFoundException {
