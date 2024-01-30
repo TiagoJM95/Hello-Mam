@@ -45,5 +45,4 @@ public class GlobalExceptionHandler {
         logger.error("Known exception: " + exception);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
-
 }
