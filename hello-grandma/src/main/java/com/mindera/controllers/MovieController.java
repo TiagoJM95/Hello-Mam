@@ -1,17 +1,17 @@
 package com.mindera.controllers;
 
-import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindera.dtos.create.MovieCreateDto;
 import com.mindera.dtos.get.MovieGetDto;
 import com.mindera.exceptions.movie.MovieNotFoundException;
 import com.mindera.external.MovieExtension;
 import com.mindera.external.MovieExtensionClient;
+import com.mindera.external.MovieResponse;
 import com.mindera.services.MovieService;
 import jakarta.inject.Inject;
-import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
-import jakarta.json.stream.JsonParser;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -19,7 +19,6 @@ import org.jboss.resteasy.reactive.RestResponse;
 
 import static com.mindera.util.Keys.*;
 import java.util.List;
-import java.util.Set;
 
 @Path("/api/v1/movies")
 @Produces(MediaType.APPLICATION_JSON)
@@ -64,7 +63,9 @@ public class MovieController {
 
     @GET
     @Path("/find/{externalId}")
-    public MovieExtension getMovieRecommendationByGenre(@PathParam("externalId") String externalId){
-
+    public MovieExtension getMovieRecommendationByGenre(@PathParam("externalId") String externalId) throws JsonProcessingException {
+        String o = movieExtensionClient.getMovieRecommendationByGenre(externalId, "imdb_id", ACCEPT_HEADER, API_KEY);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(o, MovieResponse.class).getResults().getFirst();
     }
 }

@@ -17,7 +17,7 @@ public interface MovieExtensionClient {
 
     @GET
     @Path("/find/{external_id}")
-    JsonObject getMovieRecommendationByGenre(@PathParam("external_id") String externalId,
+    String getMovieRecommendationByGenre(@PathParam("external_id") String externalId,
                                              @QueryParam("external_source") String externalSource,
                                              @HeaderParam("accept") String acceptHeader,
                                              @QueryParam("api_key") String authorizationHeader);
