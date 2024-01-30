@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindera.dtos.create.MovieCreateDto;
 import com.mindera.dtos.get.MovieGetDto;
 import com.mindera.exceptions.movie.MovieNotFoundException;
-import com.mindera.external.MovieExtension;
-import com.mindera.external.MovieExtensionClient;
-import com.mindera.external.MovieResponse;
+import com.mindera.external.*;
 import com.mindera.services.MovieService;
 import jakarta.inject.Inject;
 import jakarta.json.JsonArray;
@@ -56,16 +54,9 @@ public class MovieController {
 
     @GET
     @Path("/recommendations/{movieId}")
-    public JsonArray getMovieRecommendation(@PathParam("movieId") String movieId){
-        JsonObject o = movieExtensionClient.getMovieRecommendation(movieId, ACCEPT_HEADER, API_KEY);
-        return o.getJsonArray("results");
-    }
-
-    @GET
-    @Path("/find/{externalId}")
-    public MovieExtension getMovieRecommendationByGenre(@PathParam("externalId") String externalId) throws JsonProcessingException {
-        String o = movieExtensionClient.getMovieRecommendationByGenre(externalId, "imdb_id", ACCEPT_HEADER, API_KEY);
+    public List<MovieExtensionGetDto> getMovieRecommendation(@PathParam("movieId") String movieId) throws JsonProcessingException {
+        String jsonString = movieExtensionClient.getMovieRecommendation(movieId, ACCEPT_HEADER, API_KEY);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(o, MovieResponse.class).getResults().getFirst();
+        return MovieExtensionConverter.convertList(mapper.readValue(jsonString, MovieResponse.class).getResults());
     }
 }
