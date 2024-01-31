@@ -37,9 +37,9 @@ public class External {
                 .body(String.class);
     }
 
-    public String getDiscoverMovies(String genreId){
+    public String getDiscoverMovies(String genre){
         return restClient.get()
-                .uri(uriBase + "/discover/" + genreId)
+                .uri(uriBase + "/discover/" + genre)
                 .retrieve()
                 .body(String.class);
     }
