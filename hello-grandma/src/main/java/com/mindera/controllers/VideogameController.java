@@ -1,7 +1,7 @@
 package com.mindera.controllers;
 
-import com.mindera.dtos.create.VideogameCreateDto;
-import com.mindera.dtos.get.VideogameGetDto;
+import com.mindera.deprecated.create.VideogameCreateDto;
+import com.mindera.dtos.VideogameGetDto;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
 import com.mindera.services.VideogameService;
 import jakarta.inject.Inject;

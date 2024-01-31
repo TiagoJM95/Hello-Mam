@@ -1,7 +1,7 @@
 package com.mindera.services;
 
 import com.mindera.converters.MovieConverter;
-import com.mindera.dtos.get.MovieGetDto;
+import com.mindera.dtos.MovieGetDto;
 import com.mindera.entities.Movie;
 import com.mindera.exceptions.movie.MovieNotFoundException;
 import com.mindera.repositories.MovieRepository;

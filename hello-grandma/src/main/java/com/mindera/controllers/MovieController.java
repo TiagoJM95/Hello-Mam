@@ -3,7 +3,7 @@ package com.mindera.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindera.converters.MovieConverter;
-import com.mindera.dtos.get.MovieGetDto;
+import com.mindera.dtos.MovieGetDto;
 import com.mindera.entities.Movie;
 import com.mindera.enums.MovieGenres;
 import com.mindera.exceptions.movie.InvalidGenreException;

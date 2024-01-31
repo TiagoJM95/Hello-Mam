@@ -1,4 +1,4 @@
-package com.mindera.dtos.create;
+package com.mindera.deprecated.create;
 
 public record VideogameCreateDto() {
 }

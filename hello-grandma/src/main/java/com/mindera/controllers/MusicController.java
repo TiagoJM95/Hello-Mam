@@ -1,7 +1,7 @@
 package com.mindera.controllers;
 
-import com.mindera.dtos.create.MusicCreateDto;
-import com.mindera.dtos.get.MusicGetDto;
+import com.mindera.deprecated.create.MusicCreateDto;
+import com.mindera.dtos.MusicGetDto;
 import com.mindera.exceptions.music.MusicNotFoundException;
 import com.mindera.services.MusicService;
 import jakarta.inject.Inject;
