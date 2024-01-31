@@ -1,6 +1,7 @@
 package com.mindera.external;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;
@@ -13,7 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 
 public class MovieDetails {
-    private Long id;
+    @JsonProperty("id")
+    private Long tmdbId;
     private String title;
     private String release_date;
     private Double vote_average;
