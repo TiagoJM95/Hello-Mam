@@ -17,6 +17,7 @@ import java.util.List;
 
 import static com.mindera.HelloMam.converters.MediaConverter.fromMediaCreateDtoToMediaEntity;
 import static com.mindera.HelloMam.converters.MediaConverter.fromMediaEntityToMediaGetDto;
+import static com.mindera.HelloMam.enums.MediaType.getTypeByDescription;
 
 @Service
 public class MediaServiceImpl implements MediaService {
@@ -44,8 +45,7 @@ public class MediaServiceImpl implements MediaService {
     }
 
     public List<MediaGetDto> getMediaByType(String type) throws MediaTypeNotFoundException {
-        checkIfMediaTypeExists(type);
-        return mediaRepository.findByMediaType(type);
+        return mediaRepository.findByMediaType(getTypeByDescription(type).orElseThrow(MediaTypeNotFoundException::new));
     }
 
     public MediaGetDto getMediaByRefId(String refId) throws RefIdNotFoundException {
@@ -58,18 +58,5 @@ public class MediaServiceImpl implements MediaService {
         Media addedMedia = mediaRepository.save(mediaToAdd);
 
         return fromMediaEntityToMediaGetDto(addedMedia);
-    }
-
-    private static void checkIfMediaTypeExists(String type) throws MediaTypeNotFoundException {
-        boolean exists = false;
-        for(MediaType mediaType: MediaType.values()){
-            if (mediaType.getDescription().equalsIgnoreCase(type)) {
-                exists = true;
-                break;
-            }
-        }
-        if(!exists){
-            throw new MediaTypeNotFoundException();
-        }
     }
 }
