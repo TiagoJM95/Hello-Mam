@@ -1,8 +1,8 @@
 package com.mindera.services;
 
 import com.mindera.converters.VideogameConverter;
-import com.mindera.dtos.create.VideogameCreateDto;
-import com.mindera.dtos.get.VideogameGetDto;
+import com.mindera.deprecated.create.VideogameCreateDto;
+import com.mindera.dtos.VideogameGetDto;
 import com.mindera.entities.Videogame;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
 import com.mindera.repositories.VideogameRepository;

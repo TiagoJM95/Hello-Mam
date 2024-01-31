@@ -19,12 +19,17 @@ import java.util.List;
 public class Movie extends PanacheMongoEntity {
     @JsonProperty("id")
     private Long tmdbId;
-    @JsonProperty("title")
     private String title;
-    @JsonProperty("release_date")
-    private String releaseDate;
-    @JsonProperty("vote_average")
-    private Double voteAverage;
-    @JsonProperty("genre_ids")
-    private List<Integer> genreIds;
+    private String release_date;
+    private Double vote_average;
+    private String overview;
+    private String status;
+    private String tagline;
+    private Integer runtime;
+    private String original_language;
+    private String revenue;
+    private String budget;
+    private String popularity;
+    private String vote_count;
+    private List<Object> genres;
 }

@@ -1,4 +1,4 @@
-package com.mindera.dtos.get;
+package com.mindera.dtos;
 
 import java.util.List;
 

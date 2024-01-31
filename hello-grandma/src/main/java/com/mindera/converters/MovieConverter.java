@@ -1,6 +1,6 @@
 package com.mindera.converters;
 
-import com.mindera.dtos.get.MovieGetDto;
+import com.mindera.dtos.MovieGetDto;
 import com.mindera.entities.Movie;
 import com.mindera.enums.MovieGenres;
 

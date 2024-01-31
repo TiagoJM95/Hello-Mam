@@ -1,6 +1,6 @@
 package com.mindera.repositories;
 
-import com.mindera.dtos.get.MovieGetDto;
+import com.mindera.dtos.MovieGetDto;
 import com.mindera.entities.Movie;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 

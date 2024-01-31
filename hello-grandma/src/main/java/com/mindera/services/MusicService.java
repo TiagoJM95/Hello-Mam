@@ -1,14 +1,13 @@
 package com.mindera.services;
 
 import com.mindera.converters.MusicConverter;
-import com.mindera.dtos.create.MusicCreateDto;
-import com.mindera.dtos.get.MusicGetDto;
+import com.mindera.deprecated.create.MusicCreateDto;
+import com.mindera.dtos.MusicGetDto;
 import com.mindera.entities.Music;
 import com.mindera.exceptions.music.MusicNotFoundException;
 import com.mindera.repositories.MusicRepository;
 import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import org.bson.types.ObjectId;
 
 import java.util.List;
