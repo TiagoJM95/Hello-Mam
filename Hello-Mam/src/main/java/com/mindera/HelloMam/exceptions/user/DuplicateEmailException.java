@@ -1,4 +1,4 @@
-package com.mindera.HelloMam.exceptions.user_exceptions;
+package com.mindera.HelloMam.exceptions.user;
 
 import static com.mindera.HelloMam.utils.ExceptionMessages.DUPLICATE_EMAIL;
 

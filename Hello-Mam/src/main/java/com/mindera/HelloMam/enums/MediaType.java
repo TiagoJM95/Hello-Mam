@@ -25,4 +25,3 @@ public enum MediaType {
         return Optional.empty();
     }
 }
-

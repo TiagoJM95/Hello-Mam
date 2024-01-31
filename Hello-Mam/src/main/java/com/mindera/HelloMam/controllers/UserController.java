@@ -5,7 +5,7 @@ import com.mindera.HelloMam.dtos.creates.UserCreateDto;
 import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.dtos.updates.*;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
-import com.mindera.HelloMam.exceptions.user_exceptions.*;
+import com.mindera.HelloMam.exceptions.user.*;
 import com.mindera.HelloMam.services.implementations.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

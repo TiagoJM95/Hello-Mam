@@ -5,14 +5,13 @@ import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.dtos.updates.*;
 import com.mindera.HelloMam.entities.User;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
-import com.mindera.HelloMam.exceptions.user_exceptions.*;
+import com.mindera.HelloMam.exceptions.user.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface UserService {
-
     User findById(Long id) throws UserNotFoundException;
     UserGetDto getUserById(Long id) throws UserNotFoundException;
     List<UserGetDto> getAllUsers();
@@ -25,6 +24,4 @@ public interface UserService {
     UserGetDto updateDateOfBirth(Long userId, UserUpdateDateOfBirthDto userUpdateDateOfBirthDto) throws UserNotFoundException;
     UserGetDto updateInterests(Long userId, UserUpdateInterestsDto userUpdateInterestsDto) throws UserNotFoundException, MediaTypeNotFoundException;
     void deleteUser(Long id) throws UserNotFoundException;
-
-    /*void updateUser(Long userId, UserCreateDto userCreateDto) throws UserNotFoundException;*/
 }
