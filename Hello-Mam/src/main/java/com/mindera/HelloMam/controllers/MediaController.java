@@ -6,6 +6,7 @@ import com.mindera.HelloMam.enums.MediaType;
 import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.media_exceptions.RefIdNotFoundException;
 import com.mindera.HelloMam.exceptions.media_exceptions.TypeNotFoundException;
+import com.mindera.HelloMam.externals.External;
 import com.mindera.HelloMam.services.implementations.MediaServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,12 @@ import java.util.List;
 public class MediaController {
 
     private final MediaServiceImpl mediaServiceImpl;
+    private final External external;
 
     @Autowired
-    public MediaController(MediaServiceImpl mediaServiceImpl) {
+    public MediaController(MediaServiceImpl mediaServiceImpl, External external) {
         this.mediaServiceImpl = mediaServiceImpl;
+        this.external = external;
     }
 
     @GetMapping("/")
@@ -49,5 +52,10 @@ public class MediaController {
     @PostMapping("/")
     public ResponseEntity<MediaGetDto> addNewMedia(@Valid @RequestBody MediaCreateDto mediaCreateDto) {
         return new ResponseEntity<>(mediaServiceImpl.addNewMedia(mediaCreateDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/external")
+    public ResponseEntity<String> testExternal() {
+        return ResponseEntity.ok(external.testResponse());
     }
 }

@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    public void updateUser(Long userId, UserCreateDto userCreateDto) throws UserNotFoundException {
+   /* public void updateUser(Long userId, UserCreateDto userCreateDto) throws UserNotFoundException {
         User user = findById(userId);
         user.setUsername(userCreateDto.username());
         user.setEmail(userCreateDto.email());
@@ -114,5 +114,5 @@ public class UserServiceImpl implements UserService {
     public void updateInterests(Long userId, List<String> interests) throws UserNotFoundException {
         User user = findById(userId);
         user.setInterests(interests);
-    }
+    }*/
 }
