@@ -52,7 +52,7 @@ public class RatingController {
         return new ResponseEntity<>(ratingService.addNewRating(ratingCreateDto), HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{ratingId}")
+    @PatchMapping("/update/{ratingId}")
     public ResponseEntity<RatingGetDto> updateRating(@PathVariable("ratingId") Long ratingId,
                                                      @Valid @RequestBody RatingUpdateRatingDto ratingUpdateRatingDto) throws RatingNotFoundException {
         return new ResponseEntity<>(ratingService.updateRating(ratingId, ratingUpdateRatingDto), HttpStatus.ACCEPTED);
