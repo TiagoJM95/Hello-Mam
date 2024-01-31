@@ -1,20 +1,17 @@
+/*
 package com.mindera.HelloMam.securities;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -39,12 +36,6 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/") // specify the logout success URL
                 )
                 .build();
-
-                    auth.requestMatchers("/").permitAll();
-                    auth.anyRequest().authenticated();
-               })
-               .oauth2Login(withDefaults())
-              .build();
-
     }
 }
+*/

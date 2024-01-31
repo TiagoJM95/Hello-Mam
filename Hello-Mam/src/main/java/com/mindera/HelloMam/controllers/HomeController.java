@@ -7,17 +7,17 @@ import com.mindera.HelloMam.entities.User;
 import com.mindera.HelloMam.exceptions.user_exceptions.EmailNotFoundException;
 import com.mindera.HelloMam.exceptions.user_exceptions.UserNotFoundException;
 import com.mindera.HelloMam.repositories.UserRepository;
-import com.mindera.HelloMam.securities.SecurityConfig;
+//import com.mindera.HelloMam.securities.SecurityConfig;
 import com.mindera.HelloMam.services.implementations.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+//import org.springframework.security.core.annotation.AuthenticationPrincipal;
+//import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+//import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 
 import java.util.List;
@@ -66,7 +66,7 @@ public class HomeController {
             return "register";
         }
 
-    @GetMapping("/updateuser")
+    /*@GetMapping("/updateuser")
     public String start(Authentication authentication, Model model) throws UserNotFoundException {
         Object principal = authentication.getPrincipal();
         User user = null;
@@ -103,7 +103,7 @@ public class HomeController {
         }
 
         return "updateuser";
-    }
+    }*/
 
         @PostMapping("/updateuser")
         public String updateUser(@RequestBody UserCreateDto userCreateDto) throws UserNotFoundException, EmailNotFoundException {
@@ -117,7 +117,7 @@ public class HomeController {
             return "redirect:/";
         }
 
-        @GetMapping("/profile")
+        /*@GetMapping("/profile")
         public String profile(Authentication authentication, Model model, HttpServletRequest request) throws UserNotFoundException {
             Object principal = authentication.getPrincipal();
             User user = null;
@@ -155,7 +155,7 @@ public class HomeController {
             session.setAttribute("userId", user.getId());
 
             return "profile";
-        }
+        }*/
 
         @GetMapping("/login")
         public String login(){

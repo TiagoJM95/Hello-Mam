@@ -13,6 +13,7 @@ import com.mindera.HelloMam.exceptions.user_exceptions.UserNotFoundException;
 import com.mindera.HelloMam.repositories.RatingRepository;
 import com.mindera.HelloMam.services.interfaces.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import static com.mindera.HelloMam.converters.RatingConverter.*;
@@ -33,6 +34,7 @@ public class RatingServiceImpl implements RatingService {
     }
 
 
+    @Cacheable("ratings")
     public List<RatingGetDto> getAllRating() {
         return ratingRepository.findAll().stream()
                 .map(RatingConverter::toRatingGetDto)
