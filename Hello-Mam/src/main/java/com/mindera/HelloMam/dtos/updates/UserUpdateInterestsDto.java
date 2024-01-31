@@ -6,7 +6,7 @@ import java.util.List;
 
 import static com.mindera.HelloMam.utils.ValidationMessages.INTERESTS_NOT_EMPTY;
 
-public record UserInterestsUpdateDto(
+public record UserUpdateInterestsDto(
         @NotEmpty(message = INTERESTS_NOT_EMPTY)
         List<String> interests
 ) {

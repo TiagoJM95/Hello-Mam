@@ -2,7 +2,7 @@ package com.mindera.HelloMam.aspects;
 
 import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.media_exceptions.RefIdNotFoundException;
-import com.mindera.HelloMam.exceptions.media_exceptions.TypeNotFoundException;
+import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
 import com.mindera.HelloMam.exceptions.rating_exceptions.RatingNotFoundException;
 import com.mindera.HelloMam.exceptions.user_exceptions.DuplicateEmailException;
 import com.mindera.HelloMam.exceptions.user_exceptions.DuplicateUsernameException;
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
 
 
    @ExceptionHandler(value = {UserNotFoundException.class,
-            EmailNotFoundException.class, RatingNotFoundException.class, TypeNotFoundException.class,
+            EmailNotFoundException.class, RatingNotFoundException.class, MediaTypeNotFoundException.class,
             RefIdNotFoundException.class, MediaNotFoundException.class})
     public ResponseEntity<String> handleNotFoundException(Exception exception) {
         logger.error("Known exception: " + exception);

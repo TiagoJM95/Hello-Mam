@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "\"user\"")
+@Table
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,23 +21,14 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(unique = true)
     private String username;
-
     @Column(unique = true)
     private String email;
-
     private String name;
-
     private LocalDate dateOfBirth;
-
     private List<MediaType> interests;
-
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "userId")
     private List<Rating> ratings;
-
     private boolean active;
-
-
 }
