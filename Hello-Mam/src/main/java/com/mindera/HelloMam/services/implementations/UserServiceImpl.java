@@ -106,13 +106,8 @@ public class UserServiceImpl implements UserService {
         user.setUsername(userCreateDto.username());
         user.setEmail(userCreateDto.email());
         user.setName(userCreateDto.name());
-        user.setInterests(userCreateDto.interests());
         user.setDateOfBirth(userCreateDto.dateOfBirth());
         userRepository.save(user);
     }
 
-    public void updateInterests(Long userId, List<String> interests) throws UserNotFoundException {
-        User user = findById(userId);
-        user.setInterests(interests);
-    }
 }

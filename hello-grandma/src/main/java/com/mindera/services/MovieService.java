@@ -5,6 +5,7 @@ import com.mindera.dtos.get.MovieGetDto;
 import com.mindera.entities.Movie;
 import com.mindera.exceptions.movie.MovieNotFoundException;
 import com.mindera.repositories.MovieRepository;
+import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.bson.types.ObjectId;
 
@@ -15,6 +16,7 @@ import static com.mindera.util.Messages.MOVIE_NOT_FOUND;
 @ApplicationScoped
 public class MovieService implements MovieRepository {
 
+    @CacheResult(cacheName = "movies")
     public List<MovieGetDto> getAllMovies(){
         return listAll().stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
@@ -30,6 +32,7 @@ public class MovieService implements MovieRepository {
         return MovieConverter.fromEntityToGetDto(movie);
     }
 
+    @CacheResult(cacheName = "movies")
     public MovieGetDto findById(String id) throws MovieNotFoundException {
         Movie movie = findByIdOptional(new ObjectId(id)).orElseThrow(()->
                 new MovieNotFoundException(MOVIE_NOT_FOUND));

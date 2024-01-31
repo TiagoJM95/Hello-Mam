@@ -6,6 +6,7 @@ import com.mindera.dtos.get.VideogameGetDto;
 import com.mindera.entities.Videogame;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
 import com.mindera.repositories.VideogameRepository;
+import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.bson.types.ObjectId;
 
@@ -25,6 +26,7 @@ public class VideogameService implements VideogameRepository {
         return VideogameConverter.fromEntityToGetDto(videogameEntity);
     }
 
+    @CacheResult(cacheName = "games")
     public VideogameGetDto findById(String id) throws VideogameNotFoundException {
         Videogame videogame = findByIdOptional(new ObjectId(id)).orElseThrow(()->
                 new VideogameNotFoundException(VIDEOGAME_NOT_FOUND));

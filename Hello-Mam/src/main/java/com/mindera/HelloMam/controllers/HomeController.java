@@ -54,12 +54,7 @@ public class HomeController {
         return "addinterests";
     }
 
-    @PostMapping("/addinterests")
-    public String addInterests(@RequestParam("interests[]") List<String> interestList, @SessionAttribute("userId") Long userId) throws UserNotFoundException, EmailNotFoundException {
-        User user = userServiceImpl.findById(userId);
-        userServiceImpl.updateInterests(user.getId(), interestList);
-        return "addinterests";
-    }
+
 
         @GetMapping("/register")
         public String register(){

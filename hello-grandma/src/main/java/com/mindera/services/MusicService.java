@@ -6,6 +6,7 @@ import com.mindera.dtos.get.MusicGetDto;
 import com.mindera.entities.Music;
 import com.mindera.exceptions.music.MusicNotFoundException;
 import com.mindera.repositories.MusicRepository;
+import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.bson.types.ObjectId;
@@ -26,6 +27,7 @@ public class MusicService implements MusicRepository{
         return MusicConverter.fromEntityToGetDto(musicEntity);
     }
 
+    @CacheResult(cacheName = "musics")
     public MusicGetDto findById(String id) throws MusicNotFoundException {
         Music music = findByIdOptional(new ObjectId(id)).orElseThrow(()->
                 new MusicNotFoundException(MUSIC_NOT_FOUND));

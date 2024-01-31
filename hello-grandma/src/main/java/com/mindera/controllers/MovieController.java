@@ -10,6 +10,7 @@ import com.mindera.exceptions.movie.InvalidGenreException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
 import com.mindera.external.*;
 import com.mindera.services.MovieService;
+import io.quarkus.cache.CacheResult;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -36,6 +37,7 @@ public class MovieController {
         return RestResponse.ok(movieService.getAllMovies());
     }
 
+    @CacheResult(cacheName = "movies")
     @GET
     @Path("/id/{id}")
     public RestResponse<MovieGetDto> getMovieById(@PathParam("id") String id) throws MovieNotFoundException {
@@ -47,6 +49,7 @@ public class MovieController {
         return RestResponse.accepted(movieService.create(movie));
     }
 
+    @CacheResult(cacheName = "movies")
     @GET
     @Path("/details/{movieId}")
     public RestResponse<MovieDetails> getMovieByIdExternal(@PathParam("movieId") String movieId) throws JsonProcessingException {
