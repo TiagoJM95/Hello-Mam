@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
     }
 
-    public UserGetDto create(UserCreateDto userCreateDto) throws IncompatibleTypeException {
+    public UserGetDto addNewUser(UserCreateDto userCreateDto) throws IncompatibleTypeException {
         User user = toUser(userCreateDto);
         user.setActive(true);
         return toUserGetDto(userRepository.save(user));
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public void deleteById(Long id) throws UserNotFoundException {
+    public void deleteUser(Long id) throws UserNotFoundException {
         User user = findById(id);
         user.setActive(false);
         userRepository.save(user);
