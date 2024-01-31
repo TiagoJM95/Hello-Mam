@@ -2,12 +2,10 @@ package com.mindera.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mindera.enums.MovieGenres;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
