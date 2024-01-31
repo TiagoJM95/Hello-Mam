@@ -2,7 +2,6 @@ package com.mindera.HelloMam.controllers;
 
 import com.mindera.HelloMam.dtos.creates.MediaCreateDto;
 import com.mindera.HelloMam.dtos.gets.MediaGetDto;
-import com.mindera.HelloMam.enums.MediaType;
 import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.media_exceptions.RefIdNotFoundException;
 import com.mindera.HelloMam.exceptions.media_exceptions.TypeNotFoundException;
@@ -20,38 +19,38 @@ import java.util.List;
 @RequestMapping("api/v1/media")
 public class MediaController {
 
-    private final MediaServiceImpl mediaServiceImpl;
+    private final MediaServiceImpl mediaService;
     private final External external;
 
     @Autowired
-    public MediaController(MediaServiceImpl mediaServiceImpl, External external) {
-        this.mediaServiceImpl = mediaServiceImpl;
+    public MediaController(MediaServiceImpl mediaService, External external) {
+        this.mediaService = mediaService;
         this.external = external;
     }
 
     @GetMapping("/")
     public ResponseEntity<List<MediaGetDto>> getAllMedia() {
-        return ResponseEntity.ok(mediaServiceImpl.getAllMedia());
+        return ResponseEntity.ok(mediaService.getAllMedia());
     }
 
     @GetMapping("/{mediaId}")
     public ResponseEntity<MediaGetDto> getMediaById(@PathVariable("mediaId") Long id) throws MediaNotFoundException {
-        return ResponseEntity.ok(mediaServiceImpl.getMediaById(id));
+        return ResponseEntity.ok(mediaService.getMediaById(id));
     }
 
     @GetMapping("/type/{mediaType}")
     public ResponseEntity<List<MediaGetDto>> getMediaByType(@PathVariable("mediaType") String type) throws TypeNotFoundException {
-        return ResponseEntity.ok(mediaServiceImpl.getMediaByType(type));
+        return ResponseEntity.ok(mediaService.getMediaByType(type));
     }
 
     @GetMapping("/ref/{mediaRefId}")
     public ResponseEntity<MediaGetDto> getMediaByRefId(@PathVariable("mediaRefId") String refId) throws RefIdNotFoundException {
-        return ResponseEntity.ok(mediaServiceImpl.getMediaByRefId(refId));
+        return ResponseEntity.ok(mediaService.getMediaByRefId(refId));
     }
 
     @PostMapping("/")
     public ResponseEntity<MediaGetDto> addNewMedia(@Valid @RequestBody MediaCreateDto mediaCreateDto) {
-        return new ResponseEntity<>(mediaServiceImpl.addNewMedia(mediaCreateDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(mediaService.addNewMedia(mediaCreateDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/external")
