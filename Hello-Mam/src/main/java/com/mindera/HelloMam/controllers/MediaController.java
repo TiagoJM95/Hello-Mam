@@ -53,8 +53,28 @@ public class MediaController {
         return new ResponseEntity<>(mediaService.addNewMedia(mediaCreateDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/external")
-    public ResponseEntity<String> testExternal() {
-        return ResponseEntity.ok(external.testResponse());
+    @GetMapping("/grandma")
+    public ResponseEntity<String> getAllMovies(){
+        return ResponseEntity.ok(external.getAllMovies());
+    }
+
+    @GetMapping("/grandma/id/{refId}")
+    public ResponseEntity<String> getMovieById(@PathVariable("refId") String refId){
+        return ResponseEntity.ok(external.getMovieById(refId));
+    }
+
+    @GetMapping("/grandma/details/{tmbdId}")
+    public ResponseEntity<String> getMovieDetails(@PathVariable("tmbdId") Integer tmbdId){
+        return ResponseEntity.ok(external.getMovieDetails(tmbdId));
+    }
+
+    @GetMapping("/grandma/recommendations/{tmbdId}")
+    public ResponseEntity<String> getMovieRecommendations(@PathVariable("tmbdId") Integer tmbdId){
+        return ResponseEntity.ok(external.getMovieRecommendations(tmbdId));
+    }
+
+    @GetMapping("/grandma/discover/{genreId}")
+    public ResponseEntity<String> getDiscoverMovies(@PathVariable("genreId") String genreId){
+        return ResponseEntity.ok(external.getDiscoverMovies(genreId));
     }
 }
