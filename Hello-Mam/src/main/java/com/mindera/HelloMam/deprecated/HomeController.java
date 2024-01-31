@@ -1,3 +1,4 @@
+/*
 package com.mindera.HelloMam.controllers;
 
 import com.mindera.HelloMam.converters.UserConverter;
@@ -54,19 +55,22 @@ public class HomeController {
         return "addinterests";
     }
 
-    @PostMapping("/addinterests")
+    */
+/*@PostMapping("/addinterests")
     public String addInterests(@RequestParam("interests[]") List<String> interestList, @SessionAttribute("userId") Long userId) throws UserNotFoundException, EmailNotFoundException {
         User user = userServiceImpl.findById(userId);
         userServiceImpl.updateInterests(user.getId(), interestList);
         return "addinterests";
-    }
+    }*//*
+
 
         @GetMapping("/register")
         public String register(){
             return "register";
         }
 
-    /*@GetMapping("/updateuser")
+    */
+/*@GetMapping("/updateuser")
     public String start(Authentication authentication, Model model) throws UserNotFoundException {
         Object principal = authentication.getPrincipal();
         User user = null;
@@ -103,7 +107,8 @@ public class HomeController {
         }
 
         return "updateuser";
-    }*/
+    }*//*
+
 
         @PostMapping("/updateuser")
         public String updateUser(@RequestBody UserCreateDto userCreateDto) throws UserNotFoundException, EmailNotFoundException {
@@ -117,7 +122,8 @@ public class HomeController {
             return "redirect:/";
         }
 
-        /*@GetMapping("/profile")
+        */
+/*@GetMapping("/profile")
         public String profile(Authentication authentication, Model model, HttpServletRequest request) throws UserNotFoundException {
             Object principal = authentication.getPrincipal();
             User user = null;
@@ -155,10 +161,11 @@ public class HomeController {
             session.setAttribute("userId", user.getId());
 
             return "profile";
-        }*/
+        }*//*
+
 
         @GetMapping("/login")
         public String login(){
         return "redirect:/profile";
         }
-}
+}*/
