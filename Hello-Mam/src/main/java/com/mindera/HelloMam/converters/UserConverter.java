@@ -5,7 +5,6 @@ import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.entities.User;
 import com.mindera.HelloMam.enums.MediaType;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
-import com.mindera.HelloMam.exceptions.media_exceptions.IncompatibleTypeException;
 
 import java.util.ArrayList;
 import java.util.List;

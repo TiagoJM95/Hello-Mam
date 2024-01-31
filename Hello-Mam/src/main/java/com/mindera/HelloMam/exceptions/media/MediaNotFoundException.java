@@ -1,4 +1,4 @@
-package com.mindera.HelloMam.exceptions.media_exceptions;
+package com.mindera.HelloMam.exceptions.media;
 
 import static com.mindera.HelloMam.utils.ExceptionMessages.MEDIA_NOT_FOUND;
 

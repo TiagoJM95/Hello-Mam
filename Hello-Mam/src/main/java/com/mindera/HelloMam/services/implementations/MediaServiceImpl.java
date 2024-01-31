@@ -4,7 +4,7 @@ import com.mindera.HelloMam.converters.MediaConverter;
 import com.mindera.HelloMam.dtos.creates.MediaCreateDto;
 import com.mindera.HelloMam.dtos.gets.MediaGetDto;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
-import com.mindera.HelloMam.exceptions.media_exceptions.*;
+import com.mindera.HelloMam.exceptions.media.*;
 import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.enums.MediaType;
 import com.mindera.HelloMam.repositories.MediaRepository;
@@ -35,7 +35,7 @@ public class MediaServiceImpl implements MediaService {
                 .toList();
     }
 
-    Media findById(Long id) throws MediaNotFoundException {
+    public Media findById(Long id) throws MediaNotFoundException {
         return mediaRepository.findById(id).orElseThrow(MediaNotFoundException::new);
     }
 
@@ -43,18 +43,15 @@ public class MediaServiceImpl implements MediaService {
         return fromMediaEntityToMediaGetDto(findById(id));
     }
 
-
     public List<MediaGetDto> getMediaByType(String type) throws MediaTypeNotFoundException {
         checkIfMediaTypeExists(type);
         return mediaRepository.findByMediaType(type);
     }
 
-
     public MediaGetDto getMediaByRefId(String refId) throws RefIdNotFoundException {
         Media media = mediaRepository.findByRefId(refId).orElseThrow(RefIdNotFoundException::new);
         return fromMediaEntityToMediaGetDto(media);
     }
-
 
     public MediaGetDto addNewMedia(MediaCreateDto mediaCreateDto) throws MediaTypeNotFoundException {
         Media mediaToAdd = fromMediaCreateDtoToMediaEntity(mediaCreateDto);

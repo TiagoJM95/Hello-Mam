@@ -1,13 +1,13 @@
 package com.mindera.HelloMam.aspects;
 
-import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
-import com.mindera.HelloMam.exceptions.media_exceptions.RefIdNotFoundException;
+import com.mindera.HelloMam.exceptions.media.MediaNotFoundException;
+import com.mindera.HelloMam.exceptions.media.RefIdNotFoundException;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
-import com.mindera.HelloMam.exceptions.rating_exceptions.RatingNotFoundException;
-import com.mindera.HelloMam.exceptions.user_exceptions.DuplicateEmailException;
-import com.mindera.HelloMam.exceptions.user_exceptions.DuplicateUsernameException;
-import com.mindera.HelloMam.exceptions.user_exceptions.EmailNotFoundException;
-import com.mindera.HelloMam.exceptions.user_exceptions.UserNotFoundException;
+import com.mindera.HelloMam.exceptions.rating.RatingNotFoundException;
+import com.mindera.HelloMam.exceptions.user.DuplicateEmailException;
+import com.mindera.HelloMam.exceptions.user.DuplicateUsernameException;
+import com.mindera.HelloMam.exceptions.user.EmailNotFoundException;
+import com.mindera.HelloMam.exceptions.user.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

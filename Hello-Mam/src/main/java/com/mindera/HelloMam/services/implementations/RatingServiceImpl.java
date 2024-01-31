@@ -7,9 +7,9 @@ import com.mindera.HelloMam.dtos.updates.RatingUpdateRatingDto;
 import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.entities.Rating;
 import com.mindera.HelloMam.entities.User;
-import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
-import com.mindera.HelloMam.exceptions.rating_exceptions.RatingNotFoundException;
-import com.mindera.HelloMam.exceptions.user_exceptions.UserNotFoundException;
+import com.mindera.HelloMam.exceptions.media.MediaNotFoundException;
+import com.mindera.HelloMam.exceptions.rating.RatingNotFoundException;
+import com.mindera.HelloMam.exceptions.user.UserNotFoundException;
 import com.mindera.HelloMam.repositories.RatingRepository;
 import com.mindera.HelloMam.services.interfaces.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,6 @@ public class RatingServiceImpl implements RatingService {
         this.mediaService = mediaService;
     }
 
-
     @Cacheable("ratings")
     public List<RatingGetDto> getAllRating() {
         return ratingRepository.findAll().stream()
@@ -56,6 +55,7 @@ public class RatingServiceImpl implements RatingService {
                 .map(RatingConverter::fromRatingEntityToRatingGetDto)
                 .toList();
     }
+
     public List<RatingGetDto> getRatingByMediaId(Long mediaId) throws MediaNotFoundException {
 
         Media media = mediaService.findById(mediaId);
@@ -73,8 +73,6 @@ public class RatingServiceImpl implements RatingService {
 
         return fromRatingEntityToRatingGetDto(addedRating);
     }
-
-
 
     public RatingGetDto updateRating(Long ratingId, RatingUpdateRatingDto ratingUpdateRatingDto) throws RatingNotFoundException {
         Rating rating = findById(ratingId);

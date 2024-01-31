@@ -1,4 +1,4 @@
-package com.mindera.HelloMam.exceptions.media_exceptions;
+package com.mindera.HelloMam.exceptions.media;
 
 public class MediaException extends Exception{
 

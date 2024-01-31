@@ -6,7 +6,7 @@ import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.dtos.updates.*;
 import com.mindera.HelloMam.entities.User;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
-import com.mindera.HelloMam.exceptions.user_exceptions.*;
+import com.mindera.HelloMam.exceptions.user.*;
 import com.mindera.HelloMam.repositories.UserRepository;
 import com.mindera.HelloMam.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import static com.mindera.HelloMam.converters.UserConverter.fromUserEntityToUser
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
                 .map(UserConverter::fromUserEntityToUserGetDto)
                 .toList();
     }
+
     public User findById(Long id) throws UserNotFoundException {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
@@ -92,25 +93,9 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(user);
     }
 
-
     public void deleteUser(Long id) throws UserNotFoundException {
         User user = findById(id);
         user.setActive(false);
         userRepository.save(user);
     }
-
-   /* public void updateUser(Long userId, UserCreateDto userCreateDto) throws UserNotFoundException {
-        User user = findById(userId);
-        user.setUsername(userCreateDto.username());
-        user.setEmail(userCreateDto.email());
-        user.setName(userCreateDto.name());
-        user.setInterests(userCreateDto.interests());
-        user.setDateOfBirth(userCreateDto.dateOfBirth());
-        userRepository.save(user);
-    }
-
-    public void updateInterests(Long userId, List<String> interests) throws UserNotFoundException {
-        User user = findById(userId);
-        user.setInterests(interests);
-    }*/
 }
