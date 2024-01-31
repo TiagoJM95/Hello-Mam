@@ -16,6 +16,7 @@ import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.reactive.RestResponse;
 
+import static com.mindera.enums.MovieGenres.getMovieGenreByName;
 import static com.mindera.util.Keys.*;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class MovieController {
     @GET
     @Path("/discover/{genre}")
     public RestResponse<List<MovieGetDto>> discoverMovies(@PathParam("genre") String genre) throws InvalidGenreException, JsonProcessingException {
-        MovieGenres movieGenres = MovieGenres.getMovieGenreByName(genre).orElseThrow(() -> new InvalidGenreException("Invalid Genre"));
+        MovieGenres movieGenres = getMovieGenreByName(genre).orElseThrow(() -> new InvalidGenreException("Invalid Genre"));
         String jsonString = movieExtensionClient.discoverMovies(1, "vote_average.desc", 100, "en", String.valueOf(movieGenres.getId()), ACCEPT_HEADER, API_KEY);
         ObjectMapper mapper = new ObjectMapper();
         return RestResponse.ok(mapper.readValue(jsonString, MovieResponse.class).getResults().stream().map(MovieConverter::fromEntityToGetDto).toList());

@@ -34,7 +34,7 @@ public enum MovieGenres {
 
     public static Optional<MovieGenres> getMovieGenreByName(String name) {
         for (MovieGenres movieGenres : MovieGenres.values()) {
-            if (movieGenres.getName().equalsIgnoreCase(name)) {
+            if (movieGenres.getName().replace(" ", "").equalsIgnoreCase(name)) {
                 return Optional.of(movieGenres);
             }
         }
