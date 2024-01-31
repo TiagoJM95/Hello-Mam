@@ -1,13 +1,11 @@
 package com.mindera.HelloMam.services.implementations;
 
-import com.mindera.HelloMam.converters.MediaConverter;
 import com.mindera.HelloMam.converters.UserConverter;
 import com.mindera.HelloMam.dtos.creates.UserCreateDto;
 import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.dtos.updates.*;
 import com.mindera.HelloMam.entities.User;
-import com.mindera.HelloMam.enums.MediaType;
-import com.mindera.HelloMam.exceptions.media_exceptions.IncompatibleTypeException;
+import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
 import com.mindera.HelloMam.exceptions.user_exceptions.*;
 import com.mindera.HelloMam.repositories.UserRepository;
 import com.mindera.HelloMam.services.interfaces.UserService;
@@ -17,8 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.mindera.HelloMam.converters.UserConverter.toUser;
-import static com.mindera.HelloMam.converters.UserConverter.toUserGetDto;
+import static com.mindera.HelloMam.converters.UserConverter.fromUserCreateDtoToUserEntity;
+import static com.mindera.HelloMam.converters.UserConverter.fromUserEntityToUserGetDto;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,7 +31,7 @@ public class UserServiceImpl implements UserService {
     @Cacheable("users")
     public List<UserGetDto> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(UserConverter::toUserGetDto)
+                .map(UserConverter::fromUserEntityToUserGetDto)
                 .toList();
     }
     public User findById(Long id) throws UserNotFoundException {
@@ -41,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserGetDto getUserById(Long id) throws UserNotFoundException {
-        return toUserGetDto(findById(id));
+        return fromUserEntityToUserGetDto(findById(id));
     }
 
     public UserGetDto findByEmail(String email) throws EmailNotFoundException {
@@ -52,46 +50,46 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
     }
 
-    public UserGetDto addNewUser(UserCreateDto userCreateDto) throws IncompatibleTypeException {
-        User user = toUser(userCreateDto);
+    public UserGetDto addNewUser(UserCreateDto userCreateDto) throws MediaTypeNotFoundException {
+        User user = fromUserCreateDtoToUserEntity(userCreateDto);
         user.setActive(true);
-        return toUserGetDto(userRepository.save(user));
+        return fromUserEntityToUserGetDto(userRepository.save(user));
     }
 
-    public UserGetDto updateUsername(Long userId, UserUsernameUpdateDto userUsernameUpdateDto) throws UserNotFoundException, DuplicateUsernameException {
+    public UserGetDto updateUsername(Long userId, UserUpdateUsernameDto userUpdateUsernameDto) throws UserNotFoundException, DuplicateUsernameException {
         User user = findById(userId);
-        if(userRepository.findByUsername(userUsernameUpdateDto.username()).isPresent()){
+        if(userRepository.findByUsername(userUpdateUsernameDto.username()).isPresent()){
             throw new DuplicateUsernameException();
         }
-        user.setUsername(userUsernameUpdateDto.username());
-        return toUserGetDto(user);
+        user.setUsername(userUpdateUsernameDto.username());
+        return fromUserEntityToUserGetDto(user);
     }
 
-    public UserGetDto updateEmail(Long userId, UserEmailUpdateDto userEmailUpdateDto) throws UserNotFoundException, DuplicateEmailException {
+    public UserGetDto updateEmail(Long userId, UserUpdateEmailDto userUpdateEmailDto) throws UserNotFoundException, DuplicateEmailException {
         User user = findById(userId);
-        if(userRepository.findByEmail(userEmailUpdateDto.email()).isPresent()){
+        if(userRepository.findByEmail(userUpdateEmailDto.email()).isPresent()){
             throw new DuplicateEmailException();
         }
-        user.setEmail(userEmailUpdateDto.email());
-        return toUserGetDto(user);
+        user.setEmail(userUpdateEmailDto.email());
+        return fromUserEntityToUserGetDto(user);
     }
 
-    public UserGetDto updateName(Long userId, UserNameUpdateDto userNameUpdateDto) throws UserNotFoundException {
+    public UserGetDto updateName(Long userId, UserUpdateNameDto userUpdateNameDto) throws UserNotFoundException {
         User user = findById(userId);
-        user.setName(userNameUpdateDto.name());
-        return toUserGetDto(user);
+        user.setName(userUpdateNameDto.name());
+        return fromUserEntityToUserGetDto(user);
     }
 
-    public UserGetDto updateDateOfBirth(Long userId, UserDateOfBirthUpdateDto userDateOfBirthUpdateDto) throws UserNotFoundException {
+    public UserGetDto updateDateOfBirth(Long userId, UserUpdateDateOfBirthDto userUpdateDateOfBirthDto) throws UserNotFoundException {
         User user = findById(userId);
-        user.setDateOfBirth(userDateOfBirthUpdateDto.dateOfBirth());
-        return toUserGetDto(user);
+        user.setDateOfBirth(userUpdateDateOfBirthDto.dateOfBirth());
+        return fromUserEntityToUserGetDto(user);
     }
 
-    public UserGetDto updateInterests(Long userId, UserInterestsUpdateDto userInterestsUpdateDto) throws UserNotFoundException, IncompatibleTypeException {
+    public UserGetDto updateInterests(Long userId, UserUpdateInterestsDto userUpdateInterestsDto) throws UserNotFoundException, MediaTypeNotFoundException {
         User user = findById(userId);
-        user.setInterests(UserConverter.fromStringListToEnumList(userInterestsUpdateDto.interests()));
-        return toUserGetDto(user);
+        user.setInterests(UserConverter.fromStringListToEnumList(userUpdateInterestsDto.interests()));
+        return fromUserEntityToUserGetDto(user);
     }
 
 

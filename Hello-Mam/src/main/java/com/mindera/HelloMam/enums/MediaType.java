@@ -1,6 +1,5 @@
 package com.mindera.HelloMam.enums;
 
-import com.mindera.HelloMam.exceptions.media_exceptions.TypeNotFoundException;
 import lombok.Getter;
 
 import java.util.Optional;

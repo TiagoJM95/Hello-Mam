@@ -4,7 +4,7 @@ import com.mindera.HelloMam.dtos.creates.MediaCreateDto;
 import com.mindera.HelloMam.dtos.gets.MediaGetDto;
 import com.mindera.HelloMam.exceptions.media_exceptions.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.media_exceptions.RefIdNotFoundException;
-import com.mindera.HelloMam.exceptions.media_exceptions.TypeNotFoundException;
+import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
 import com.mindera.HelloMam.externals.External;
 import com.mindera.HelloMam.services.implementations.MediaServiceImpl;
 import jakarta.validation.Valid;
@@ -39,7 +39,7 @@ public class MediaController {
     }
 
     @GetMapping("/type/{mediaType}")
-    public ResponseEntity<List<MediaGetDto>> getMediaByType(@PathVariable("mediaType") String type) throws TypeNotFoundException {
+    public ResponseEntity<List<MediaGetDto>> getMediaByType(@PathVariable("mediaType") String type) throws MediaTypeNotFoundException {
         return ResponseEntity.ok(mediaService.getMediaByType(type));
     }
 
@@ -49,7 +49,7 @@ public class MediaController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<MediaGetDto> addNewMedia(@Valid @RequestBody MediaCreateDto mediaCreateDto) {
+    public ResponseEntity<MediaGetDto> addNewMedia(@Valid @RequestBody MediaCreateDto mediaCreateDto) throws MediaTypeNotFoundException {
         return new ResponseEntity<>(mediaService.addNewMedia(mediaCreateDto), HttpStatus.CREATED);
     }
 
