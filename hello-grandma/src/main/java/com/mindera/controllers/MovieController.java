@@ -3,7 +3,6 @@ package com.mindera.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindera.converters.MovieConverter;
-import com.mindera.dtos.create.MovieCreateDto;
 import com.mindera.dtos.get.MovieGetDto;
 import com.mindera.entities.Movie;
 import com.mindera.enums.MovieGenres;
@@ -49,7 +48,7 @@ public class MovieController {
     }
 
     @GET
-    @Path("/external/{movieId}")
+    @Path("/details/{movieId}")
     public RestResponse<MovieDetails> getMovieByIdExternal(@PathParam("movieId") String movieId) throws JsonProcessingException {
         String jsonString = movieExtensionClient.getMovieById(movieId, ACCEPT_HEADER, API_KEY);
         ObjectMapper mapper = new ObjectMapper();
