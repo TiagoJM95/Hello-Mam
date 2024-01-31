@@ -26,5 +26,5 @@ public interface UserService {
     UserGetDto updateInterests(Long userId, UserInterestsUpdateDto userInterestsUpdateDto) throws UserNotFoundException, IncompatibleTypeException;
     void deleteById(Long id) throws UserNotFoundException;
 
-    void updateUser(Long userId, UserCreateDto userCreateDto) throws UserNotFoundException;
+    /*void updateUser(Long userId, UserCreateDto userCreateDto) throws UserNotFoundException;*/
 }
