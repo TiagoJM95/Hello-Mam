@@ -1,24 +1,15 @@
 package com.mindera.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindera.converters.MovieConverter;
 import com.mindera.dtos.MovieGetDto;
-import com.mindera.entities.Movie;
-import com.mindera.enums.MovieGenres;
-import com.mindera.exceptions.movie.InvalidGenreException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
-import com.mindera.external.*;
-import com.mindera.services.MovieService;
-import io.quarkus.cache.CacheResult;
+import com.mindera.external.MovieExtensionClient;
+import com.mindera.services.implementations.MovieServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.reactive.RestResponse;
 
-import static com.mindera.enums.MovieGenres.getMovieGenreByName;
-import static com.mindera.util.Keys.*;
 import java.util.List;
 
 @Path("/api/v1/movies")
@@ -27,52 +18,26 @@ import java.util.List;
 public class MovieController {
 
     @Inject
-    MovieService movieService;
+    MovieServiceImpl movieService;
 
     @Inject
     @RestClient
     MovieExtensionClient movieExtensionClient;
 
     @GET
+    @Path("/{id}")
+    public RestResponse<MovieGetDto> getMovieById(@PathParam("id") String id) throws MovieNotFoundException {
+        return RestResponse.ok(movieService.getMovieById(id));
+    }
+
+    @GET
+    @Path("/title/{title}")
+    public RestResponse<List<MovieGetDto>> getMovieByTitle(@PathParam("title") String title) throws MovieNotFoundException {
+        return RestResponse.ok(movieService.getMoviesByTitle(title));
+    }
+
+    @GET
     public RestResponse<List<MovieGetDto>> getAllMovies() {
         return RestResponse.ok(movieService.getAllMovies());
-    }
-
-    @CacheResult(cacheName = "movies")
-    @GET
-    @Path("/id/{id}")
-    public RestResponse<MovieGetDto> getMovieById(@PathParam("id") String id) throws MovieNotFoundException {
-        return RestResponse.ok(movieService.findById(id));
-    }
-
-    @POST
-    public RestResponse<MovieGetDto> create(Movie movie) {
-        return RestResponse.accepted(movieService.create(movie));
-    }
-
-    @CacheResult(cacheName = "movies")
-    @GET
-    @Path("/details/{movieId}")
-    public RestResponse<MovieDetails> getMovieByIdExternal(@PathParam("movieId") String movieId) throws JsonProcessingException {
-        String jsonString = movieExtensionClient.getMovieById(movieId, ACCEPT_HEADER, API_KEY);
-        ObjectMapper mapper = new ObjectMapper();
-        return RestResponse.ok(mapper.readValue(jsonString, MovieDetails.class));
-    }
-
-    @GET
-    @Path("/recommendations/{movieId}")
-    public RestResponse<List<MovieGetDto>> getMovieRecommendation(@PathParam("movieId") String movieId) throws JsonProcessingException {
-        String jsonString = movieExtensionClient.getMovieRecommendation(movieId, ACCEPT_HEADER, API_KEY);
-        ObjectMapper mapper = new ObjectMapper();
-        return RestResponse.ok(mapper.readValue(jsonString, MovieResponse.class).getResults().stream().map(MovieConverter::fromEntityToGetDto).toList());
-    }
-
-    @GET
-    @Path("/discover/{genre}")
-    public RestResponse<List<MovieGetDto>> discoverMovies(@PathParam("genre") String genre) throws InvalidGenreException, JsonProcessingException {
-        MovieGenres movieGenres = getMovieGenreByName(genre).orElseThrow(() -> new InvalidGenreException("Invalid Genre"));
-        String jsonString = movieExtensionClient.discoverMovies(1, "vote_average.desc", 100, "en", String.valueOf(movieGenres.getId()), ACCEPT_HEADER, API_KEY);
-        ObjectMapper mapper = new ObjectMapper();
-        return RestResponse.ok(mapper.readValue(jsonString, MovieResponse.class).getResults().stream().map(MovieConverter::fromEntityToGetDto).toList());
     }
 }

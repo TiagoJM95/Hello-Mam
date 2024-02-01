@@ -7,7 +7,7 @@ import com.mindera.services.VideogameService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.jboss.resteasy.reactive.RestResponse;
+/*import org.jboss.resteasy.reactive.RestResponse;*/
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class VideogameController {
     @Inject
     VideogameService videogameService;
 
-    @GET
+    /*@GET
     public RestResponse<List<VideogameGetDto>> getAllVideogames() {
         return RestResponse.ok(videogameService.getAllVideogames());
     }
@@ -33,5 +33,5 @@ public class VideogameController {
     @POST
     public RestResponse<VideogameGetDto> create(VideogameCreateDto videogame) {
         return RestResponse.accepted(videogameService.create(videogame));
-    }
+    }*/
 }

@@ -1,6 +1,5 @@
 package com.mindera.external;
 
-import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
