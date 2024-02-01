@@ -2,6 +2,7 @@ package com.mindera.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mindera.dtos.MovieGetDto;
+import com.mindera.exceptions.movie.InvalidGenreException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
 import com.mindera.entities.MovieExtension;
 import com.mindera.services.implementations.MovieExtensionServiceImpl;
@@ -20,9 +21,6 @@ public class MovieController {
 
     @Inject
     MovieServiceImpl movieService;
-
-    @Inject
-    MovieExtensionServiceImpl movieExtensionService;
 
     @GET
     @Path("/{id}")
@@ -43,7 +41,13 @@ public class MovieController {
 
     @GET
     @Path("/recommendation/{id}")
-    public RestResponse<List<MovieExtension.MovieResponse>> getMovieRecommendation(@PathParam("id") String id) throws JsonProcessingException {
-        return RestResponse.ok(movieExtensionService.getMovieRecommendation(id));
+    public RestResponse<List<MovieGetDto>> getMovieRecommendation(@PathParam("id") Integer id) throws JsonProcessingException {
+        return RestResponse.ok(movieService.getMovieRecommendation(id));
+    }
+
+    @GET
+    @Path("/discover/{genres}")
+    public RestResponse<List<MovieGetDto>> discoverMovies(@PathParam("genres") String genres) throws JsonProcessingException, InvalidGenreException {
+        return RestResponse.ok(movieService.discoverMovies(genres));
     }
 }

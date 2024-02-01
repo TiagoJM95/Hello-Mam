@@ -1,3 +1,4 @@
+/*
 package com.mindera.handlers;
 
 
@@ -70,3 +71,4 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
                 .build();
     }
 }
+*/

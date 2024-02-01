@@ -18,22 +18,6 @@ public class MovieConverter {
         return null;
     }
 
-    /*public static List<MovieGenres> fromIntegerListToGenreList(List<Integer> genreIds) {
-        List<MovieGenres> genres = new ArrayList<>();
-        for (Integer genreId : genreIds) {
-            genres.add(getGenreById(genreId));
-        }
-        return genres;
-    }
-
-    public static List<String> fromGenreListToStringList(List<Integer> genreIds) {
-        List<String> genres = new ArrayList<>();
-        for (Integer genreId : genreIds) {
-            genres.add(MovieGenres.getMovieGenreById(genreId).getName());
-        }
-        return genres;
-    }*/
-
     public static MovieGetDto fromEntityToGetDto(Movie movie){
         return new MovieGetDto(
                 movie.id,

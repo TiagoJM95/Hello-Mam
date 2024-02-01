@@ -1,12 +1,15 @@
 package com.mindera.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.*;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -59,5 +62,9 @@ public class Movie extends PanacheMongoEntity {
     private String voteCount;
 
     @JsonProperty("genres")
-    private List<Object> genres;
+    @BsonIgnore
+    private List<Object> excludedGenres;
+
+    @JsonIgnore
+    private List<String> genres = new ArrayList<>();
 }

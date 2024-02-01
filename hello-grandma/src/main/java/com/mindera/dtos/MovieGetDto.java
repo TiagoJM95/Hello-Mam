@@ -19,6 +19,6 @@ public record MovieGetDto(
         String budget,
         String popularity,
         String vote_count,
-        List<Object> genres
+        List<String> genres
 ) {
 }

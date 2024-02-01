@@ -15,7 +15,7 @@ public interface MovieExtensionRepository {
 
     @GET
     @Path("/movie/{movie_id}/recommendations")
-    String getMovieRecommendation(@PathParam("movie_id") String movieId,
+    String getMovieRecommendation(@PathParam("movie_id") Integer movieId,
                                       @HeaderParam("accept") String acceptHeader,
                                       @QueryParam("api_key") String authorizationHeader);
     @GET

@@ -10,7 +10,7 @@ import java.util.Optional;
 @ApplicationScoped
 public class MovieRepository implements PanacheMongoRepository<Movie> {
 
-    public Optional<Movie> findByTmdbId(Integer id) {
+    public Optional<Movie> findByTmdbId(Long id) {
         return find("tmdbId", id).firstResultOptional();
     }
     public List<Movie> findByTitle(String title) {
