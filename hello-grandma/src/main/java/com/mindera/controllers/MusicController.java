@@ -1,15 +1,10 @@
 package com.mindera.controllers;
 
-import com.mindera.deprecated.create.MusicCreateDto;
-import com.mindera.dtos.MusicGetDto;
-import com.mindera.exceptions.music.MusicNotFoundException;
 import com.mindera.services.MusicService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 /*import org.jboss.resteasy.reactive.RestResponse;*/
-
-import java.util.List;
 
 @Path("/api/v1/musics")
 @Produces(MediaType.APPLICATION_JSON)

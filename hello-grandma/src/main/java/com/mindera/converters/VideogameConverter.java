@@ -1,6 +1,6 @@
 package com.mindera.converters;
 
-import com.mindera.deprecated.create.VideogameCreateDto;
+import com.mindera.deprecated.VideogameCreateDto;
 import com.mindera.dtos.VideogameGetDto;
 import com.mindera.entities.Videogame;
 
