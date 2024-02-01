@@ -11,9 +11,11 @@ import com.mindera.dtos.VideogameGetDto;
 import com.mindera.entities.Videogame;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
 import com.mindera.repositories.VideogameExtensionRepository;
+import com.mindera.repositories.VideogameRepository;
 import io.quarkus.cache.CacheResult;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -37,6 +39,8 @@ public class VideogameExtensionServiceImpl implements VideogameExtensionReposito
 
     private static final Logger LOG = Logger.getLogger(VideogameExtensionServiceImpl.class);
 
+    @Inject
+    VideogameRepository videogameRepository;
 
     @ConfigProperty(name = "TWITCH_CLIENT_ID")
     String clientId;
@@ -95,9 +99,15 @@ public class VideogameExtensionServiceImpl implements VideogameExtensionReposito
             for (JsonNode node : rootNode) {
                 if (node.has("id")) {
                     String idString = node.get("id").asText();
-                    Videogame videogame = findById(Integer.parseInt(idString));
+                    int id = Integer.parseInt(idString);
+                    Videogame videogame = videogameRepository.findByIgdbId(id);
+                    if (videogame == null) {
+                        videogame = findById(id);
+                        videogame.setFromIGDB(true);
+                        videogameRepository.persist(videogame);
+                    }
+                    videogame.setFromIGDB(false);
                     foundGames.add(videogame);
-                    //persist(videogame);
                 }
             }
         }
@@ -112,6 +122,14 @@ public class VideogameExtensionServiceImpl implements VideogameExtensionReposito
 
     @CacheResult(cacheName = "videogames")
     public Videogame findById(int id) throws VideogameNotFoundException, JsonProcessingException {
+
+        Videogame videogame = videogameRepository.findByIgdbId(id);
+
+        if(videogame != null){
+            videogame.setFromIGDB(false);
+            return videogame;
+        }
+
         String url = "https://api.igdb.com/v4/games";
 
         HttpHeaders headers = new HttpHeaders();
@@ -133,9 +151,16 @@ public class VideogameExtensionServiceImpl implements VideogameExtensionReposito
             throw new VideogameNotFoundException("Videogame with id " + id + " not found");
         }
 
-        // Get the first Videogame from the list
-        Videogame videogame = videogames.get(0);
+        videogame = videogames.get(0);
+        videogame.setFromIGDB(true);
+        persist(videogame);
+
         return videogame;
+    }
+
+    @CacheResult(cacheName = "videogames")
+    public Videogame findByIgdbId(int igdbId){
+        return videogameRepository.findByIgdbId(igdbId);
     }
 
     public List<VideogameGetDto> findByDeveloper(String developer) {

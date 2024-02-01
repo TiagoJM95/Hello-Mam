@@ -31,4 +31,6 @@ public class Videogame extends PanacheMongoEntity {
 
     @JsonProperty("genres")
     private List<Integer> genreIds;
+
+    boolean fromIGDB;
 }
