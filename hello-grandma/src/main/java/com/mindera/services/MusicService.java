@@ -1,7 +1,7 @@
 package com.mindera.services;
 
 import com.mindera.converters.MusicConverter;
-import com.mindera.deprecated.create.MusicCreateDto;
+import com.mindera.deprecated.MusicCreateDto;
 import com.mindera.dtos.MusicGetDto;
 import com.mindera.entities.Music;
 import com.mindera.exceptions.music.MusicNotFoundException;

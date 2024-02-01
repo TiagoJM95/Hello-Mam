@@ -1,13 +1,14 @@
 package com.mindera.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mindera.dtos.MovieGetDto;
 import com.mindera.exceptions.movie.MovieNotFoundException;
-import com.mindera.external.MovieExtensionClient;
+import com.mindera.external.MovieExtension;
+import com.mindera.external.MovieExtensionServiceImpl;
 import com.mindera.services.implementations.MovieServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.reactive.RestResponse;
 
 import java.util.List;
@@ -21,8 +22,7 @@ public class MovieController {
     MovieServiceImpl movieService;
 
     @Inject
-    @RestClient
-    MovieExtensionClient movieExtensionClient;
+    MovieExtensionServiceImpl movieExtensionService;
 
     @GET
     @Path("/{id}")
@@ -39,5 +39,11 @@ public class MovieController {
     @GET
     public RestResponse<List<MovieGetDto>> getAllMovies() {
         return RestResponse.ok(movieService.getAllMovies());
+    }
+
+    @GET
+    @Path("/recommendation/{id}")
+    public RestResponse<List<MovieExtension.MovieResponse>> getMovieRecommendation(@PathParam("id") String id) throws JsonProcessingException {
+        return RestResponse.ok(movieExtensionService.getMovieRecommendation(id));
     }
 }
