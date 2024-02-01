@@ -6,5 +6,11 @@ public record VideogameGetDto(
         String name,
         String releaseDate,
         Double rating,
-        List<Integer> genreIds) {
+        List<Integer> genreIds,
+        boolean fromIGDB
+        )
+
+
+
+{
 }
