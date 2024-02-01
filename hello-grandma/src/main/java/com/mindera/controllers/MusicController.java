@@ -1,6 +1,6 @@
 package com.mindera.controllers;
 
-import com.mindera.services.MusicService;
+import com.mindera.services.implementations.MusicServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.MediaType;
 public class MusicController {
 
     @Inject
-    MusicService musicService;
+    MusicServiceImpl musicServiceImpl;
 
    /* @GET
     public RestResponse<List<MusicGetDto>> getAllMusics() {

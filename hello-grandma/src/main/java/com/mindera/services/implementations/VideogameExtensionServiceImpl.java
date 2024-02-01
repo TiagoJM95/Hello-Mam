@@ -1,4 +1,4 @@
-package com.mindera.ze;
+package com.mindera.services.implementations;
 
 import com.api.igdb.request.TwitchAuthenticator;
 import com.api.igdb.utils.TwitchToken;
@@ -7,9 +7,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindera.converters.VideogameConverter;
-import com.mindera.dtos.get.VideogameGetDto;
+import com.mindera.dtos.VideogameGetDto;
 import com.mindera.entities.Videogame;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
+import com.mindera.repositories.VideogameExtensionRepository;
 import io.quarkus.cache.CacheResult;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -32,9 +33,9 @@ import org.jboss.logging.Logger;
 @Getter
 @Setter
 @ApplicationScoped
-public class IGDBService implements IGDBRepository {
+public class VideogameExtensionServiceImpl implements VideogameExtensionRepository {
 
-    private static final Logger LOG = Logger.getLogger(IGDBService.class);
+    private static final Logger LOG = Logger.getLogger(VideogameExtensionServiceImpl.class);
 
 
     @ConfigProperty(name = "TWITCH_CLIENT_ID")

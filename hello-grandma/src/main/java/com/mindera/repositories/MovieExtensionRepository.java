@@ -1,4 +1,4 @@
-package com.mindera.external;
+package com.mindera.repositories;
 
 import jakarta.ws.rs.*;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;

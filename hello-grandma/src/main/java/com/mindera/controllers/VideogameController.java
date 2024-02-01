@@ -1,6 +1,6 @@
 package com.mindera.controllers;
 
-import com.mindera.services.VideogameService;
+import com.mindera.services.implementations.VideogameServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.MediaType;
 public class VideogameController {
 
     @Inject
-    VideogameService videogameService;
+    VideogameServiceImpl videogameServiceImpl;
 
     /*@GET
     public RestResponse<List<VideogameGetDto>> getAllVideogames() {

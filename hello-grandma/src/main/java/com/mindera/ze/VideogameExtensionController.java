@@ -1,11 +1,11 @@
 package com.mindera.ze;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.mindera.dtos.get.VideogameGetDto;
+import com.mindera.dtos.VideogameGetDto;
 import com.mindera.entities.Videogame;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
-import com.mindera.ze.IGDBRepository;
-import com.mindera.ze.IGDBService;
+import com.mindera.repositories.VideogameExtensionRepository;
+import com.mindera.services.implementations.VideogameExtensionServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,10 +15,10 @@ import java.util.List;
 
 @Path("/igdb")
 @RegisterRestClient(configKey="igdb-api")
-public class IGDBController implements IGDBRepository {
+public class VideogameExtensionController implements VideogameExtensionRepository {
 
     @Inject
-    IGDBService igdbService;
+    VideogameExtensionServiceImpl igdbService;
 
     @POST
     @Path("/videogames")

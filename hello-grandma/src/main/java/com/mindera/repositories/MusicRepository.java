@@ -5,5 +5,5 @@ import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public interface MusicRepository extends PanacheMongoRepository<Music> {
+public class MusicRepository implements PanacheMongoRepository<Music> {
 }

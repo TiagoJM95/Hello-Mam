@@ -2,6 +2,8 @@ package com.mindera.repositories;
 
 import com.mindera.entities.Videogame;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 
-public interface VideogameRepository extends PanacheMongoRepository<Videogame> {
+@ApplicationScoped
+public class VideogameRepository implements PanacheMongoRepository<Videogame> {
 }

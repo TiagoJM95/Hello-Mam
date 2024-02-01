@@ -1,4 +1,4 @@
-package com.mindera.exception_mappers;
+package com.mindera.handlers;
 
 
 import com.mindera.exceptions.movie.MovieException;
