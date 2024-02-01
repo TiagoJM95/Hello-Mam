@@ -32,6 +32,8 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 
+import static java.lang.Integer.parseInt;
+
 @Getter
 @Setter
 @ApplicationScoped
@@ -99,7 +101,7 @@ public class VideogameExtensionServiceImpl implements VideogameExtensionReposito
             for (JsonNode node : rootNode) {
                 if (node.has("id")) {
                     String idString = node.get("id").asText();
-                    int id = Integer.parseInt(idString);
+                    int id = parseInt(idString);
                     Videogame videogame = videogameRepository.findByIgdbId(id);
                     if (videogame == null) {
                         videogame = findById(id);
@@ -163,8 +165,52 @@ public class VideogameExtensionServiceImpl implements VideogameExtensionReposito
         return videogameRepository.findByIgdbId(igdbId);
     }
 
-    public List<VideogameGetDto> findByDeveloper(String developer) {
-        return list("developer", developer).stream().map(VideogameConverter::fromEntityToGetDto).toList();
+    public List<Videogame> findByDeveloper(String developer) throws JsonProcessingException {
+
+        String url = "https://api.igdb.com/v4/games";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Client-ID", clientId);
+        headers.set("Authorization", "Bearer " + token.getAccess_token());
+
+        // Create the query
+        String query = "fields *; where involved_companies.company = " + developer + ";";
+        HttpEntity<String> entity = new HttpEntity<>(query, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<Videogame> videogames = mapper.readValue(response.getBody(), new TypeReference<List<Videogame>>() {});
+
+        return videogames;
+    }
+
+    public List<Videogame> findByGenre(int genre) throws VideogameNotFoundException, JsonProcessingException {
+
+            String url = "https://api.igdb.com/v4/games";
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Client-ID", clientId);
+            headers.set("Authorization", "Bearer " + token.getAccess_token());
+
+            // Create the query
+            String query = "fields *; where genres = " + genre + ";";
+            HttpEntity<String> entity = new HttpEntity<>(query, headers);
+
+            RestTemplate restTemplate = new RestTemplate();
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+            ObjectMapper mapper = new ObjectMapper();
+            List<Videogame> videogames = mapper.readValue(response.getBody(), new TypeReference<List<Videogame>>() {});
+
+            if (videogames == null || videogames.isEmpty()) {
+                throw new VideogameNotFoundException("Videogame with genre " + genre + " not found");
+            }
+
+            return videogames;
     }
 
 
