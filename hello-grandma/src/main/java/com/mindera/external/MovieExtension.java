@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class MovieDetails {
+public class MovieExtension {
     @JsonProperty("id")
     private Long tmdbId;
     @JsonProperty("title")

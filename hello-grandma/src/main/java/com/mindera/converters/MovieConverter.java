@@ -18,7 +18,7 @@ public class MovieConverter {
         return null;
     }
 
-    public static List<MovieGenres> fromIntegerListToGenreList(List<Integer> genreIds) {
+    /*public static List<MovieGenres> fromIntegerListToGenreList(List<Integer> genreIds) {
         List<MovieGenres> genres = new ArrayList<>();
         for (Integer genreId : genreIds) {
             genres.add(getGenreById(genreId));
@@ -32,7 +32,7 @@ public class MovieConverter {
             genres.add(MovieGenres.getMovieGenreById(genreId).getName());
         }
         return genres;
-    }
+    }*/
 
     public static MovieGetDto fromEntityToGetDto(Movie movie){
         return new MovieGetDto(
@@ -41,7 +41,16 @@ public class MovieConverter {
                 movie.getTitle(),
                 movie.getReleaseDate(),
                 movie.getVoteAverage(),
-                fromGenreListToStringList(movie.getGenreIds())
+                movie.getOverview(),
+                movie.getStatus(),
+                movie.getTagline(),
+                movie.getRuntime(),
+                movie.getOriginalLanguage(),
+                movie.getRevenue(),
+                movie.getBudget(),
+                movie.getPopularity(),
+                movie.getVoteCount(),
+                movie.getGenres()
         );
     }
 }

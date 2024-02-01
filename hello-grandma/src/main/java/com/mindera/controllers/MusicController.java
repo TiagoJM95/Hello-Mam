@@ -7,7 +7,7 @@ import com.mindera.services.MusicService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.jboss.resteasy.reactive.RestResponse;
+/*import org.jboss.resteasy.reactive.RestResponse;*/
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class MusicController {
     @Inject
     MusicService musicService;
 
-    @GET
+   /* @GET
     public RestResponse<List<MusicGetDto>> getAllMusics() {
         return RestResponse.ok(musicService.getAllMusics());
     }
@@ -33,5 +33,5 @@ public class MusicController {
     @POST
     public RestResponse<MusicGetDto> create(MusicCreateDto music) {
         return RestResponse.accepted(musicService.create(music));
-    }
+    }*/
 }
