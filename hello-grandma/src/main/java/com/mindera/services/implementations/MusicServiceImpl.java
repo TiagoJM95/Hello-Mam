@@ -5,6 +5,7 @@ import com.mindera.dtos.MusicGetDto;
 import com.mindera.entities.Music;
 import com.mindera.exceptions.music.MusicNotFoundException;
 import com.mindera.repositories.MusicRepository;
+import com.mindera.services.interfaces.MusicService;
 import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import static com.mindera.util.Messages.MUSIC_NOT_FOUND;
 @ApplicationScoped
-public class MusicServiceImpl {
+public class MusicServiceImpl implements MusicService {
 
     @Inject
     MusicRepository musicRepository;

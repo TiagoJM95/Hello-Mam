@@ -5,6 +5,7 @@ import com.mindera.dtos.VideogameGetDto;
 import com.mindera.entities.Videogame;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
 import com.mindera.repositories.VideogameRepository;
+import com.mindera.services.interfaces.VideogameService;
 import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import static com.mindera.util.Messages.VIDEOGAME_NOT_FOUND;
 @ApplicationScoped
-public class VideogameServiceImpl {
+public class VideogameServiceImpl implements VideogameService {
 
     @Inject
     VideogameRepository videogameRepository;
