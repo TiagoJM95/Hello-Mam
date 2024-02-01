@@ -1,6 +1,6 @@
 package com.mindera.converters;
 
-import com.mindera.deprecated.create.MusicCreateDto;
+import com.mindera.deprecated.MusicCreateDto;
 import com.mindera.dtos.MusicGetDto;
 import com.mindera.entities.Music;
 

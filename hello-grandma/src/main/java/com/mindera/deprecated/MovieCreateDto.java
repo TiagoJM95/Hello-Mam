@@ -1,4 +1,4 @@
-package com.mindera.deprecated.create;
+package com.mindera.deprecated;
 
 import java.time.LocalDate;
 import java.util.List;
