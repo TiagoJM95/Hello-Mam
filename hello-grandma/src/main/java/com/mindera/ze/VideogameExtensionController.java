@@ -37,7 +37,7 @@ public class VideogameExtensionController implements VideogameExtensionRepositor
     @POST
     @Path("/videogames/developer/{developer}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Videogame> getVideogameByDeveloper(@PathParam("developer") String developer) throws JsonProcessingException {
+    public List<Videogame> getVideogameByDeveloper(@PathParam("developer") int developer) throws JsonProcessingException {
         return igdbService.findByDeveloper(developer);
     }
 

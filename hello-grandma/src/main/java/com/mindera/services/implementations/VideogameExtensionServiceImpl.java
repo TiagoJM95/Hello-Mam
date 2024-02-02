@@ -165,16 +165,16 @@ public class VideogameExtensionServiceImpl implements VideogameExtensionReposito
         return videogameRepository.findByIgdbId(igdbId);
     }
 
-    public List<Videogame> findByDeveloper(String developer) throws JsonProcessingException {
+    public List<Videogame> findByDeveloper(int developer) throws JsonProcessingException {
 
-        String url = "https://api.igdb.com/v4/games";
+        String url = "https://api.igdb.com/v4/involved_companies";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Client-ID", clientId);
         headers.set("Authorization", "Bearer " + token.getAccess_token());
 
         // Create the query
-        String query = "fields *; where involved_companies.company = " + developer + ";";
+        String query = "fields *; where company = " + developer + ";";
         HttpEntity<String> entity = new HttpEntity<>(query, headers);
 
         RestTemplate restTemplate = new RestTemplate();
