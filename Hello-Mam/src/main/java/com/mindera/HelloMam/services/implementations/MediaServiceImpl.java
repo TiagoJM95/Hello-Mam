@@ -7,6 +7,8 @@ import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
 import com.mindera.HelloMam.exceptions.media.*;
 import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.enums.MediaType;
+import com.mindera.HelloMam.externals.ExternalMovie;
+import com.mindera.HelloMam.externals.ExternalMovieClient;
 import com.mindera.HelloMam.repositories.MediaRepository;
 import com.mindera.HelloMam.services.interfaces.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +19,19 @@ import java.util.List;
 
 import static com.mindera.HelloMam.converters.MediaConverter.fromMediaCreateDtoToMediaEntity;
 import static com.mindera.HelloMam.converters.MediaConverter.fromMediaEntityToMediaGetDto;
+import static com.mindera.HelloMam.enums.MediaType.MOVIE;
 import static com.mindera.HelloMam.enums.MediaType.getTypeByDescription;
 
 @Service
 public class MediaServiceImpl implements MediaService {
 
     private final MediaRepository mediaRepository;
+    private final ExternalMovieClient externalMovieClient;
 
     @Autowired
-    public MediaServiceImpl(MediaRepository mediaRepository) {
+    public MediaServiceImpl(MediaRepository mediaRepository, ExternalMovieClient externalMovieClient) {
         this.mediaRepository = mediaRepository;
+        this.externalMovieClient = externalMovieClient;
     }
 
     @Cacheable("media")
@@ -58,5 +63,23 @@ public class MediaServiceImpl implements MediaService {
         Media addedMedia = mediaRepository.save(mediaToAdd);
 
         return fromMediaEntityToMediaGetDto(addedMedia);
+    }
+
+    public void create(String refId, MediaType mediaType) {
+        Media media = new Media();
+        media.setRefId(refId);
+        media.setMediaType(mediaType);
+        mediaRepository.save(media);
+    }
+
+    public List<ExternalMovie> getAllMovies() {
+        List<ExternalMovie> movies = externalMovieClient.getAllMovies();
+        for (ExternalMovie movie : movies) {
+            String refId = String.valueOf(movie.getTmdbId());
+            if(mediaRepository.findByRefId(refId).isEmpty()) {
+                create(refId, MOVIE);
+            }
+        }
+        return movies;
     }
 }

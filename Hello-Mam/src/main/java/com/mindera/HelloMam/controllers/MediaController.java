@@ -6,7 +6,6 @@ import com.mindera.HelloMam.exceptions.media.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.media.RefIdNotFoundException;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
 import com.mindera.HelloMam.externals.ExternalGames;
-import com.mindera.HelloMam.externals.ExternalMovies;
 import com.mindera.HelloMam.services.implementations.MediaServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +20,14 @@ import java.util.List;
 public class MediaController {
 
     private final MediaServiceImpl mediaService;
-    private final ExternalMovies externalMovies;
     private final ExternalGames externalGames;
+    private final ExternalMovieServiceImpl externalMovieService;
 
     @Autowired
-    public MediaController(MediaServiceImpl mediaService, ExternalMovies externalMovies, ExternalGames externalGames) {
+    public MediaController(MediaServiceImpl mediaService, ExternalGames externalGames, ExternalMovieServiceImpl externalMovieService) {
         this.mediaService = mediaService;
-        this.externalMovies = externalMovies;
         this.externalGames = externalGames;
+        this.externalMovieService = externalMovieService;
     }
 
     //Get Media from MySql
@@ -65,7 +64,7 @@ public class MediaController {
     @GetMapping("/{type}")
     public ResponseEntity<String> getAllExternalMediaByType(@PathVariable("type") String type) {
         return switch (type) {
-            case "movie" -> ResponseEntity.ok(externalMovies.getAllMovies());
+            case "movie" -> ResponseEntity.ok(externalMovieService.getAllMovies());
             case "videogame" -> ResponseEntity.ok(externalGames.getAllVideogames());
             default -> ResponseEntity.badRequest().body("Invalid type");
         };
@@ -74,7 +73,7 @@ public class MediaController {
     @GetMapping("/{type}/{title}")
     public ResponseEntity<String> getExternalMediaByTitle(@PathVariable("type") String type, @PathVariable("title") String title){
         return switch (type) {
-            case "movie" -> ResponseEntity.ok(externalMovies.getMovieByTitle(title));
+            case "movie" -> ResponseEntity.ok(externalMovieService.getMovieByTitle(title));
             case "videogame" -> ResponseEntity.ok(externalGames.getGameByTitle(title));
             default -> ResponseEntity.badRequest().body("Invalid type");
         };
@@ -84,7 +83,7 @@ public class MediaController {
     @GetMapping("/{type}/{refId}")
     public ResponseEntity<String> getExternalMediaByMongoId(@PathVariable("type") String type, @PathVariable("refId") String refId){
         return switch (type) {
-            case "movie" -> ResponseEntity.ok(externalMovies.getMovieById(refId));
+            case "movie" -> ResponseEntity.ok(externalMovieService.getMovieById(refId));
             case "videogame" -> ResponseEntity.ok(externalGames.getGameById(refId));
             default -> ResponseEntity.badRequest().body("Invalid type");
         };
@@ -94,7 +93,7 @@ public class MediaController {
     @GetMapping("/{type}/recommendations/{id}")
     public ResponseEntity<String> getExternalMediaRecommendationById(@PathVariable("type") String type, @PathVariable("id") Integer tmbdId){
         return switch (type) {
-            case "movie" -> ResponseEntity.ok(externalMovies.getMovieRecommendations(tmbdId));
+            case "movie" -> ResponseEntity.ok(externalMovieService.getMovieRecommendations(tmbdId));
             case "videogame" -> ResponseEntity.ok(externalGames.getGameRecommendations(tmbdId));
             default -> ResponseEntity.badRequest().body("Invalid type");
         };
@@ -103,7 +102,7 @@ public class MediaController {
     @GetMapping("/{type}/discover/{genreId}")
     public ResponseEntity<String> discoverExternalMediaByFilter(@PathVariable("type") String type, @PathVariable("genreId") String genreId){
         return switch (type) {
-            case "movie" -> ResponseEntity.ok(externalMovies.getDiscoverMovies(genreId));
+            case "movie" -> ResponseEntity.ok(externalMovieService.getDiscoverMovies(genreId));
             case "videogame" -> ResponseEntity.ok(externalGames.getDiscoverGame(Integer.parseInt(genreId)));
             default -> ResponseEntity.badRequest().body("Invalid type");
         };
