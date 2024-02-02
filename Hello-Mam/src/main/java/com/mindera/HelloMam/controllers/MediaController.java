@@ -22,7 +22,6 @@ public class MediaController {
 
     private final MediaServiceImpl mediaService;
     private final ExternalMovies externalMovies;
-
     private final ExternalGames externalGames;
 
     @Autowired
@@ -32,65 +31,84 @@ public class MediaController {
         this.externalGames = externalGames;
     }
 
+    //Get Media from MySql
     @GetMapping("/")
     public ResponseEntity<List<MediaGetDto>> getAllMedia() {
         return ResponseEntity.ok(mediaService.getAllMedia());
     }
 
+    //Get Media By Id from MySql
     @GetMapping("/{mediaId}")
     public ResponseEntity<MediaGetDto> getMediaById(@PathVariable("mediaId") Long id) throws MediaNotFoundException {
         return ResponseEntity.ok(mediaService.getMediaById(id));
     }
 
+    //Get Media By Type from MySql
     @GetMapping("/type/{mediaType}")
     public ResponseEntity<List<MediaGetDto>> getMediaByType(@PathVariable("mediaType") String type) throws MediaTypeNotFoundException {
         return ResponseEntity.ok(mediaService.getMediaByType(type));
     }
 
+    //Get Media By RefId from MySql
     @GetMapping("/ref/{mediaRefId}")
     public ResponseEntity<MediaGetDto> getMediaByRefId(@PathVariable("mediaRefId") String refId) throws RefIdNotFoundException {
         return ResponseEntity.ok(mediaService.getMediaByRefId(refId));
     }
 
+    //Add Media to MySql
     @PostMapping("/")
     public ResponseEntity<MediaGetDto> addNewMedia(@Valid @RequestBody MediaCreateDto mediaCreateDto) throws MediaTypeNotFoundException {
         return new ResponseEntity<>(mediaService.addNewMedia(mediaCreateDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/grandma")
-    public ResponseEntity<String> getAllMovies(){
-        return ResponseEntity.ok(externalMovies.getAllMovies());
-    }
-
-    @GetMapping("/grandma/{type}")
-    public ResponseEntity<String> getMoviesByType(@PathVariable("type") String type) {
+    //Get Movies By Type from External API
+    @GetMapping("/{type}")
+    public ResponseEntity<String> getAllExternalMediaByType(@PathVariable("type") String type) {
         switch (type) {
             case "movie":
-                return getAllMovies();
+                return ResponseEntity.ok(externalMovies.getAllMovies());
             case "videogame":
-                return ResponseEntity.ok(externalGames.getAllGames());
+                return ResponseEntity.ok(externalGames.getAllVideogames());
             default:
                 return ResponseEntity.badRequest().body("Invalid type");
         }
     }
 
-    @GetMapping("/grandma/id/{refId}")
-    public ResponseEntity<String> getMovieById(@PathVariable("refId") String refId){
-        return ResponseEntity.ok(externalMovies.getMovieById(refId));
+
+    @GetMapping("/{type}/{refId}")
+    public ResponseEntity<String> getMovieById(@PathVariable("type") String type, @PathVariable("refId") String refId){
+        switch (type) {
+            case "movie":
+                return ResponseEntity.ok(externalMovies.getMovieById(refId));
+            case "videogame":
+                return ResponseEntity.ok(externalGames.getGameById(refId));
+            default:
+                return ResponseEntity.badRequest().body("Invalid type");
+        }
     }
 
-    @GetMapping("/grandma/title/{title}")
-    public ResponseEntity<String> getMovieDetails(@PathVariable("tmbdId") String title){
-        return ResponseEntity.ok(externalMovies.getMovieByTitle(title));
+
+    @GetMapping("/{type}/recommendations/{id}")
+    public ResponseEntity<String> getMovieRecommendations(@PathVariable("type") String type, @PathVariable("id") Integer tmbdId){
+        switch (type) {
+            case "movie":
+                return ResponseEntity.ok(externalMovies.getMovieRecommendations(tmbdId));
+            case "videogame":
+                return ResponseEntity.ok(externalGames.getGameRecommendations(tmbdId));
+            default:
+                return ResponseEntity.badRequest().body("Invalid type");
+        }
     }
 
-    @GetMapping("/grandma/recommendations/{tmbdId}")
-    public ResponseEntity<String> getMovieRecommendations(@PathVariable("tmbdId") Integer tmbdId){
-        return ResponseEntity.ok(externalMovies.getMovieRecommendations(tmbdId));
-    }
-
-    @GetMapping("/grandma/discover/{genreId}")
-    public ResponseEntity<String> getDiscoverMovies(@PathVariable("genreId") String genreId){
-        return ResponseEntity.ok(externalMovies.getDiscoverMovies(genreId));
+    @GetMapping("/{type}/discover/{genreId}")
+    public ResponseEntity<String> getDiscoverMovies(@PathVariable("type") String type, @PathVariable("genreId") String genreId){
+        switch (type) {
+            case "movie":
+                return ResponseEntity.ok(externalMovies.getDiscoverMovies(genreId));
+            case "videogame":
+                return ResponseEntity.ok(externalGames.getDiscoverGame(Integer.parseInt(genreId)));
+            default:
+                return ResponseEntity.badRequest().body("Invalid type");
+        }
     }
 }
