@@ -74,15 +74,6 @@ public class MovieServiceImpl implements MovieService {
         return movie;
     }
 
-    private void convertFromObjectListToStringList(Movie movie) {
-        List<Object> objectList = movie.getExcludedGenres();
-        for (Object object : objectList) {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode jsonNode = mapper.convertValue(object, JsonNode.class);
-            movie.getGenres().add(jsonNode.get("name").asText());
-        }
-    }
-
     @Override
     public List<MovieGetDto> getMovieRecommendation(Integer movieId) throws JsonProcessingException {
         List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionService.getMovieRecommendation(movieId));
@@ -98,7 +89,13 @@ public class MovieServiceImpl implements MovieService {
         return movies.stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
 
-    private void checkIfExistsAndAddToMongoDb(List<Movie> movies) {
+    @Override
+    public void create(Movie movie) {
+        movieRepository.persist(movie);
+    }
+
+    @Override
+    public void checkIfExistsAndAddToMongoDb(List<Movie> movies) {
         for(Movie movie : movies) {
             if(movieRepository.findByTmdbId(movie.getTmdbId()).isEmpty()) {
                 movieRepository.persist(movie);
@@ -107,8 +104,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void create(Movie movie) {
-        movieRepository.persist(movie);
+    public void convertFromObjectListToStringList(Movie movie) {
+        List<Object> objectList = movie.getExcludedGenres();
+        for (Object object : objectList) {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonNode = mapper.convertValue(object, JsonNode.class);
+            movie.getGenres().add(jsonNode.get("name").asText());
+        }
     }
 
     @Override

@@ -44,6 +44,7 @@ public class MovieExtensionServiceImpl implements MovieExtensionService {
         return mapper.readValue(json, MovieExtension.class).getResults();
     }
 
+    @Override
     public List<MovieExtension.MovieResponse> findMovieByTitle(String title) throws JsonProcessingException {
         String json = movieExtensionRepository.findMovieByTitle(title, "en-US", 1, ACCEPT_HEADER, API_KEY);
         return mapper.readValue(json, MovieExtension.class).getResults();

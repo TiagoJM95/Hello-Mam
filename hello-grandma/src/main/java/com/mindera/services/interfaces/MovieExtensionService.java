@@ -10,4 +10,5 @@ public interface MovieExtensionService {
     Movie getMovieDetailsByTmdbId(String tmdbId) throws JsonProcessingException;
     List<MovieExtension.MovieResponse> getMovieRecommendation(Integer movieId) throws JsonProcessingException;
     List<MovieExtension.MovieResponse> discoverMovies(String genres) throws JsonProcessingException;
+    List<MovieExtension.MovieResponse> findMovieByTitle(String title) throws JsonProcessingException;
 }

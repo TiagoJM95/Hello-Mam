@@ -19,6 +19,8 @@ public interface MovieService {
     List<MovieGetDto> getMovieRecommendation(Integer movieId) throws JsonProcessingException;
     List<MovieGetDto> discoverMovies(String genres) throws InvalidGenreException, JsonProcessingException;
     void create(Movie movie);
+    void checkIfExistsAndAddToMongoDb(List<Movie> movies);
+    void convertFromObjectListToStringList(Movie movie);
     String convertGenreStringToGenreId(String genres) throws InvalidGenreException;
     List<Movie> fromMovieExtensionListToMovieList(List<MovieExtension.MovieResponse> movieExtensionList) throws JsonProcessingException;
 }
