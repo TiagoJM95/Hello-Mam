@@ -21,12 +21,14 @@ import static com.mindera.HelloMam.converters.UserConverter.fromUserEntityToUser
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+
 
     @Cacheable("users")
     public List<UserGetDto> getAllUsers() {
@@ -34,6 +36,9 @@ public class UserServiceImpl implements UserService {
                 .map(UserConverter::fromUserEntityToUserGetDto)
                 .toList();
     }
+
+
+    @Cacheable("users")
     public User findById(Long id) throws UserNotFoundException {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
@@ -96,15 +101,6 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) throws UserNotFoundException {
         User user = findById(id);
         user.setActive(false);
-        userRepository.save(user);
-    }
-
-    public void updateUser(Long userId, UserCreateDto userCreateDto) throws UserNotFoundException {
-        User user = findById(userId);
-        user.setUsername(userCreateDto.username());
-        user.setEmail(userCreateDto.email());
-        user.setName(userCreateDto.name());
-        user.setDateOfBirth(userCreateDto.dateOfBirth());
         userRepository.save(user);
     }
 

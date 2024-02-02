@@ -5,10 +5,12 @@ import com.mindera.HelloMam.dtos.gets.MediaGetDto;
 import com.mindera.HelloMam.exceptions.media.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.media.RefIdNotFoundException;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
-import com.mindera.HelloMam.externals.External;
+import com.mindera.HelloMam.externals.ExternalGames;
+import com.mindera.HelloMam.externals.ExternalMovies;
 import com.mindera.HelloMam.services.implementations.MediaServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +22,15 @@ import java.util.List;
 public class MediaController {
 
     private final MediaServiceImpl mediaService;
-    private final External external;
+    private final ExternalMovies externalMovies;
+
+    private final ExternalGames externalGames;
 
     @Autowired
-    public MediaController(MediaServiceImpl mediaService, External external) {
+    public MediaController(MediaServiceImpl mediaService, ExternalMovies externalMovies, ExternalGames externalGames) {
         this.mediaService = mediaService;
-        this.external = external;
+        this.externalMovies = externalMovies;
+        this.externalGames = externalGames;
     }
 
     @GetMapping("/")
@@ -55,26 +60,38 @@ public class MediaController {
 
     @GetMapping("/grandma")
     public ResponseEntity<String> getAllMovies(){
-        return ResponseEntity.ok(external.getAllMovies());
+        return ResponseEntity.ok(externalMovies.getAllMovies());
+    }
+
+    @GetMapping("/grandma/{type}")
+    public ResponseEntity<String> getMoviesByType(@PathVariable("type") String type) {
+        switch (type) {
+            case "movie":
+                return getAllMovies();
+            case "videogame":
+                return ResponseEntity.ok(externalGames.getAllGames());
+            default:
+                return ResponseEntity.badRequest().body("Invalid type");
+        }
     }
 
     @GetMapping("/grandma/id/{refId}")
     public ResponseEntity<String> getMovieById(@PathVariable("refId") String refId){
-        return ResponseEntity.ok(external.getMovieById(refId));
+        return ResponseEntity.ok(externalMovies.getMovieById(refId));
     }
 
     @GetMapping("/grandma/details/{tmbdId}")
     public ResponseEntity<String> getMovieDetails(@PathVariable("tmbdId") Integer tmbdId){
-        return ResponseEntity.ok(external.getMovieDetails(tmbdId));
+        return ResponseEntity.ok(externalMovies.getMovieDetails(tmbdId));
     }
 
     @GetMapping("/grandma/recommendations/{tmbdId}")
     public ResponseEntity<String> getMovieRecommendations(@PathVariable("tmbdId") Integer tmbdId){
-        return ResponseEntity.ok(external.getMovieRecommendations(tmbdId));
+        return ResponseEntity.ok(externalMovies.getMovieRecommendations(tmbdId));
     }
 
     @GetMapping("/grandma/discover/{genreId}")
     public ResponseEntity<String> getDiscoverMovies(@PathVariable("genreId") String genreId){
-        return ResponseEntity.ok(external.getDiscoverMovies(genreId));
+        return ResponseEntity.ok(externalMovies.getDiscoverMovies(genreId));
     }
 }
