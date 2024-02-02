@@ -22,7 +22,7 @@ public class MovieController {
 
     @GET
     @Path("/{id}")
-    public RestResponse<MovieGetDto> getMovieById(@PathParam("id") String id) throws MovieNotFoundException {
+    public RestResponse<MovieGetDto> getMovieById(@PathParam("id") Long id) throws MovieNotFoundException {
         return RestResponse.ok(movieService.getMovieById(id));
     }
 
