@@ -13,7 +13,7 @@ public interface MovieService {
     Movie findByMongoId(String id) throws MovieNotFoundException;
     Movie findByTmdbId(Long id) throws MovieNotFoundException;
     MovieGetDto getMovieById(String id) throws MovieNotFoundException;
-    List<MovieGetDto> getMoviesByTitle(String title) throws MovieNotFoundException;
+    List<MovieGetDto> getMoviesByTitle(String title) throws MovieNotFoundException, JsonProcessingException;
     List<MovieGetDto> getAllMovies();
     Movie getMovieDetailsByTmdbId(String tmdbId) throws JsonProcessingException;
     List<MovieGetDto> getMovieRecommendation(Integer movieId) throws JsonProcessingException;

@@ -28,7 +28,11 @@ public interface MovieExtensionRepository {
                               @HeaderParam("accept") String acceptHeader,
                               @QueryParam("api_key") String authorizationHeader);
 
+    @GET
+    @Path("/search/movie")
     String findMovieByTitle(@QueryParam("query") String query,
+                            @QueryParam("language") String language,
+                            @QueryParam("page") Integer page,
                             @HeaderParam("accept") String acceptHeader,
                             @QueryParam("api_key") String authorizationHeader);
 }

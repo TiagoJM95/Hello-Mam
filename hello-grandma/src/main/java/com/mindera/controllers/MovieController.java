@@ -30,7 +30,7 @@ public class MovieController {
 
     @GET
     @Path("/title/{title}")
-    public RestResponse<List<MovieGetDto>> getMovieByTitle(@PathParam("title") String title) throws MovieNotFoundException {
+    public RestResponse<List<MovieGetDto>> getMovieByTitle(@PathParam("title") String title) throws JsonProcessingException {
         return RestResponse.ok(movieService.getMoviesByTitle(title));
     }
 
