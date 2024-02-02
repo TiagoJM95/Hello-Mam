@@ -2,18 +2,8 @@ package com.mindera.converters;
 
 import com.mindera.dtos.MovieGetDto;
 import com.mindera.entities.Movie;
-import com.mindera.enums.MovieGenres;
 
 public class MovieConverter {
-
-    public static MovieGenres getGenreById(Integer id){
-        for(MovieGenres movieGenres : MovieGenres.values()){
-            if(movieGenres.getId() == id){
-                return movieGenres;
-            }
-        }
-        return null;
-    }
 
     public static MovieGetDto fromEntityToGetDto(Movie movie){
         return new MovieGetDto(

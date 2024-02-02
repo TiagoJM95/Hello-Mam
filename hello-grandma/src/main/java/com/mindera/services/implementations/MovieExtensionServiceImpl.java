@@ -2,21 +2,16 @@ package com.mindera.services.implementations;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mindera.dtos.MovieGetDto;
 import com.mindera.entities.Movie;
 import com.mindera.entities.MovieExtension;
-import com.mindera.enums.MovieGenres;
-import com.mindera.exceptions.movie.InvalidGenreException;
 import com.mindera.repositories.MovieExtensionRepository;
 import com.mindera.services.interfaces.MovieExtensionService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.mindera.enums.MovieGenres.getMovieGenreByName;
 import static com.mindera.util.Keys.ACCEPT_HEADER;
 import static com.mindera.util.Keys.API_KEY;
 

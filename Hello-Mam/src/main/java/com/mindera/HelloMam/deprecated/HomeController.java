@@ -1,3 +1,4 @@
+/*
 package com.mindera.HelloMam.controllers;
 
 import com.mindera.HelloMam.converters.UserConverter;
@@ -61,7 +62,8 @@ public class HomeController {
             return "register";
         }
 
-    /*@GetMapping("/updateuser")
+    */
+/*@GetMapping("/updateuser")
     public String start(Authentication authentication, Model model) throws UserNotFoundException {
         Object principal = authentication.getPrincipal();
         User user = null;
@@ -98,7 +100,8 @@ public class HomeController {
         }
 
         return "updateuser";
-    }*/
+    }*//*
+
 
         @PostMapping("/updateuser")
         public String updateUser(@RequestBody UserCreateDto userCreateDto) throws UserNotFoundException, EmailNotFoundException {
@@ -112,7 +115,8 @@ public class HomeController {
             return "redirect:/";
         }
 
-        /*@GetMapping("/profile")
+        */
+/*@GetMapping("/profile")
         public String profile(Authentication authentication, Model model, HttpServletRequest request) throws UserNotFoundException {
             Object principal = authentication.getPrincipal();
             User user = null;
@@ -150,10 +154,11 @@ public class HomeController {
             session.setAttribute("userId", user.getId());
 
             return "profile";
-        }*/
+        }*//*
+
 
         @GetMapping("/login")
         public String login(){
         return "redirect:/profile";
         }
-}
+}*/

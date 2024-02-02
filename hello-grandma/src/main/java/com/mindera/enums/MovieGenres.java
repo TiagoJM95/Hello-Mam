@@ -40,13 +40,4 @@ public enum MovieGenres {
         }
         return Optional.empty();
     }
-
-    public static MovieGenres getMovieGenreById(int id) {
-        for (MovieGenres movieGenres : MovieGenres.values()) {
-            if (movieGenres.getId() == id) {
-                return movieGenres;
-            }
-        }
-        return null;
-    }
 }

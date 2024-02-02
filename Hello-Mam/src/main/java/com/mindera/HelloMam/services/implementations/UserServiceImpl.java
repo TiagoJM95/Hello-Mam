@@ -6,7 +6,7 @@ import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.dtos.updates.*;
 import com.mindera.HelloMam.entities.User;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
-import com.mindera.HelloMam.exceptions.user_exceptions.*;
+import com.mindera.HelloMam.exceptions.user.*;
 import com.mindera.HelloMam.repositories.UserRepository;
 import com.mindera.HelloMam.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

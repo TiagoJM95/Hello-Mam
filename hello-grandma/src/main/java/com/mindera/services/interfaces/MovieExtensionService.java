@@ -1,10 +1,8 @@
 package com.mindera.services.interfaces;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.mindera.dtos.MovieGetDto;
 import com.mindera.entities.Movie;
 import com.mindera.entities.MovieExtension;
-import com.mindera.exceptions.movie.InvalidGenreException;
 
 import java.util.List;
 

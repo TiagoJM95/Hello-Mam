@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.mongodb.panache.common.MongoEntity;
-import jakarta.enterprise.context.ApplicationScoped;
 import lombok.*;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 

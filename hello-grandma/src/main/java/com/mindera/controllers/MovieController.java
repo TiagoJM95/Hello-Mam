@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mindera.dtos.MovieGetDto;
 import com.mindera.exceptions.movie.InvalidGenreException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
-import com.mindera.entities.MovieExtension;
-import com.mindera.services.implementations.MovieExtensionServiceImpl;
 import com.mindera.services.implementations.MovieServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
