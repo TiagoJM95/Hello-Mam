@@ -75,6 +75,14 @@ public class VideogameExtensionServiceImpl implements VideogameExtensionReposito
         }
     }
 
+    public List<Videogame> getAll(){
+        for (Videogame videogame : videogameRepository.listAll()) {
+            videogame.setFromIGDB(false);
+            videogameRepository.persistOrUpdate(videogame);
+        }
+        return videogameRepository.listAll();
+    }
+
 
 
     @CacheResult(cacheName = "videogames")
@@ -165,26 +173,50 @@ public class VideogameExtensionServiceImpl implements VideogameExtensionReposito
         return videogameRepository.findByIgdbId(igdbId);
     }
 
-    public List<Videogame> findByDeveloper(int developer) throws JsonProcessingException {
+    public List<Videogame> findBySearch(String search) throws JsonProcessingException, VideogameNotFoundException {
 
-        String url = "https://api.igdb.com/v4/involved_companies";
+        if (search == null || search.isEmpty()) {
+            throw new IllegalArgumentException("Search term cannot be null or empty");
+        }
+
+        String url = "https://api.igdb.com/v4/games";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Client-ID", clientId);
         headers.set("Authorization", "Bearer " + token.getAccess_token());
 
-        // Create the query
-        String query = "fields *; where company = " + developer + ";";
+        String query = "search \"" + search + "\"; limit 20;";
+
         HttpEntity<String> entity = new HttpEntity<>(query, headers);
 
         RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-        ObjectMapper mapper = new ObjectMapper();
-        List<Videogame> videogames = mapper.readValue(response.getBody(), new TypeReference<List<Videogame>>() {});
+        String videogames = response.getBody();
 
-        return videogames;
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootNode = mapper.readTree(videogames);
+
+        List<Videogame> foundGames = new ArrayList<>();
+
+        if (rootNode.isArray()) {
+            for (JsonNode node : rootNode) {
+                if (node.has("id")) {
+                    String idString = node.get("id").asText();
+                    int id = parseInt(idString);
+                    Videogame videogame = videogameRepository.findByIgdbId(id);
+                    if (videogame == null) {
+                        videogame = findById(id);
+                        videogame.setFromIGDB(true);
+                        videogameRepository.persist(videogame);
+                    }
+                    foundGames.add(videogame);
+                }
+            }
+        }
+
+        return foundGames;
     }
 
     public List<Videogame> findByGenre(int genre) throws VideogameNotFoundException, JsonProcessingException {
