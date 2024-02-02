@@ -43,8 +43,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieGetDto getMovieById(String id) throws MovieNotFoundException {
-        return fromEntityToGetDto(findByMongoId(id));
+    public MovieGetDto getMovieById(Long id) throws MovieNotFoundException {
+        return fromEntityToGetDto(findByTmdbId(id));
     }
 
     @Override
