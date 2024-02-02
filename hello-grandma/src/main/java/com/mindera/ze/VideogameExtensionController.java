@@ -20,6 +20,15 @@ public class VideogameExtensionController implements VideogameExtensionRepositor
     @Inject
     VideogameExtensionServiceImpl igdbService;
 
+
+    @GET
+    @Path("/videogames")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Videogame> getAll() throws VideogameNotFoundException, JsonProcessingException {
+        return igdbService.getAll();
+    }
+
+
     @POST
     @Path("/videogames")
     @Produces(MediaType.APPLICATION_JSON)
@@ -35,10 +44,10 @@ public class VideogameExtensionController implements VideogameExtensionRepositor
     }
 
     @POST
-    @Path("/videogames/developer/{developer}")
+    @Path("/search/{search}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Videogame> getVideogameByDeveloper(@PathParam("developer") int developer) throws JsonProcessingException {
-        return igdbService.findByDeveloper(developer);
+    public List<Videogame> findBySearch(@PathParam("search") String search) throws VideogameNotFoundException, JsonProcessingException {
+        return igdbService.findBySearch(search);
     }
 
     @POST
