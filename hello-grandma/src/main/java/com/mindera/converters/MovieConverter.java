@@ -4,9 +4,6 @@ import com.mindera.dtos.MovieGetDto;
 import com.mindera.entities.Movie;
 import com.mindera.enums.MovieGenres;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MovieConverter {
 
     public static MovieGenres getGenreById(Integer id){

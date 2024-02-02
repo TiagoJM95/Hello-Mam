@@ -51,7 +51,8 @@ public class MovieServiceImpl implements MovieService {
     public List<MovieGetDto> getMoviesByTitle(String title) throws MovieNotFoundException {
         List<MovieGetDto> tempList = movieRepository.findByTitle(title).stream().map(MovieConverter::fromEntityToGetDto).toList();
         if(tempList.isEmpty()){
-            throw new MovieNotFoundException("Movie with title " + title + " not found");
+            //throw new MovieNotFoundException("Movie with title " + title + " not found");
+            tempList = movieExtensionService.findMovieByTitle();
         }
         return tempList;
     }

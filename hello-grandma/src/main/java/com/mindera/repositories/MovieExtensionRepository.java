@@ -27,4 +27,8 @@ public interface MovieExtensionRepository {
                               @QueryParam("with_genres") String withGenres,
                               @HeaderParam("accept") String acceptHeader,
                               @QueryParam("api_key") String authorizationHeader);
+
+    String findMovieByTitle(@QueryParam("query") String query,
+                            @HeaderParam("accept") String acceptHeader,
+                            @QueryParam("api_key") String authorizationHeader);
 }
