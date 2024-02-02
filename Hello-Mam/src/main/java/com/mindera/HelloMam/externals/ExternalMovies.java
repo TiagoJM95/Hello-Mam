@@ -1,5 +1,6 @@
 package com.mindera.HelloMam.externals;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -23,9 +24,9 @@ public class ExternalMovies {
                 .body(String.class);
     }
 
-    public String getMovieDetails(Integer tmbdId){
+    public String getMovieByTitle(String title){
         return restClient.get()
-                .uri(uriBase + "/details/" + tmbdId)
+                .uri(uriBase + "/title/" + title)
                 .retrieve()
                 .body(String.class);
     }

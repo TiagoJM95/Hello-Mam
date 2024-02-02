@@ -10,7 +10,6 @@ import com.mindera.HelloMam.externals.ExternalMovies;
 import com.mindera.HelloMam.services.implementations.MediaServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -80,9 +79,9 @@ public class MediaController {
         return ResponseEntity.ok(externalMovies.getMovieById(refId));
     }
 
-    @GetMapping("/grandma/details/{tmbdId}")
-    public ResponseEntity<String> getMovieDetails(@PathVariable("tmbdId") Integer tmbdId){
-        return ResponseEntity.ok(externalMovies.getMovieDetails(tmbdId));
+    @GetMapping("/grandma/title/{title}")
+    public ResponseEntity<String> getMovieDetails(@PathVariable("tmbdId") String title){
+        return ResponseEntity.ok(externalMovies.getMovieByTitle(title));
     }
 
     @GetMapping("/grandma/recommendations/{tmbdId}")
