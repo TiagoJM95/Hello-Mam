@@ -7,7 +7,6 @@ public class MovieConverter {
 
     public static MovieGetDto fromEntityToGetDto(Movie movie){
         return new MovieGetDto(
-                movie.id,
                 movie.getTmdbId(),
                 movie.getTitle(),
                 movie.getReleaseDate(),

@@ -12,7 +12,7 @@ import java.util.List;
 public interface MovieService {
     Movie findByMongoId(String id) throws MovieNotFoundException;
     Movie findByTmdbId(Long id) throws MovieNotFoundException;
-    MovieGetDto getMovieById(String id) throws MovieNotFoundException;
+    MovieGetDto getMovieById(Long id) throws MovieNotFoundException;
     List<MovieGetDto> getMoviesByTitle(String title) throws MovieNotFoundException, JsonProcessingException;
     List<MovieGetDto> getAllMovies();
     Movie getMovieDetailsByTmdbId(String tmdbId) throws JsonProcessingException;
