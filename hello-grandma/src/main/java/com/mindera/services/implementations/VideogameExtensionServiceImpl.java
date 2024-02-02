@@ -114,11 +114,16 @@ public class VideogameExtensionServiceImpl implements VideogameExtensionReposito
                     if (videogame == null) {
                         videogame = findById(id);
                         videogame.setFromIGDB(true);
-                        videogameRepository.persist(videogame);
                     }
                     videogame.setFromIGDB(false);
                     foundGames.add(videogame);
                 }
+            }
+        }
+        for (Videogame videogame : foundGames) {
+            if (videogameRepository.findByIgdbId(videogame.getIgdbId()) == null) {
+                videogame.setFromIGDB(true);
+                videogameRepository.persist(videogame);
             }
         }
 
