@@ -36,7 +36,7 @@ public class ExternalGames {
     }
 
     @Cacheable("games")
-    public String getGameBySearch(String search){
+    public String getGameByTitle(String search){
         return restClient.get()
                 .uri(uriBase + "/search/" + search)
                 .retrieve()

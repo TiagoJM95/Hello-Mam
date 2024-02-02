@@ -71,6 +71,15 @@ public class MediaController {
         };
     }
 
+    @GetMapping("/{type}/{title}")
+    public ResponseEntity<String> getExternalMediaByTitle(@PathVariable("type") String type, @PathVariable("title") String title){
+        return switch (type) {
+            case "movie" -> ResponseEntity.ok(externalMovies.getMovieByTitle(title));
+            case "videogame" -> ResponseEntity.ok(externalGames.getGameByTitle(title));
+            default -> ResponseEntity.badRequest().body("Invalid type");
+        };
+    }
+
 
     @GetMapping("/{type}/{refId}")
     public ResponseEntity<String> getExternalMediaByMongoId(@PathVariable("type") String type, @PathVariable("refId") String refId){
