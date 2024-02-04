@@ -3,7 +3,7 @@ version: '3'
 
 services:
   mysql-db:
-    image: mysql
+    image: mysql:8.0
     container_name: mam-mysql
     ports:
       - "3306:3306"
@@ -12,7 +12,7 @@ services:
       MYSQL_ROOT_PASSWORD: secret
 
   mongo-db:
-    image: mongo
+    image: mongo:6.0
     container_name: grandma-mongo
     ports:
       - "27017:27017"
@@ -21,7 +21,11 @@ services:
         MONGO_INITDB_ROOT_USERNAME: root
         MONGO_INITDB_ROOT_PASSWORD: password
 
-
+  redis:
+    image: redis:7.2.4
+    container_name: redis
+    ports:
+      - "6379:6379"
 
   hello-mam:
     build: ./Hello-Mam
