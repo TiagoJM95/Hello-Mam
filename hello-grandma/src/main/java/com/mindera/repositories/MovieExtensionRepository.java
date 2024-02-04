@@ -1,7 +1,11 @@
 package com.mindera.repositories;
 
+import com.mindera.entities.Movie;
+import com.mindera.entities.MovieExtension;
 import jakarta.ws.rs.*;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
+import java.util.List;
 
 @Path("/3")
 @RegisterRestClient(configKey="tmdb-api")
@@ -12,18 +16,18 @@ public interface MovieExtensionRepository {
 
     @GET
     @Path("/movie/{movie_id}")
-    String getMovieById(@PathParam("movie_id") String movieId,
-                      @HeaderParam("accept") String acceptHeader,
-                      @QueryParam("api_key") String authorizationHeader);
+    Movie getMovieById(@PathParam("movie_id") String movieId,
+                       @HeaderParam("accept") String acceptHeader,
+                       @QueryParam("api_key") String authorizationHeader);
 
     @GET
     @Path("/movie/{movie_id}/recommendations")
-    String getMovieRecommendation(@PathParam("movie_id") Integer movieId,
-                                      @HeaderParam("accept") String acceptHeader,
-                                      @QueryParam("api_key") String authorizationHeader);
+    MovieExtension getMovieRecommendation(@PathParam("movie_id") Integer movieId,
+                                          @HeaderParam("accept") String acceptHeader,
+                                          @QueryParam("api_key") String authorizationHeader);
     @GET
     @Path("/discover/movie")
-    String discoverMovies(@QueryParam("page") Integer page,
+    MovieExtension discoverMovies(@QueryParam("page") Integer page,
                               @QueryParam("sort_by") String sortBy,
                               @QueryParam("vote_count.gte") Integer voteCount,
                               @QueryParam("with_original_language") String withOriginalLanguage,
@@ -33,7 +37,7 @@ public interface MovieExtensionRepository {
 
     @GET
     @Path("/search/movie")
-    String findMovieByTitle(@QueryParam("query") String query,
+    MovieExtension findMovieByTitle(@QueryParam("query") String query,
                             @QueryParam("language") String language,
                             @QueryParam("page") Integer page,
                             @HeaderParam("accept") String acceptHeader,
