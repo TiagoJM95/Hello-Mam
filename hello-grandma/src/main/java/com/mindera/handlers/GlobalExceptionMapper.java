@@ -61,13 +61,8 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
         if (exception instanceof VideogameException) {
             return handleVideogameException((VideogameException) exception);
         }
-        if(exception instanceof IllegalArgumentException) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Invalid ref id.")
-                    .build();
-        }
         return Response.status(Response.Status.BAD_REQUEST)
-                .entity("Bad request.")
+                .entity(exception.getMessage())
                 .build();
     }
 }
