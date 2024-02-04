@@ -4,8 +4,8 @@ package com.mindera.handlers;
 
 import com.mindera.exceptions.movie.MovieException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
-import com.mindera.exceptions.music.MusicException;
-import com.mindera.exceptions.music.MusicNotFoundException;
+import com.mindera.deprecated.music.MusicException;
+import com.mindera.deprecated.music.MusicNotFoundException;
 import com.mindera.exceptions.videogame.VideogameException;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
 import jakarta.ws.rs.core.Response;
