@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<String> genericExceptionHandler(Exception exception) {
         logger.error("Unknown exception: " + exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ERROR_OCCURRED);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ERROR_OCCURRED + " "  + exception.getMessage());
     }
 
 
