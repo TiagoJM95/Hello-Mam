@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@MongoEntity(collection="movies")
+@MongoEntity(collection="movies", database = "helloGrandma")
 public class Movie extends PanacheMongoEntity {
 
     @JsonProperty("id")
@@ -33,7 +33,7 @@ public class Movie extends PanacheMongoEntity {
     @JsonProperty("vote_average")
     private Double voteAverage;
 
-    @JsonProperty("genre_ids")
+    @JsonProperty("overview")
     private String overview;
 
     @JsonProperty("status")
