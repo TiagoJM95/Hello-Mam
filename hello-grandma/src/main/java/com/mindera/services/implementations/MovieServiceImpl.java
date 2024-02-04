@@ -10,17 +10,22 @@ import com.mindera.entities.MovieExtension;
 import com.mindera.enums.MovieGenres;
 import com.mindera.exceptions.movie.InvalidGenreException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
+import com.mindera.repositories.MovieExtensionRepository;
 import com.mindera.repositories.MovieRepository;
 import com.mindera.services.interfaces.MovieService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.bson.types.ObjectId;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.mindera.converters.MovieConverter.fromEntityToGetDto;
 import static com.mindera.enums.MovieGenres.getMovieGenreByName;
+import static com.mindera.util.Keys.ACCEPT_HEADER;
+import static com.mindera.util.Keys.API_KEY;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @ApplicationScoped
 public class MovieServiceImpl implements MovieService {
@@ -28,7 +33,8 @@ public class MovieServiceImpl implements MovieService {
     MovieRepository movieRepository;
 
     @Inject
-    MovieExtensionServiceImpl movieExtensionService;
+    @RestClient
+    MovieExtensionRepository movieExtensionRepository;
 
     @Override
     public Movie findByMongoId(String id) throws MovieNotFoundException {
@@ -48,8 +54,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<MovieGetDto> getMoviesByTitle(String title) throws JsonProcessingException {
-        List<Movie> tmdbList = fromMovieExtensionListToMovieList(movieExtensionService.findMovieByTitle(title));
+    public List<MovieGetDto> getMoviesByTitle(String title) {
+        List<Movie> tmdbList = fromMovieExtensionListToMovieList(movieExtensionRepository.findMovieByTitle(title, "en-US", 1, APPLICATION_JSON, API_KEY).getResults());
         List<Movie> mongoList = movieRepository.findByTitle(title);
         if(tmdbList.size() > mongoList.size()){
             for(Movie movie : tmdbList) {
@@ -68,23 +74,24 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getMovieDetailsByTmdbId(String tmdbId) throws JsonProcessingException {
-        Movie movie = movieExtensionService.getMovieDetailsByTmdbId(tmdbId);
+    public Movie getMovieDetailsByTmdbId(String tmdbId){
+        Movie movie = movieExtensionRepository.getMovieDetailsByTmdbId(tmdbId, APPLICATION_JSON, API_KEY);
         convertFromObjectListToStringList(movie);
         return movie;
     }
 
     @Override
-    public List<MovieGetDto> getMovieRecommendation(Integer movieId) throws JsonProcessingException {
-        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionService.getMovieRecommendation(movieId));
+    public List<MovieGetDto> getMovieRecommendation(Integer movieId) {
+        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionRepository.getMovieRecommendationByTmdbId(movieId, ACCEPT_HEADER, API_KEY).getResults());
         checkIfExistsAndAddToMongoDb(movies);
         return movies.stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
 
     @Override
-    public List<MovieGetDto> discoverMovies(String genres) throws InvalidGenreException, JsonProcessingException {
+    public List<MovieGetDto> discoverMovies(String genres) throws InvalidGenreException {
         String genreId = convertGenreStringToGenreId(genres);
-        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionService.discoverMovies(genreId));
+        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionRepository.discoverMoviesWithFilters(1, "vote_average.desc", 100,
+                "en", genreId, APPLICATION_JSON, API_KEY).getResults());
         checkIfExistsAndAddToMongoDb(movies);
         return movies.stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
@@ -121,7 +128,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> fromMovieExtensionListToMovieList(List<MovieExtension.MovieResponse> movieExtensionList) throws JsonProcessingException {
+    public List<Movie> fromMovieExtensionListToMovieList(List<MovieExtension.MovieResponse> movieExtensionList){
         List<Movie> temp = new ArrayList<>();
         for(MovieExtension.MovieResponse movieResponse : movieExtensionList) {
             temp.add(getMovieDetailsByTmdbId(String.valueOf(movieResponse.getTmdbId())));
