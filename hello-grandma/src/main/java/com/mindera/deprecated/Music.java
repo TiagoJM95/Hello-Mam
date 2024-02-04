@@ -1,4 +1,4 @@
-package com.mindera.entities;
+package com.mindera.deprecated;
 
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.mongodb.panache.common.MongoEntity;

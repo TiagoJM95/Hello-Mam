@@ -1,4 +1,4 @@
-package com.mindera.exceptions.music;
+package com.mindera.deprecated.music;
 
 public class MusicException extends Exception{
     public MusicException(String message) {

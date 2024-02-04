@@ -1,4 +1,4 @@
-package com.mindera.dtos;
+package com.mindera.deprecated;
 
 public record MusicGetDto() {
 }

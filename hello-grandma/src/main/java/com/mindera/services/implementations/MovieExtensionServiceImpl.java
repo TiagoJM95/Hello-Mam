@@ -8,6 +8,7 @@ import com.mindera.repositories.MovieExtensionRepository;
 import com.mindera.services.interfaces.MovieExtensionService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class MovieExtensionServiceImpl implements MovieExtensionService {
 
     @Override
     public Movie getMovieDetailsByTmdbId(String tmdbId) throws JsonProcessingException {
-        String json = movieExtensionRepository.getMovieById(tmdbId, ACCEPT_HEADER, API_KEY);
+        String json = movieExtensionRepository.getMovieById(tmdbId, MediaType.APPLICATION_JSON, API_KEY);
         return mapper.readValue(json, Movie.class);
     }
 

@@ -1,6 +1,6 @@
-package com.mindera.repositories;
+package com.mindera.deprecated;
 
-import com.mindera.entities.Music;
+import com.mindera.deprecated.Music;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 

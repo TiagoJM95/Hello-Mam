@@ -1,6 +1,5 @@
-package com.mindera.controllers;
+package com.mindera.deprecated;
 
-import com.mindera.services.implementations.MusicServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
