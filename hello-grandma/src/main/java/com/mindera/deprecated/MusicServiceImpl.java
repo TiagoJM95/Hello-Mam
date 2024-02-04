@@ -1,11 +1,6 @@
-package com.mindera.services.implementations;
+package com.mindera.deprecated;
 
-import com.mindera.converters.MusicConverter;
-import com.mindera.dtos.MusicGetDto;
-import com.mindera.entities.Music;
-import com.mindera.exceptions.music.MusicNotFoundException;
-import com.mindera.repositories.MusicRepository;
-import com.mindera.services.interfaces.MusicService;
+import com.mindera.deprecated.music.MusicNotFoundException;
 import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

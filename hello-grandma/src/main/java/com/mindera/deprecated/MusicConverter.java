@@ -1,7 +1,4 @@
-package com.mindera.converters;
-
-import com.mindera.dtos.MusicGetDto;
-import com.mindera.entities.Music;
+package com.mindera.deprecated;
 
 public class MusicConverter {
         public static MusicGetDto fromEntityToGetDto(Music music){

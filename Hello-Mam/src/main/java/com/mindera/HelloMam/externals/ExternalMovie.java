@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 
 public class ExternalMovie {
-    @JsonProperty("id")
+    @JsonProperty("tmdbId")
     private Long tmdbId;
 
     @JsonProperty("title")
@@ -24,7 +24,7 @@ public class ExternalMovie {
     @JsonProperty("vote_average")
     private Double voteAverage;
 
-    @JsonProperty("genre_ids")
+    @JsonProperty("overview")
     private String overview;
 
     @JsonProperty("status")
@@ -50,6 +50,7 @@ public class ExternalMovie {
 
     @JsonProperty("vote_count")
     private String voteCount;
+
     @JsonProperty("genres")
     private List<String> genres;
 }
