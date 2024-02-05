@@ -6,7 +6,7 @@ import com.mindera.converters.VideogameConverter;
 import com.mindera.dtos.VideogameGetDto;
 import com.mindera.entities.Videogame;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
-import com.mindera.repositories.VideogameExtensionClient;
+import com.mindera.clients.VideogameExtensionClient;
 import com.mindera.repositories.VideogameRepository;
 import com.mindera.services.interfaces.VideogameService;
 import io.quarkus.cache.CacheResult;

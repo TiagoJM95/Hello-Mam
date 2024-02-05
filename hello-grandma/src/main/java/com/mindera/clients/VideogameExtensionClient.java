@@ -1,4 +1,4 @@
-package com.mindera.repositories;
+package com.mindera.clients;
 
 import com.mindera.entities.Videogame;
 import jakarta.ws.rs.*;

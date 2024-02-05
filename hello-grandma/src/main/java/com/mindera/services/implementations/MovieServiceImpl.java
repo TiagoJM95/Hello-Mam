@@ -9,7 +9,7 @@ import com.mindera.entities.MovieExtension;
 import com.mindera.enums.MovieGenres;
 import com.mindera.exceptions.movie.InvalidGenreException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
-import com.mindera.repositories.MovieExtensionClient;
+import com.mindera.clients.MovieExtensionClient;
 import com.mindera.repositories.MovieRepository;
 import com.mindera.services.interfaces.MovieService;
 import jakarta.enterprise.context.ApplicationScoped;

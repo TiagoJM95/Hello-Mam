@@ -1,4 +1,4 @@
-package com.mindera.repositories;
+package com.mindera.clients;
 
 import com.mindera.entities.Movie;
 import com.mindera.entities.MovieExtension;
