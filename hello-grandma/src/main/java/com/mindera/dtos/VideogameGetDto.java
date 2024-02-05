@@ -1,13 +1,15 @@
 package com.mindera.dtos;
+import java.sql.Timestamp;
 import java.util.List;
 
 public record VideogameGetDto(
-        int id,
-        String title,
+        int igdbId,
+        String name,
         String releaseDate,
         Double rating,
         List<Integer> genreIds,
-        boolean fromIGDB
+        boolean fromIGDB,
+        List<String> similarGames
         )
 
 
