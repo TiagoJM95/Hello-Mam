@@ -7,7 +7,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @Path("/3")
 @RegisterRestClient(configKey="tmdb-api")
-public interface MovieExtensionRepository {
+public interface MovieExtensionClient {
 
 
 
