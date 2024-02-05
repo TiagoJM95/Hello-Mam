@@ -7,6 +7,8 @@ import io.quarkus.mongodb.panache.common.MongoEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -24,7 +26,7 @@ public class Videogame extends PanacheMongoEntity {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("release_date")
+    @JsonProperty("first_release_date")
     private String releaseDate;
 
     @JsonProperty("rating")
@@ -32,6 +34,9 @@ public class Videogame extends PanacheMongoEntity {
 
     @JsonProperty("genres")
     private List<Integer> genreIds;
+
+    @JsonProperty("similar_games")
+    private List<String> similarGames;
 
     boolean fromIGDB;
 }

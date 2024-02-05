@@ -19,6 +19,7 @@ import java.util.List;
 import static com.mindera.HelloMam.utils.Messages.USER_DELETED;
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/v1/user")
 public class UserController {
 

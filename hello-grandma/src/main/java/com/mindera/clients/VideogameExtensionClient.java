@@ -14,36 +14,36 @@ public interface VideogameExtensionClient {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
-    List<Videogame> getVideogameById(@HeaderParam("Client-ID") String clientId,
-                                     @HeaderParam("Authorization") String authorization,
-                                     String query);
+    List<Videogame> getVideogameByIdInIGDB(@HeaderParam("Client-ID") String clientId,
+                                           @HeaderParam("Authorization") String authorization,
+                                           String query);
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
-    List<Videogame> getAllVideogames(@HeaderParam("Client-ID") String clientId,
-                                        @HeaderParam("Authorization") String authorization,
-                                        String query);
+    List<Videogame> getAllVideogamesInIGDB(@HeaderParam("Client-ID") String clientId,
+                                           @HeaderParam("Authorization") String authorization,
+                                           String query);
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
-    List<Videogame> getVideogameByTitle(@HeaderParam("Client-ID") String clientId,
-                                        @HeaderParam("Authorization") String authorization,
-                                        String query);
+    List<Videogame> getVideogameByTitleInIGDB(@HeaderParam("Client-ID") String clientId,
+                                              @HeaderParam("Authorization") String authorization,
+                                              String query);
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
-    List<Videogame> getVideogameByGenre(@HeaderParam("Client-ID") String clientId,
-                                        @HeaderParam("Authorization") String authorization,
-                                        String query);
+    List<Videogame> getVideogameByGenreInIGDB(@HeaderParam("Client-ID") String clientId,
+                                              @HeaderParam("Authorization") String authorization,
+                                              String query);
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
-    List<Videogame> getVideogameBySearch(@HeaderParam("Client-ID") String clientId,
-                                        @HeaderParam("Authorization") String authorization,
-                                        String query);
+    List<Videogame> getVideogameBySearchInIGDB(@HeaderParam("Client-ID") String clientId,
+                                               @HeaderParam("Authorization") String authorization,
+                                               String query);
 
 }
