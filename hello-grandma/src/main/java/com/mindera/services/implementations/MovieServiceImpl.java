@@ -1,6 +1,5 @@
 package com.mindera.services.implementations;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mindera.converters.MovieConverter;
@@ -10,7 +9,7 @@ import com.mindera.entities.MovieExtension;
 import com.mindera.enums.MovieGenres;
 import com.mindera.exceptions.movie.InvalidGenreException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
-import com.mindera.repositories.MovieExtensionRepository;
+import com.mindera.repositories.MovieExtensionClient;
 import com.mindera.repositories.MovieRepository;
 import com.mindera.services.interfaces.MovieService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -34,7 +33,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Inject
     @RestClient
-    MovieExtensionRepository movieExtensionRepository;
+    MovieExtensionClient movieExtensionClient;
 
     @Override
     public Movie findByMongoId(String id) throws MovieNotFoundException {
@@ -55,7 +54,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<MovieGetDto> getMoviesByTitle(String title) {
-        List<Movie> tmdbList = fromMovieExtensionListToMovieList(movieExtensionRepository.findMovieByTitle(title, "en-US", 1, APPLICATION_JSON, API_KEY).getResults());
+        List<Movie> tmdbList = fromMovieExtensionListToMovieList(movieExtensionClient.findMovieByTitle(title, "en-US", 1, APPLICATION_JSON, API_KEY).getResults());
         List<Movie> mongoList = movieRepository.findByTitle(title);
         if(tmdbList.size() > mongoList.size()){
             for(Movie movie : tmdbList) {
@@ -75,14 +74,14 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getMovieDetailsByTmdbId(String tmdbId){
-        Movie movie = movieExtensionRepository.getMovieDetailsByTmdbId(tmdbId, APPLICATION_JSON, API_KEY);
+        Movie movie = movieExtensionClient.getMovieDetailsByTmdbId(tmdbId, APPLICATION_JSON, API_KEY);
         convertFromObjectListToStringList(movie);
         return movie;
     }
 
     @Override
     public List<MovieGetDto> getMovieRecommendation(Integer movieId) {
-        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionRepository.getMovieRecommendationByTmdbId(movieId, ACCEPT_HEADER, API_KEY).getResults());
+        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.getMovieRecommendationByTmdbId(movieId, ACCEPT_HEADER, API_KEY).getResults());
         checkIfExistsAndAddToMongoDb(movies);
         return movies.stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
@@ -90,7 +89,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<MovieGetDto> discoverMovies(String genres) throws InvalidGenreException {
         String genreId = convertGenreStringToGenreId(genres);
-        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionRepository.discoverMoviesWithFilters(1, "vote_average.desc", 100,
+        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.discoverMoviesWithFilters(1, "vote_average.desc", 100,
                 "en", genreId, APPLICATION_JSON, API_KEY).getResults());
         checkIfExistsAndAddToMongoDb(movies);
         return movies.stream().map(MovieConverter::fromEntityToGetDto).toList();
