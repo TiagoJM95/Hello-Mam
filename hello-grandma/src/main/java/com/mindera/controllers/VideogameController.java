@@ -1,58 +1,60 @@
 package com.mindera.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mindera.dtos.VideogameGetDto;
 import com.mindera.entities.Videogame;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
-import com.mindera.repositories.VideogameExtensionRepository;
-import com.mindera.services.implementations.VideogameExtensionServiceImpl;
+import com.mindera.services.implementations.VideogameServiceImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.jboss.resteasy.reactive.RestResponse;
 
 import java.util.List;
 
 @Path("/api/v1/videogames")
-@RegisterRestClient(configKey="igdb-api")
-public class VideogameController implements VideogameExtensionRepository {
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class VideogameController{
 
     @Inject
-    VideogameExtensionServiceImpl igdbService;
+    VideogameServiceImpl videogameService;
+
+    @GET
+    @Path("/{id}")
+    public RestResponse<VideogameGetDto> findByIgdbId(@PathParam("id") String id) throws VideogameNotFoundException {
+        return RestResponse.ok(videogameService.findByIgdbId(id));
+    }
+
+    @GET
+    @Path("/id/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public RestResponse<Videogame> findById(@PathParam("id") String id) throws VideogameNotFoundException {
+        return RestResponse.ok(videogameService.findByIdFromIGDB(id));
+    }
+
+    @GET
+    @Path("/title/{title}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public RestResponse<List<VideogameGetDto>> findByTitle(@PathParam("title") String title) throws VideogameNotFoundException {
+        return RestResponse.ok(videogameService.findBySearch(title));
+    }
+
+    @GET
+    public RestResponse<List<VideogameGetDto>> getAllVideogames(){
+        return RestResponse.ok(videogameService.getAllVideogames());
+    }
+
+
 
 
     @GET
-    @Path("/videogames")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Videogame> getAll() throws VideogameNotFoundException, JsonProcessingException {
-        return igdbService.getAll();
-    }
-
-
-    @POST
-    @Path("/videogames")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Videogame> getAllVideogames() throws VideogameNotFoundException, JsonProcessingException {
-        return igdbService.getAllVideogames();
-    }
-
-    @POST
-    @Path("/videogames/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Videogame findById(@PathParam("id") String id) throws VideogameNotFoundException, JsonProcessingException {
-        return igdbService.findById(Integer.parseInt(id));
-    }
-
-    @POST
-    @Path("/search/{search}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Videogame> findBySearch(@PathParam("search") String search) throws VideogameNotFoundException, JsonProcessingException {
-        return igdbService.findBySearch(search);
-    }
-
-    @POST
     @Path("/genres/{genre}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Videogame> getVideogameByGenre(@PathParam("genre") int genre) throws VideogameNotFoundException, JsonProcessingException {
-        return igdbService.findByGenre(genre);
+    public List<VideogameGetDto> getVideogameByGenre(@PathParam("genre") int genre) throws VideogameNotFoundException, JsonProcessingException {
+        return videogameService.findByGenre(genre);
     }
+
+
+
 }

@@ -7,6 +7,9 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 @RegisterRestClient(configKey="tmdb-api")
 public interface MovieExtensionRepository {
 
+
+
+
     @GET
     @Path("/movie/{movie_id}")
     String getMovieById(@PathParam("movie_id") String movieId,
