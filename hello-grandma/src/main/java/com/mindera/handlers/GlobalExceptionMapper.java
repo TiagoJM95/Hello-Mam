@@ -1,11 +1,7 @@
-/*
 package com.mindera.handlers;
-
 
 import com.mindera.exceptions.movie.MovieException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
-import com.mindera.deprecated.music.MusicException;
-import com.mindera.deprecated.music.MusicNotFoundException;
 import com.mindera.exceptions.videogame.VideogameException;
 import com.mindera.exceptions.videogame.VideogameNotFoundException;
 import jakarta.ws.rs.core.Response;
@@ -29,17 +25,6 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
                 .build();
     }
 
-    private Response handleMusicException(MusicException musicException) {
-        if(musicException instanceof MusicNotFoundException) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity(musicException.getMessage())
-                    .build();
-        }
-        return Response.status(Response.Status.BAD_REQUEST)
-                .entity(MUSIC_RELATED_ERROR + musicException.getMessage())
-                .build();
-    }
-
     private Response handleVideogameException(VideogameException videogameException) {
         if(videogameException instanceof VideogameNotFoundException) {
             return Response.status(Response.Status.NOT_FOUND)
@@ -55,9 +40,6 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
         if(exception instanceof MovieException) {
             return handleMovieException((MovieException) exception);
         }
-        if (exception instanceof MusicException) {
-            return handleMusicException((MusicException) exception);
-        }
         if (exception instanceof VideogameException) {
             return handleVideogameException((VideogameException) exception);
         }
@@ -66,5 +48,3 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
                 .build();
     }
 }
-
-*/
