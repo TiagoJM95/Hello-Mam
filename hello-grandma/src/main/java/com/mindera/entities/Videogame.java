@@ -11,7 +11,6 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 
