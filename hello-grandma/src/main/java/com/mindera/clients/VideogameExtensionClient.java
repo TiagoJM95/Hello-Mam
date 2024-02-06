@@ -7,43 +7,15 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import java.util.List;
 
-@Path("/")
+@Path("/v4")
 @RegisterRestClient(configKey="igdb-api")
 public interface VideogameExtensionClient {
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.TEXT_PLAIN)
-    List<Videogame> getVideogameByIdInIGDB(@HeaderParam("Client-ID") String clientId,
-                                           @HeaderParam("Authorization") String authorization,
-                                           String query);
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.TEXT_PLAIN)
-    List<Videogame> getAllVideogamesInIGDB(@HeaderParam("Client-ID") String clientId,
-                                           @HeaderParam("Authorization") String authorization,
-                                           String query);
-
-    @POST
+    @Path("/games")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
     List<Videogame> getVideogameByTitleInIGDB(@HeaderParam("Client-ID") String clientId,
                                               @HeaderParam("Authorization") String authorization,
                                               String query);
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.TEXT_PLAIN)
-    List<Videogame> getVideogameByGenreInIGDB(@HeaderParam("Client-ID") String clientId,
-                                              @HeaderParam("Authorization") String authorization,
-                                              String query);
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.TEXT_PLAIN)
-    List<Videogame> getVideogameBySearchInIGDB(@HeaderParam("Client-ID") String clientId,
-                                               @HeaderParam("Authorization") String authorization,
-                                               String query);
-
 }

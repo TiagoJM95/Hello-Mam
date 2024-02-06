@@ -1,6 +1,5 @@
 package com.mindera.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mindera.dtos.MovieGetDto;
 import com.mindera.exceptions.movie.InvalidGenreException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
@@ -21,6 +20,11 @@ public class MovieController {
     MovieServiceImpl movieService;
 
     @GET
+    public RestResponse<List<MovieGetDto>> getAllMovies() {
+        return RestResponse.ok(movieService.getAllMovies());
+    }
+
+    @GET
     @Path("/{id}")
     public RestResponse<MovieGetDto> getMovieById(@PathParam("id") Long id) throws MovieNotFoundException {
         return RestResponse.ok(movieService.getMovieById(id));
@@ -28,24 +32,26 @@ public class MovieController {
 
     @GET
     @Path("/title/{title}")
-    public RestResponse<List<MovieGetDto>> getMovieByTitle(@PathParam("title") String title) throws JsonProcessingException {
+    public RestResponse<List<MovieGetDto>> getMovieByTitle(@PathParam("title") String title) {
         return RestResponse.ok(movieService.getMoviesByTitle(title));
     }
 
     @GET
-    public RestResponse<List<MovieGetDto>> getAllMovies() {
-        return RestResponse.ok(movieService.getAllMovies());
-    }
-
-    @GET
     @Path("/recommendation/{id}")
-    public RestResponse<List<MovieGetDto>> getMovieRecommendation(@PathParam("id") Integer id) throws JsonProcessingException {
+    public RestResponse<List<MovieGetDto>> getMovieRecommendation(@PathParam("id") Integer id) {
         return RestResponse.ok(movieService.getMovieRecommendation(id));
     }
 
     @GET
     @Path("/discover/{genres}")
-    public RestResponse<List<MovieGetDto>> discoverMovies(@PathParam("genres") String genres) throws JsonProcessingException, InvalidGenreException {
+    public RestResponse<List<MovieGetDto>> discoverMovies(@PathParam("genres") String genres)throws InvalidGenreException {
         return RestResponse.ok(movieService.discoverMovies(genres));
     }
+
+    @GET
+    @Path("/top")
+    public RestResponse<List<MovieGetDto>> getTopRatedMovies() {
+        return RestResponse.ok(movieService.getTopFiveMovies());
+    }
+
 }

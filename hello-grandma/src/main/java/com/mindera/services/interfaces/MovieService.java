@@ -10,7 +10,6 @@ import com.mindera.exceptions.movie.MovieNotFoundException;
 import java.util.List;
 
 public interface MovieService {
-    Movie findByMongoId(String id) throws MovieNotFoundException;
     Movie findByTmdbId(Long id) throws MovieNotFoundException;
     MovieGetDto getMovieById(Long id) throws MovieNotFoundException;
     List<MovieGetDto> getMoviesByTitle(String title) throws MovieNotFoundException, JsonProcessingException;
@@ -18,6 +17,7 @@ public interface MovieService {
     Movie getMovieDetailsByTmdbId(String tmdbId) throws JsonProcessingException;
     List<MovieGetDto> getMovieRecommendation(Integer movieId) throws JsonProcessingException;
     List<MovieGetDto> discoverMovies(String genres) throws InvalidGenreException, JsonProcessingException;
+    List<MovieGetDto> getTopFiveMovies();
     void create(Movie movie);
     void checkIfExistsAndAddToMongoDb(List<Movie> movies);
     void convertFromObjectListToStringList(Movie movie);

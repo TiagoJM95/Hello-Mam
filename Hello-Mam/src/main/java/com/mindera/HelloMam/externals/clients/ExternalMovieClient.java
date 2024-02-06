@@ -1,6 +1,6 @@
-package com.mindera.HelloMam.externals;
+package com.mindera.HelloMam.externals.clients;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.mindera.HelloMam.externals.models.ExternalMovie;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
