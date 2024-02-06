@@ -3,6 +3,7 @@ package com.mindera.HelloMam.services.implementations;
 import com.mindera.HelloMam.exceptions.media.RefIdNotFoundException;
 import com.mindera.HelloMam.externals.clients.ExternalGameClient;
 import com.mindera.HelloMam.externals.models.ExternalGame;
+import com.mindera.HelloMam.repositories.MediaRepository;
 import com.mindera.HelloMam.services.interfaces.ExternalGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,18 +11,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.mindera.HelloMam.enums.MediaType.GAME;
-import static com.mindera.HelloMam.enums.MediaType.MOVIE;
 
 @Service
 public class ExternalGameServiceImpl implements ExternalGameService {
 
     private final ExternalGameClient externalGameClient;
     private final MediaServiceImpl mediaService;
+    private final MediaRepository mediaRepository;
 
     @Autowired
-    public ExternalGameServiceImpl(ExternalGameClient externalGameClient, MediaServiceImpl mediaService) {
+    public ExternalGameServiceImpl(ExternalGameClient externalGameClient, MediaServiceImpl mediaService, MediaRepository mediaRepository) {
         this.externalGameClient = externalGameClient;
         this.mediaService = mediaService;
+        this.mediaRepository = mediaRepository;
     }
 
     @Override
@@ -66,7 +68,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
 
     private void checkIfExistsAndSave(List<ExternalGame> games) throws RefIdNotFoundException {
         for (ExternalGame game : games) {
-            if (mediaService.getMediaByRefId(game.getIgdbId())==null) {
+            if (mediaRepository.findByRefId(game.getIgdbId()).isEmpty()) {
                 mediaService.createGame(game, GAME);
             }
         }

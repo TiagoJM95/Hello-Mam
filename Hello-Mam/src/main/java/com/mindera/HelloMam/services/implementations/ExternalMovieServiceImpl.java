@@ -3,6 +3,7 @@ package com.mindera.HelloMam.services.implementations;
 import com.mindera.HelloMam.exceptions.media.RefIdNotFoundException;
 import com.mindera.HelloMam.externals.clients.ExternalMovieClient;
 import com.mindera.HelloMam.externals.models.ExternalMovie;
+import com.mindera.HelloMam.repositories.MediaRepository;
 import com.mindera.HelloMam.services.interfaces.ExternalMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,13 @@ public class ExternalMovieServiceImpl implements ExternalMovieService {
 
     private final ExternalMovieClient externalMovieClient;
     private final MediaServiceImpl mediaService;
+    private final MediaRepository mediaRepository;
 
     @Autowired
-    public ExternalMovieServiceImpl(ExternalMovieClient externalMovieClient, MediaServiceImpl mediaService) {
+    public ExternalMovieServiceImpl(ExternalMovieClient externalMovieClient, MediaServiceImpl mediaService, MediaRepository mediaRepository) {
         this.externalMovieClient = externalMovieClient;
         this.mediaService = mediaService;
+        this.mediaRepository = mediaRepository;
     }
 
     @Override
@@ -65,7 +68,7 @@ public class ExternalMovieServiceImpl implements ExternalMovieService {
 
     private void checkIfExistsAndSave(List<ExternalMovie> movies) throws RefIdNotFoundException {
         for (ExternalMovie movie : movies) {
-            if (mediaService.getMediaByRefId(movie.getTmdbId())==null) {
+            if (mediaRepository.findByRefId(movie.getTmdbId()).isEmpty()) {
                 mediaService.createMovie(movie, MOVIE);
             }
         }
