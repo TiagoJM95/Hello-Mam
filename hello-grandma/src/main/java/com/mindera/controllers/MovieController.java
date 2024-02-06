@@ -43,9 +43,9 @@ public class MovieController {
     }
 
     @GET
-    @Path("/discover/{genres}")
-    public RestResponse<List<MovieGetDto>> discoverMovies(@PathParam("genres") String genres)throws InvalidGenreException {
-        return RestResponse.ok(movieService.discoverMovies(genres));
+    @Path("/genres/{genre}")
+    public RestResponse<List<MovieGetDto>> discoverMovies(@PathParam("genre") String genre)throws InvalidGenreException {
+        return RestResponse.ok(movieService.discoverMovies(genre));
     }
 
     @GET

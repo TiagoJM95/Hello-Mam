@@ -26,7 +26,7 @@ public class VideogameController{
 
     @GET
     @Path("/{id}")
-    public RestResponse<VideogameGetDto> findByIgdbId(@PathParam("id") int id) throws VideogameNotFoundException {
+    public RestResponse<VideogameGetDto> getVideogameById(@PathParam("id") int id) throws VideogameNotFoundException {
         return RestResponse.ok(videogameService.getGameById(id));
     }
 
@@ -43,9 +43,9 @@ public class VideogameController{
     }
 
     @GET
-    @Path("/genres/{genres}")
-    public RestResponse<List<VideogameGetDto>> getVideogameByGenre(@PathParam("genres") String genres) throws GameGenreNotFoundException {
-        return RestResponse.ok(videogameService.discoverGames(genres));
+    @Path("/genres/{genre}")
+    public RestResponse<List<VideogameGetDto>> getVideogameByGenre(@PathParam("genre") String genre) throws GameGenreNotFoundException {
+        return RestResponse.ok(videogameService.discoverGames(genre));
     }
 
     @GET

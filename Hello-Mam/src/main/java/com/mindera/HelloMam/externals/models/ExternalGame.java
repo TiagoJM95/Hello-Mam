@@ -1,9 +1,11 @@
 package com.mindera.HelloMam.externals.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import java.io.Serializable;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
 @Builder
@@ -11,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ExternalGame implements Serializable {
 
-    private int igdbId;
+    private Long igdbId;
 
     private String name;
 
@@ -19,9 +21,7 @@ public class ExternalGame implements Serializable {
 
     private Double rating;
 
-    private List<Integer> genreIds;
+    private List<String> genreIds;
 
     boolean fromIGDB;
-
-    private List<String> similarGames;
 }

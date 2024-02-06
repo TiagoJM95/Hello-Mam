@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public record MediaGetDto(
         Long id,
-        String refId,
+        Long refId,
         String mediaType
 ) implements Serializable {
 }

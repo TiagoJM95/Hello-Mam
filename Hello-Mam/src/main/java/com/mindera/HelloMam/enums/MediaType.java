@@ -7,8 +7,7 @@ import java.util.Optional;
 @Getter
 public enum MediaType {
     MOVIE("movie"),
-    GAME("game"),
-    MUSIC("music");
+    GAME("game");
 
     final String description;
 

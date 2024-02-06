@@ -1,12 +1,13 @@
 package com.mindera.HelloMam.services.implementations;
 
 import com.mindera.HelloMam.converters.MediaConverter;
-import com.mindera.HelloMam.dtos.creates.MediaCreateDto;
 import com.mindera.HelloMam.dtos.gets.MediaGetDto;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
 import com.mindera.HelloMam.exceptions.media.*;
 import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.enums.MediaType;
+import com.mindera.HelloMam.externals.clients.ExternalGameClient;
+import com.mindera.HelloMam.externals.models.ExternalGame;
 import com.mindera.HelloMam.externals.models.ExternalMovie;
 import com.mindera.HelloMam.externals.clients.ExternalMovieClient;
 import com.mindera.HelloMam.repositories.MediaRepository;
@@ -17,69 +18,58 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.mindera.HelloMam.converters.MediaConverter.fromMediaCreateDtoToMediaEntity;
 import static com.mindera.HelloMam.converters.MediaConverter.fromMediaEntityToMediaGetDto;
-import static com.mindera.HelloMam.enums.MediaType.MOVIE;
-import static com.mindera.HelloMam.enums.MediaType.getTypeByDescription;
+import static com.mindera.HelloMam.enums.MediaType.*;
 
 @Service
 public class MediaServiceImpl implements MediaService {
 
     private final MediaRepository mediaRepository;
-    private final ExternalMovieClient externalMovieClient;
 
     @Autowired
-    public MediaServiceImpl(MediaRepository mediaRepository, ExternalMovieClient externalMovieClient) {
+    public MediaServiceImpl(MediaRepository mediaRepository) {
         this.mediaRepository = mediaRepository;
-        this.externalMovieClient = externalMovieClient;
     }
 
-    @Cacheable("media")
+    @Override
     public List<MediaGetDto> getAllMedia() {
-        return mediaRepository.findAll().stream()
-                .map(MediaConverter::fromMediaEntityToMediaGetDto)
-                .toList();
+        return mediaRepository.findAll().stream().map(MediaConverter::fromMediaEntityToMediaGetDto).toList();
     }
 
-    public Media findById(Long id) throws MediaNotFoundException {
-        return mediaRepository.findById(id).orElseThrow(MediaNotFoundException::new);
-    }
-
+    @Override
     public MediaGetDto getMediaById(Long id) throws MediaNotFoundException {
-        return fromMediaEntityToMediaGetDto(findById(id));
+        return MediaConverter.fromMediaEntityToMediaGetDto(findMediaById(id));
     }
 
+    @Override
     public List<MediaGetDto> getMediaByType(String type) throws MediaTypeNotFoundException {
-        return mediaRepository.findByMediaType(getTypeByDescription(type).orElseThrow(MediaTypeNotFoundException::new));
+        MediaType mediaType = MediaType.getTypeByDescription(type).orElseThrow(MediaTypeNotFoundException::new);
+        return mediaRepository.findByMediaType(mediaType).stream().map(MediaConverter::fromMediaEntityToMediaGetDto).toList();
     }
 
-    public MediaGetDto getMediaByRefId(String refId) throws RefIdNotFoundException {
+    @Override
+    public MediaGetDto getMediaByRefId(Long refId) throws RefIdNotFoundException {
         Media media = mediaRepository.findByRefId(refId).orElseThrow(RefIdNotFoundException::new);
-        return fromMediaEntityToMediaGetDto(media);
+        return MediaConverter.fromMediaEntityToMediaGetDto(media);
     }
 
-    public MediaGetDto addNewMedia(MediaCreateDto mediaCreateDto) throws MediaTypeNotFoundException {
-        Media mediaToAdd = fromMediaCreateDtoToMediaEntity(mediaCreateDto);
-        Media addedMedia = mediaRepository.save(mediaToAdd);
-
-        return fromMediaEntityToMediaGetDto(addedMedia);
-    }
-
-    public void create(String refId, MediaType mediaType) {
+    @Override
+    public void createMovie(ExternalMovie movie, MediaType mediaType) {
         Media media = new Media();
-        media.setRefId(refId);
         media.setMediaType(mediaType);
+        media.setRefId(movie.getTmdbId());
         mediaRepository.save(media);
     }
 
-    public List<ExternalMovie> getAllMovies() {
-        List<ExternalMovie> movies = externalMovieClient.getAllMovies();
-        for (ExternalMovie movie : movies) {
-            String refId = String.valueOf(movie.getTmdbId());
-            if(mediaRepository.findByRefId(refId).isEmpty()) {
-                create(refId, MOVIE);
-            }
-        }
-        return movies;
+    @Override
+    public void createGame(ExternalGame game, MediaType mediaType) {
+        Media media = new Media();
+        media.setMediaType(mediaType);
+        media.setRefId(game.getIgdbId());
+        mediaRepository.save(media);
+    }
+
+    private Media findMediaById(Long id) throws MediaNotFoundException {
+        return mediaRepository.findById(id).orElseThrow(MediaNotFoundException::new);
     }
 }

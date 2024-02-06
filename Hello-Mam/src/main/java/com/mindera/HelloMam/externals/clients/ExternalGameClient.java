@@ -1,7 +1,6 @@
 package com.mindera.HelloMam.externals.clients;
 
 import com.mindera.HelloMam.externals.models.ExternalGame;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -23,50 +22,37 @@ public class ExternalGameClient {
                 .body(new ParameterizedTypeReference<>(){});
     }
 
-    @Cacheable("games")
-    public ExternalGame getGameById(String refId){
+    public ExternalGame getVideogameById(int id){
         return restClient.get()
-                .uri(uriBase + "/videogames/" + refId)
+                .uri(uriBase + "/" + id)
                 .retrieve()
                 .body(ExternalGame.class);
     }
 
-    @Cacheable("games")
-    public ExternalGame getGameDetails(Integer refId){
+    public List<ExternalGame> getGameByTitle(String title){
         return restClient.get()
-                .uri(uriBase + "/videogames/" + refId)
-                .retrieve()
-                .body(ExternalGame.class);
-    }
-
-    @Cacheable("games")
-    public List<ExternalGame> getGameByTitle(String search){
-        return restClient.get()
-                .uri(uriBase + "/title/" + search)
+                .uri(uriBase + "/title/" + title)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>(){});
     }
 
-    @Cacheable("games")
-    public List<ExternalGame> getGameByGenre(int genre){
+    public List<ExternalGame> getGameRecommendations(int id){
+        return restClient.get()
+                .uri(uriBase + "/recommendation/" + id)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>(){});
+    }
+
+    public List<ExternalGame> getGameByGenre(String genre){
         return restClient.get()
                 .uri(uriBase + "/genres/" + genre)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>(){});
     }
 
-    @Cacheable("games")
-    public List<ExternalGame> getGameRecommendations(Integer refId){
+    public List<ExternalGame> getTopFiveVideoGames(){
         return restClient.get()
-                .uri(uriBase + "/recommendations/" + refId)
-                .retrieve()
-                .body(new ParameterizedTypeReference<>(){});
-    }
-
-    @Cacheable("games")
-    public List<ExternalGame> getDiscoverGame(int i) {
-        return restClient.get()
-                .uri(uriBase + "/discover/" + i)
+                .uri(uriBase + "/top")
                 .retrieve()
                 .body(new ParameterizedTypeReference<>(){});
     }
