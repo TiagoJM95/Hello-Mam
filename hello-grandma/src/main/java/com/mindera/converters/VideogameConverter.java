@@ -3,6 +3,8 @@ package com.mindera.converters;
 import com.mindera.dtos.VideogameGetDto;
 import com.mindera.entities.Videogame;
 import com.mindera.enums.GameGenres;
+import com.mindera.util.DateConverter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class VideogameConverter {
         return new VideogameGetDto(
                 videogame.getIgdbId(),
                 videogame.getName(),
-                videogame.getReleaseDate(),
+                DateConverter.convertDate(Long.valueOf(videogame.getReleaseDate())),
                 videogame.getRating(),
                 convertFromListGenreIdsToListGenreString(videogame.getGenreIds()),
                 videogame.isFromIGDB(),
