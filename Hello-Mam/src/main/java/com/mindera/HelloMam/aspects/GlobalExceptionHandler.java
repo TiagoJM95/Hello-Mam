@@ -1,4 +1,3 @@
-/*
 package com.mindera.HelloMam.aspects;
 
 import com.mindera.HelloMam.exceptions.media.MediaNotFoundException;
@@ -47,4 +46,3 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
 }
-*/
