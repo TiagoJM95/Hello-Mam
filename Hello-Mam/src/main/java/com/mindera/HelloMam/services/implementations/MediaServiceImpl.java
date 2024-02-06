@@ -72,4 +72,8 @@ public class MediaServiceImpl implements MediaService {
     private Media findMediaById(Long id) throws MediaNotFoundException {
         return mediaRepository.findById(id).orElseThrow(MediaNotFoundException::new);
     }
+
+    public Media findById(Long id) throws MediaNotFoundException {
+        return mediaRepository.findById(id).orElseThrow(MediaNotFoundException::new);
+    }
 }
