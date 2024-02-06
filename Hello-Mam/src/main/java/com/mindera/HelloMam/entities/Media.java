@@ -19,7 +19,7 @@ public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String refId;
+    private Long refId;
     private MediaType mediaType;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "mediaId")
     private List<Rating> ratings;

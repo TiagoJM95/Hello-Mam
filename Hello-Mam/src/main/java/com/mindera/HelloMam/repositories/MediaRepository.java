@@ -11,6 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface MediaRepository extends JpaRepository<Media, Long> {
-    List<MediaGetDto> findByMediaType(MediaType mediaType);
-    Optional<Media> findByRefId(String refId);
+    Optional<Media> findByRefId(Long refId);
+    List<Media> findByMediaType(MediaType mediaType);
 }

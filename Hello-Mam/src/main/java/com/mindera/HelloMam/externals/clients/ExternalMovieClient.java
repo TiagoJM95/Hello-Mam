@@ -13,6 +13,7 @@ public class ExternalMovieClient {
 
     String uriBase = "http://localhost:8080/api/v1/movies";
 
+    //@Cacheable("movies")
     public List<ExternalMovie> getAllMovies(){
         return restClient.get()
                 .uri(uriBase)
@@ -20,31 +21,38 @@ public class ExternalMovieClient {
                 .body(new ParameterizedTypeReference<List<ExternalMovie>>(){});
     }
 
-    public List<ExternalMovie> getMovieById(String refId){
+    public ExternalMovie getMovieById(Long id){
         return restClient.get()
-                .uri(uriBase + "/id/" + refId)
+                .uri(uriBase + "/" + id)
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<ExternalMovie>>(){});
+                .body(ExternalMovie.class);
     }
 
     public List<ExternalMovie> getMovieByTitle(String title){
         return restClient.get()
                 .uri(uriBase + "/title/" + title)
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<ExternalMovie>>(){});
+                .body(new ParameterizedTypeReference<>(){});
     }
 
-    public List<ExternalMovie> getMovieRecommendations(Integer tmbdId){
+    public List<ExternalMovie> getMovieRecommendations(Integer id){
         return restClient.get()
-                .uri(uriBase + "/recommendations/" + tmbdId)
+                .uri(uriBase + "/recommendation/" + id)
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<ExternalMovie>>(){});
     }
 
     public List<ExternalMovie> getDiscoverMovies(String genre){
         return restClient.get()
-                .uri(uriBase + "/discover/" + genre)
+                .uri(uriBase + "/genres/" + genre)
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<ExternalMovie>>(){});
+                .body(new ParameterizedTypeReference<>(){});
+    }
+
+    public List<ExternalMovie> getTopRatedMovies(){
+        return restClient.get()
+                .uri(uriBase + "/top")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>(){});
     }
 }
