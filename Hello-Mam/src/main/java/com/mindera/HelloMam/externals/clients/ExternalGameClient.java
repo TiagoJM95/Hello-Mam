@@ -1,5 +1,6 @@
-package com.mindera.HelloMam.externals;
+package com.mindera.HelloMam.externals.clients;
 
+import com.mindera.HelloMam.externals.models.ExternalGame;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;

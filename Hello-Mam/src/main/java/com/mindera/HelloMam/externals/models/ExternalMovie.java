@@ -1,4 +1,4 @@
-package com.mindera.HelloMam.externals;
+package com.mindera.HelloMam.externals.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

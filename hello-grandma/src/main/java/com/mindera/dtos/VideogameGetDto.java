@@ -1,5 +1,6 @@
 package com.mindera.dtos;
-import java.sql.Timestamp;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public record VideogameGetDto(
@@ -7,12 +8,8 @@ public record VideogameGetDto(
         String name,
         String releaseDate,
         Double rating,
-        List<Integer> genreIds,
+        List<String> genreIds,
         boolean fromIGDB,
         List<String> similarGames
-        )
-
-
-
-{
+) {
 }

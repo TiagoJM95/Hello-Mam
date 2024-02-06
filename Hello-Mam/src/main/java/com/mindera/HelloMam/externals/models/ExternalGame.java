@@ -1,15 +1,9 @@
-package com.mindera.HelloMam.externals;
+package com.mindera.HelloMam.externals.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
 @Builder

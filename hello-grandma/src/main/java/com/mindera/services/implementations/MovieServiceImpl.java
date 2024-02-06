@@ -36,9 +36,8 @@ public class MovieServiceImpl implements MovieService {
     MovieExtensionClient movieExtensionClient;
 
     @Override
-    public Movie findByMongoId(String id) throws MovieNotFoundException {
-        return movieRepository.findByIdOptional(new ObjectId(id)).orElseThrow(()->
-                new MovieNotFoundException("Movie with id " + id + " not found"));
+    public List<MovieGetDto> getAllMovies() {
+        return movieRepository.listAll().stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
 
     @Override
@@ -68,11 +67,6 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<MovieGetDto> getAllMovies() {
-        return movieRepository.listAll().stream().map(MovieConverter::fromEntityToGetDto).toList();
-    }
-
-    @Override
     public Movie getMovieDetailsByTmdbId(String tmdbId){
         Movie movie = movieExtensionClient.getMovieDetailsByTmdbId(tmdbId, APPLICATION_JSON, API_KEY);
         convertFromObjectListToStringList(movie);
@@ -89,8 +83,16 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<MovieGetDto> discoverMovies(String genres) throws InvalidGenreException {
         String genreId = convertGenreStringToGenreId(genres);
-        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.discoverMoviesWithFilters(1, "vote_average.desc", 100,
+        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.discoverMoviesWithFilters(1, "vote_average.desc", 1000,
                 "en", genreId, APPLICATION_JSON, API_KEY).getResults());
+        checkIfExistsAndAddToMongoDb(movies);
+        return movies.stream().map(MovieConverter::fromEntityToGetDto).toList();
+    }
+
+    @Override
+    public List<MovieGetDto> getTopFiveMovies() {
+        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.getTop5(1, "vote_average.desc", 1000,
+                "en", APPLICATION_JSON, API_KEY).getResults());
         checkIfExistsAndAddToMongoDb(movies);
         return movies.stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
@@ -104,7 +106,7 @@ public class MovieServiceImpl implements MovieService {
     public void checkIfExistsAndAddToMongoDb(List<Movie> movies) {
         for(Movie movie : movies) {
             if(movieRepository.findByTmdbId(movie.getTmdbId()).isEmpty()) {
-                movieRepository.persist(movie);
+                create(movie);
             }
         }
     }
