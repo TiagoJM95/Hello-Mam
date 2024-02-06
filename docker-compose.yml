@@ -1,15 +1,17 @@
-#docker-compose up -d --force-recreate
-version: '3'
+version: '3.8'
 
 services:
   mysql-db:
     image: mysql:8.0
     container_name: mam-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: helloMam
     ports:
       - "3308:3306"
-    environment:
-      MYSQL_DATABASE: helloMam
-      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - db:/var/lib/mysql
 
   mongo-db:
     image: mongo:6.0
@@ -26,3 +28,41 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+
+  hello-mam:
+    depends_on:
+      - mysql-db
+      - redis
+    build: ./Hello-Mam
+    container_name: hello-mam
+    restart: on-failure
+    ports:
+      - "8082:8080"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+              "spring.datasource.url"  : "jdbc:mysql://mysql-db:3306/helloMam",
+              "spring.datasource.username" : "root",
+              "spring.datasource.password" : "secret",
+              "spring.jpa.hibernate.ddl-auto" : "update"
+            }'
+    volumes:
+      - .m2:/root/.m2
+
+
+  hello-grandma:
+    depends_on:
+      - mongo-db
+    build: ./hello-grandma
+    container_name: hello-grandma
+    ports:
+      - "8080:8080"
+    environment:
+      QUARKUS_APPLICATION_JSON: '{
+        "quarkus.mongodb.connection-string" : "mongodb://mongo-db:27017/helloGrandma",
+        "quarkus.mongodb.credentials.password" : "password",
+        "quarkus.mongodb.credentials.username" : "root"
+      }'
+
+volumes:
+  db:
+  .m2:
