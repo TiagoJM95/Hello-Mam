@@ -22,11 +22,11 @@ import static com.mindera.HelloMam.utils.ExceptionMessages.ERROR_OCCURRED;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    //private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<String> genericExceptionHandler(Exception exception) {
-        logger.error("Unknown exception: " + exception);
+        //logger.error("Unknown exception: " + exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ERROR_OCCURRED + " "  + exception.getMessage());
     }
 
@@ -35,14 +35,14 @@ public class GlobalExceptionHandler {
             EmailNotFoundException.class, RatingNotFoundException.class, MediaTypeNotFoundException.class,
             RefIdNotFoundException.class, MediaNotFoundException.class})
     public ResponseEntity<String> handleNotFoundException(Exception exception) {
-        logger.error("Known exception: " + exception);
+        //logger.error("Known exception: " + exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 
 
     @ExceptionHandler(value = {DuplicateEmailException.class, DuplicateUsernameException.class})
     public ResponseEntity<String> handleDuplicateException(Exception exception) {
-        logger.error("Known exception: " + exception);
+        //logger.error("Known exception: " + exception);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
 }
