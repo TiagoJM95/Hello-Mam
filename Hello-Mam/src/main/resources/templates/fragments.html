@@ -2,18 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Common Fragments</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.18.0/dist/css/uikit.min.css" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
 <body>
 
 <!-- Define a fragment called 'header' -->
 <div th:fragment="header">
-    <nav class="uk-navbar-container">
+    <nav class="uk-navbar-container" style="background-color: #F6FEFF;">
         <div class="uk-container">
             <div uk-navbar>
 
                 <div class="uk-navbar-left">
-                    <a class="uk-navbar-item uk-logo" href="/" aria-label="Back to Home"><img
-                            th:href="@{/images/logo.png}" alt=""></a>
+                    <a class="uk-navbar-item uk-logo" href="/" aria-label="Back to Home">
+                        <img src="https://i.imgur.com/j2wcB8W.jpg" alt="" style="max-height: 70px;">
+                    </a>
                     <ul class="uk-navbar-nav">
                         <li class="uk-active"><a href="#">Home</a></li>
                         <li><a href="#">About</a></li>
@@ -27,8 +30,11 @@
 </div>
 
 <!-- Define another fragment called 'footer' -->
-<div th:fragment="footer">
-    <p>Copyright &copy; 2021 My Website</p>
+<div th:fragment="footer" class="uk-position-bottom">
+    <div class="uk-modal-footer">
+        <p>Copyright &copy; 2024 Hello, Mam!</p>
+    </div>
+
 </div>
 
 </body>
