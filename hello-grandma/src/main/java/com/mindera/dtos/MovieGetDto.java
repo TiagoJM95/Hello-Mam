@@ -6,7 +6,7 @@ import java.util.List;
 
 public record MovieGetDto(
         Long tmdbId,
-        String name,
+        String title,
         String release_date,
         Double vote_average,
         String overview,

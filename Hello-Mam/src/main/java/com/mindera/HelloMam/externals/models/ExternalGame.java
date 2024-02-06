@@ -23,5 +23,5 @@ public class ExternalGame implements Serializable {
 
     private List<String> genreIds;
 
-    boolean fromIGDB;
+    /*boolean fromIGDB;*/
 }
