@@ -1,3 +1,4 @@
+/*
 package com.mindera.HelloMam;
 
 import com.mindera.HelloMam.repositories.MediaRepository;
@@ -199,3 +200,4 @@ private JdbcTemplate jdbcTemplate;
 
 
 }
+*/
