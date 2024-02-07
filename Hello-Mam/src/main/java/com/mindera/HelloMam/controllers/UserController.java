@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UserGetDto> addNewUser(@Valid @RequestBody UserCreateDto userCreateDto) throws MediaTypeNotFoundException {
+    public ResponseEntity<UserGetDto> addNewUser(@Valid @RequestBody UserCreateDto userCreateDto) throws DuplicateEmailException, DuplicateUsernameException {
         return new ResponseEntity<>(userService.addNewUser(userCreateDto), HttpStatus.CREATED);
     }
 
