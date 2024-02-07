@@ -75,14 +75,14 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<MovieGetDto> getMovieRecommendation(Integer movieId) {
+    public List<MovieGetDto> getMovieRecommendations(Integer movieId) {
         List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.getMovieRecommendationByTmdbId(movieId, APPLICATION_JSON, apiKey).getResults());
         checkIfExistsAndAddToMongoDb(movies);
         return movies.stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
 
     @Override
-    public List<MovieGetDto> discoverMovies(String genres) throws InvalidGenreException {
+    public List<MovieGetDto> getMoviesByGenre(String genres) throws InvalidGenreException {
         String genreId = convertGenreStringToGenreId(genres);
         List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.discoverMoviesWithFilters(1, "vote_average.desc", 1000,
                 "en", genreId, APPLICATION_JSON, apiKey).getResults());
@@ -91,7 +91,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<MovieGetDto> getTopFiveMovies() {
+    public List<MovieGetDto> getTopRatedMovies() {
         List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.getTopRatedMovies(1, "vote_average.desc", 1000,
                 "en", APPLICATION_JSON, apiKey).getResults());
         checkIfExistsAndAddToMongoDb(movies);

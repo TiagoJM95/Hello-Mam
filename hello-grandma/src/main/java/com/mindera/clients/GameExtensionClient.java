@@ -9,7 +9,7 @@ import java.util.List;
 
 @Path("/v4")
 @RegisterRestClient(configKey="igdb-api")
-public interface VideogameExtensionClient {
+public interface GameExtensionClient {
     @POST
     @Path("/games")
     @Produces(MediaType.APPLICATION_JSON)

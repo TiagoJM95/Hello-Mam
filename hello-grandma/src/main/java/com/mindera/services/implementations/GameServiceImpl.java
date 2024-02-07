@@ -8,7 +8,7 @@ import com.mindera.entities.Game;
 import com.mindera.enums.GameGenres;
 import com.mindera.exceptions.game.GameGenreNotFoundException;
 import com.mindera.exceptions.game.GameNotFoundException;
-import com.mindera.clients.VideogameExtensionClient;
+import com.mindera.clients.GameExtensionClient;
 import com.mindera.repositories.GameRepository;
 import com.mindera.services.interfaces.GameService;
 import io.quarkus.scheduler.Scheduled;
@@ -32,7 +32,7 @@ public class GameServiceImpl implements GameService {
 
     @Inject
     @RestClient
-    VideogameExtensionClient videogameExtensionClient;
+    GameExtensionClient gameExtensionClient;
 
     @ConfigProperty(name = "TWITCH_CLIENT_ID")
     String clientId;
@@ -82,7 +82,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<GameGetDto> getGamesByTitle(String title) {
         String query = "search \""+title+"\"; fields *;";
-        List<Game> igdbList = videogameExtensionClient.getGames(
+        List<Game> igdbList = gameExtensionClient.getGames(
                 clientId, "Bearer " + token.getAccess_token(), query);
         List<Game> mongoList = gameRepository.findByTitle(title);
         if(igdbList.size() > mongoList.size()){
@@ -98,28 +98,28 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<GameGetDto> getGameRecommendation(int igdbId) {
+    public List<GameGetDto> getGameRecommendations(int igdbId) {
         String query = "fields *; where similar_games = (" + igdbId + ");";
-        List<Game> games = videogameExtensionClient.getGames(
+        List<Game> games = gameExtensionClient.getGames(
                 clientId, "Bearer " + token.getAccess_token(), query);
         checkIfExistsAndAddToMongoDb(games);
         return games.stream().map(GameConverter::fromEntityToGetDto).toList();
     }
 
     @Override
-    public List<GameGetDto> discoverGames(String genre) throws GameGenreNotFoundException {
+    public List<GameGetDto> getGamesByGenre(String genre) throws GameGenreNotFoundException {
         GameGenres gameGenre = getGameGenreByName(genre).orElseThrow(()-> new GameGenreNotFoundException("Genre not found"));
         String query = "fields *; where genres = (" + gameGenre.getId() + ");";
-        List<Game> games = videogameExtensionClient.getGames(
+        List<Game> games = gameExtensionClient.getGames(
                 clientId, "Bearer " + token.getAccess_token(), query);
         checkIfExistsAndAddToMongoDb(games);
         return games.stream().map(GameConverter::fromEntityToGetDto).toList();
     }
 
     @Override
-    public List<GameGetDto> getTopFiveVideoGames() {
+    public List<GameGetDto> getTopRatedGames() {
         String query = "fields *; sort rating desc; limit 5;";
-        List<Game> games = videogameExtensionClient.getGames(
+        List<Game> games = gameExtensionClient.getGames(
                 clientId, "Bearer " + token.getAccess_token(), query);
         checkIfExistsAndAddToMongoDb(games);
         return games.stream().map(GameConverter::fromEntityToGetDto).toList();

@@ -12,7 +12,7 @@ public class ExternalGameClient {
 
     RestClient restClient = RestClient.create();
 
-    String uriBase = "http://hello-grandma:8080/api/v1/videogames";
+    String uriBase = "http://hello-grandma:8080/api/v1/games";
 
     //@Cacheable("games")
     public List<ExternalGame> getAllVideogames(){

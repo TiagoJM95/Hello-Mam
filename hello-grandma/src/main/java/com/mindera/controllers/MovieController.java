@@ -32,26 +32,25 @@ public class MovieController {
 
     @GET
     @Path("/title/{title}")
-    public RestResponse<List<MovieGetDto>> getMovieByTitle(@PathParam("title") String title) {
+    public RestResponse<List<MovieGetDto>> getMoviesByTitle(@PathParam("title") String title) {
         return RestResponse.ok(movieService.getMoviesByTitle(title));
     }
 
     @GET
     @Path("/recommendation/{id}")
-    public RestResponse<List<MovieGetDto>> getMovieRecommendation(@PathParam("id") Integer id) {
-        return RestResponse.ok(movieService.getMovieRecommendation(id));
+    public RestResponse<List<MovieGetDto>> getMovieRecommendations(@PathParam("id") Integer id) {
+        return RestResponse.ok(movieService.getMovieRecommendations(id));
     }
 
     @GET
     @Path("/genres/{genre}")
-    public RestResponse<List<MovieGetDto>> discoverMovies(@PathParam("genre") String genre)throws InvalidGenreException {
-        return RestResponse.ok(movieService.discoverMovies(genre));
+    public RestResponse<List<MovieGetDto>> getMoviesByGenre(@PathParam("genre") String genre)throws InvalidGenreException {
+        return RestResponse.ok(movieService.getMoviesByGenre(genre));
     }
 
     @GET
     @Path("/top")
     public RestResponse<List<MovieGetDto>> getTopRatedMovies() {
-        return RestResponse.ok(movieService.getTopFiveMovies());
+        return RestResponse.ok(movieService.getTopRatedMovies());
     }
-
 }

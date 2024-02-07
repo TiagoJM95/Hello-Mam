@@ -15,9 +15,9 @@ public interface MovieService {
     List<MovieGetDto> getMoviesByTitle(String title) throws MovieNotFoundException, JsonProcessingException;
     List<MovieGetDto> getAllMovies();
     Movie getMovieDetailsByTmdbId(String tmdbId) throws JsonProcessingException;
-    List<MovieGetDto> getMovieRecommendation(Integer movieId) throws JsonProcessingException;
-    List<MovieGetDto> discoverMovies(String genres) throws InvalidGenreException, JsonProcessingException;
-    List<MovieGetDto> getTopFiveMovies();
+    List<MovieGetDto> getMovieRecommendations(Integer movieId) throws JsonProcessingException;
+    List<MovieGetDto> getMoviesByGenre(String genres) throws InvalidGenreException, JsonProcessingException;
+    List<MovieGetDto> getTopRatedMovies();
     void create(Movie movie);
     void checkIfExistsAndAddToMongoDb(List<Movie> movies);
     void convertFromObjectListToStringList(Movie movie);

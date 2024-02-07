@@ -13,7 +13,6 @@ import static com.mindera.util.Messages.*;
 @Provider
 public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
 
-
     private Response handleMovieException(MovieException movieException) {
         if(movieException instanceof MovieNotFoundException) {
             return Response.status(Response.Status.NOT_FOUND)
@@ -24,7 +23,6 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
                 .entity(MOVIE_RELATED_ERROR + movieException.getMessage())
                 .build();
     }
-
     private Response handleVideogameException(GameException gameException) {
         if(gameException instanceof GameNotFoundException) {
             return Response.status(Response.Status.NOT_FOUND)
