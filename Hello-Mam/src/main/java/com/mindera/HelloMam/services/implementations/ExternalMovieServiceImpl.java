@@ -6,6 +6,7 @@ import com.mindera.HelloMam.externals.models.ExternalMovie;
 import com.mindera.HelloMam.repositories.MediaRepository;
 import com.mindera.HelloMam.services.interfaces.ExternalMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class ExternalMovieServiceImpl implements ExternalMovieService {
         return movies;
     }
 
+    @Cacheable("movies")
     @Override
     public ExternalMovie getMovieById(Long id) {
         return externalMovieClient.getMovieById(id);
@@ -45,6 +47,7 @@ public class ExternalMovieServiceImpl implements ExternalMovieService {
         return movies;
     }
 
+    @Cacheable("movies")
     @Override
     public List<ExternalMovie> getMovieRecommendations(Integer id) throws RefIdNotFoundException {
         List<ExternalMovie> movies = externalMovieClient.getMovieRecommendations(id);
@@ -59,6 +62,7 @@ public class ExternalMovieServiceImpl implements ExternalMovieService {
         return movies;
     }
 
+    @Cacheable("movies")
     @Override
     public List<ExternalMovie> getTopRatedMovies() throws RefIdNotFoundException {
         List<ExternalMovie> movies = externalMovieClient.getTopRatedMovies();
