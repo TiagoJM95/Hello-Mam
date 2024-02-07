@@ -34,11 +34,11 @@ public class VideogameServiceImpl implements VideogameService {
     @RestClient
     VideogameExtensionClient videogameExtensionClient;
 
-    //@ConfigProperty(name = "TWITCH_CLIENT_ID")
-    String clientId = "0mvqqdg8tv64n09qhqqhkri7t29clw";
+    @ConfigProperty(name = "TWITCH_CLIENT_ID")
+    String clientId;
 
-    //@ConfigProperty(name = "TWITCH_CLIENT_SECRET")
-    String clientSecret = "dkrrcsvjrgd7b6c8u95ksqcatgtyqt";
+    @ConfigProperty(name = "TWITCH_CLIENT_SECRET")
+    String clientSecret;
 
     private final TwitchAuthenticator tAuth = TwitchAuthenticator.INSTANCE;
 
