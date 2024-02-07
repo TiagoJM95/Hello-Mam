@@ -54,17 +54,17 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public void createMovie(ExternalMovie movie, MediaType mediaType) {
+    public void createMovie(ExternalMovie movie) {
         Media media = new Media();
-        media.setMediaType(mediaType);
+        media.setMediaType(MOVIE);
         media.setRefId(movie.getTmdbId());
         mediaRepository.save(media);
     }
 
     @Override
-    public void createGame(ExternalGame game, MediaType mediaType) {
+    public void createGame(ExternalGame game) {
         Media media = new Media();
-        media.setMediaType(mediaType);
+        media.setMediaType(GAME);
         media.setRefId(game.getIgdbId());
         mediaRepository.save(media);
     }

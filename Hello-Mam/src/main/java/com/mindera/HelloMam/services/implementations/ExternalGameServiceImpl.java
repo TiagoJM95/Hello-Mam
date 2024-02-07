@@ -69,7 +69,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
     private void checkIfExistsAndSave(List<ExternalGame> games) throws RefIdNotFoundException {
         for (ExternalGame game : games) {
             if (mediaRepository.findByRefId(game.getIgdbId()).isEmpty()) {
-                mediaService.createGame(game, GAME);
+                mediaService.createGame(game);
             }
         }
     }

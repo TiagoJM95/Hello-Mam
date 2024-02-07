@@ -69,7 +69,7 @@ public class ExternalMovieServiceImpl implements ExternalMovieService {
     private void checkIfExistsAndSave(List<ExternalMovie> movies) throws RefIdNotFoundException {
         for (ExternalMovie movie : movies) {
             if (mediaRepository.findByRefId(movie.getTmdbId()).isEmpty()) {
-                mediaService.createMovie(movie, MOVIE);
+                mediaService.createMovie(movie);
             }
         }
     }
