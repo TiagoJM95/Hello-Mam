@@ -8,12 +8,17 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.GrantedAuthority;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
 @Service
 public class TokenService {
+
+    Logger LOG = LoggerFactory.getLogger(TokenService.class);
 
     private final JwtEncoder encoder;
 
@@ -33,6 +38,8 @@ public class TokenService {
                 .subject(authentication.getName())
                 .claim("scope", scope)
                 .build();
+
+        LOG.info("Generating token for user {}", authentication.getName());
 
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
