@@ -16,6 +16,6 @@ public interface MediaService {
     MediaGetDto getMediaById(Long id) throws MediaNotFoundException;
     List<MediaGetDto> getMediaByType(String type) throws MediaTypeNotFoundException;
     MediaGetDto getMediaByRefId(Long refId) throws RefIdNotFoundException;
-    void createMovie(ExternalMovie movie, MediaType mediaType);
-    void createGame(ExternalGame game, MediaType mediaType);
+    void createMovie(ExternalMovie movie);
+    void createGame(ExternalGame game);
 }
