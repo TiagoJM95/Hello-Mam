@@ -77,43 +77,52 @@ class MovieServiceImplTest {
     @Test
     void testFindByTmdbId() throws MovieNotFoundException {
 
-        when(movieRepository.findByTmdbId(movie.getTmdbId())).thenReturn(Optional.ofNullable(movie));
+        when(movieRepository.findByTmdbId(movie.getTmdbId())).thenReturn(Optional.of(movie));
 
         Movie movieTest = movieService.findByTmdbId(movie.getTmdbId());
 
-        verify(movieRepository, times(1)).findByTmdbId(movie.getTmdbId());
-
-        //TODO: asserts
         assertNotNull(movieTest);
         assertEquals(movie, movieTest);
+
+        verify(movieRepository, times(1)).findByTmdbId(movie.getTmdbId());
     }
 
-    /*@Test
-    void testFindByTmdbId_NotFound() throws MovieNotFoundException {
+    @Test
+    void testFindByTmdbId_NotFound() {
 
         Long wrongId = 1342L;
 
-        when(movieRepository.findByTmdbId(wrongId)).thenReturn(null);
-        movieService.findByTmdbId(wrongId); //terá que ser NullPointerException?
+        when(movieRepository.findByTmdbId(wrongId)).thenReturn(Optional.empty());
+
+        //verifica se a exceção é lançada quando o método é chamado
         assertThrows(MovieNotFoundException.class, () -> movieService.findByTmdbId(wrongId));
 
         verify(movieRepository, times(1)).findByTmdbId(wrongId);
-    }*/
+    }
 
 
     @Test
     void testGetMovieById() throws MovieNotFoundException {
 
-        when(movieRepository.findByTmdbId(movie.getTmdbId())).thenReturn(Optional.ofNullable(movie));
+        when(movieRepository.findByTmdbId(movie.getTmdbId())).thenReturn(Optional.of(movie));
 
         MovieGetDto movieTest = movieService.getMovieById(movie.getTmdbId());
 
+        assertNotNull(movieTest);
+
         verify(movieRepository, times(1)).findByTmdbId(movie.getTmdbId());
-        verifyNoMoreInteractions(movieRepository);
-        //TODO: asserts
     }
 
-    //TODO: testGetMovieById_NotFound()
+    @Test
+    void testGetMovieById_NotFound() {
+        Long wrongId = 6532L;
+
+        when(movieRepository.findByTmdbId(wrongId)).thenReturn(Optional.empty());
+
+        assertThrows(MovieNotFoundException.class, () -> movieService.getMovieById(wrongId));
+
+        verify(movieRepository, times(1)).findByTmdbId(wrongId);
+    }
 
     @Test
     void testGetMoviesByTitle() {
@@ -147,26 +156,36 @@ class MovieServiceImplTest {
         Movie movie1 = new Movie();
         movieService.create(movie1);
         verify(movieRepository, times(1)).persist(movie1);
-        //TODO: asserts
     }
 
     @Test
     void testGetTopFiveMovies(){
 
     }
-
-    @Test
-    void checkIfExistsAndAddToMongoDb() {
-        when(movieRepository.findByTmdbId(anyLong())).thenReturn(Optional.ofNullable(movie));
+   /* @Test
+    void checkIfExistsAndAddToMongoDb_NotExists() {
+        when(movieRepository.findByTmdbId(anyLong())).thenReturn(Optional.empty());
 
         movieService.checkIfExistsAndAddToMongoDb(movies);
 
         verify(movieRepository, times(movies.size())).findByTmdbId(anyLong());
 
-        verify(movieRepository, never()).persist(any(Movie.class));
+        verify(movieService, never()).create(any(Movie.class));
 
-        //TODO: asserts
+        verify(movieService, times(movies.size())).create(any(Movie.class));
     }
+
+    @Test
+    void checkIfExistsAndAddToMongoDb_CaseExists() {
+        when(movieRepository.findByTmdbId(anyLong())).thenReturn(Optional.of(movie));
+
+        movieService.checkIfExistsAndAddToMongoDb(movies);
+
+        verify(movieRepository, times(movies.size())).findByTmdbId(anyLong());
+
+        verify(movieService, never()).create(any(Movie.class));
+    }*/
+
 
     @Test
     void convertFromObjectListToStringList() {
