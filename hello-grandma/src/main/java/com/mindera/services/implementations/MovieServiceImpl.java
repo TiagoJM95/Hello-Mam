@@ -92,7 +92,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<MovieGetDto> getTopFiveMovies() {
-        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.getTop5(1, "vote_average.desc", 1000,
+        List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.getTopRatedMovies(1, "vote_average.desc", 1000,
                 "en", APPLICATION_JSON, apiKey).getResults());
         checkIfExistsAndAddToMongoDb(movies);
         return movies.stream().map(MovieConverter::fromEntityToGetDto).toList();

@@ -1,14 +1,14 @@
 package com.mindera.converters;
 
-import com.mindera.dtos.VideogameGetDto;
-import com.mindera.entities.Videogame;
+import com.mindera.dtos.GameGetDto;
+import com.mindera.entities.Game;
 import com.mindera.enums.GameGenres;
 import com.mindera.util.DateConverter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideogameConverter {
+public class GameConverter {
 
     public static List<String> convertFromListGenreIdsToListGenreString(List<Integer> genreIds) {
         if(genreIds == null) {
@@ -24,14 +24,14 @@ public class VideogameConverter {
         return genreString;
     }
 
-    public static VideogameGetDto fromEntityToGetDto(Videogame videogame) {
-        return new VideogameGetDto(
-                videogame.getIgdbId(),
-                videogame.getName(),
-                DateConverter.convertDate(videogame.getReleaseDate()),
-                videogame.getRating(),
-                convertFromListGenreIdsToListGenreString(videogame.getGenreIds()),
-                videogame.isFromIGDB(),
-                videogame.getSimilarGames());
+    public static GameGetDto fromEntityToGetDto(Game game) {
+        return new GameGetDto(
+                game.getIgdbId(),
+                game.getName(),
+                DateConverter.convertDate(game.getReleaseDate()),
+                game.getRating(),
+                convertFromListGenreIdsToListGenreString(game.getGenreIds()),
+                game.isFromIGDB(),
+                game.getSimilarGames());
     }
 }

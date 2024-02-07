@@ -2,8 +2,8 @@ package com.mindera.handlers;
 
 import com.mindera.exceptions.movie.MovieException;
 import com.mindera.exceptions.movie.MovieNotFoundException;
-import com.mindera.exceptions.videogame.VideogameException;
-import com.mindera.exceptions.videogame.VideogameNotFoundException;
+import com.mindera.exceptions.game.GameException;
+import com.mindera.exceptions.game.GameNotFoundException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
@@ -25,14 +25,14 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
                 .build();
     }
 
-    private Response handleVideogameException(VideogameException videogameException) {
-        if(videogameException instanceof VideogameNotFoundException) {
+    private Response handleVideogameException(GameException gameException) {
+        if(gameException instanceof GameNotFoundException) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity(videogameException.getMessage())
+                    .entity(gameException.getMessage())
                     .build();
         }
         return Response.status(Response.Status.BAD_REQUEST)
-                .entity(VIDEO_GAME_RELATED_ERROR + videogameException.getMessage())
+                .entity(VIDEO_GAME_RELATED_ERROR + gameException.getMessage())
                 .build();
     }
     @Override
@@ -40,8 +40,8 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
         if(exception instanceof MovieException) {
             return handleMovieException((MovieException) exception);
         }
-        if (exception instanceof VideogameException) {
-            return handleVideogameException((VideogameException) exception);
+        if (exception instanceof GameException) {
+            return handleVideogameException((GameException) exception);
         }
         return Response.status(Response.Status.BAD_REQUEST)
                 .entity(exception.getMessage())

@@ -44,7 +44,7 @@ public interface MovieExtensionClient {
 
     @GET
     @Path("/discover/movie")
-    MovieExtension getTop5(
+    MovieExtension getTopRatedMovies(
             @QueryParam("page") Integer page,
             @QueryParam("sort_by") String sortBy,
             @QueryParam("vote_count.gte") Integer voteCount,

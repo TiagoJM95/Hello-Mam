@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 
 @MongoEntity(collection="videogames", database = "helloGrandma")
-public class Videogame extends PanacheMongoEntity {
+public class Game extends PanacheMongoEntity {
     @JsonProperty("id")
     private int igdbId;
 
