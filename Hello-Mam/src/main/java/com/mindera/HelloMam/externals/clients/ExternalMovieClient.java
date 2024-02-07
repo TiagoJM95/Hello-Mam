@@ -11,7 +11,7 @@ import java.util.List;
 public class ExternalMovieClient {
     RestClient restClient = RestClient.create();
 
-    String uriBase = "http://localhost:8080/api/v1/movies";
+    String uriBase = "http://hello-grandma:8080/api/v1/movies";
 
     //@Cacheable("movies")
     public List<ExternalMovie> getAllMovies(){

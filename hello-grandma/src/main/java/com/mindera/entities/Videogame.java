@@ -23,7 +23,7 @@ public class Videogame extends PanacheMongoEntity {
     private String name;
 
     @JsonProperty("first_release_date")
-    private String releaseDate;
+    private Long releaseDate;
 
     @JsonProperty("rating")
     private Double rating;

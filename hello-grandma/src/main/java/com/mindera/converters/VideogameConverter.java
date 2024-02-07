@@ -28,7 +28,7 @@ public class VideogameConverter {
         return new VideogameGetDto(
                 videogame.getIgdbId(),
                 videogame.getName(),
-                DateConverter.convertDate(Long.valueOf(videogame.getReleaseDate())),
+                DateConverter.convertDate(videogame.getReleaseDate()),
                 videogame.getRating(),
                 convertFromListGenreIdsToListGenreString(videogame.getGenreIds()),
                 videogame.isFromIGDB(),
