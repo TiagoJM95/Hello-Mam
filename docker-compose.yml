@@ -52,9 +52,3 @@ services:
     container_name: hello-grandma
     ports:
       - "8080:8080"
-    environment:
-      QUARKUS_APPLICATION_JSON: '{
-        "quarkus.mongodb.connection-string" : "mongodb://mongo-db:27017/helloGrandma",
-        "quarkus.mongodb.credentials.password" : "password",
-        "quarkus.mongodb.credentials.username" : "root"
-      }'
