@@ -8,41 +8,54 @@ import com.mindera.HelloMam.exceptions.user.DuplicateEmailException;
 import com.mindera.HelloMam.exceptions.user.DuplicateUsernameException;
 import com.mindera.HelloMam.exceptions.user.EmailNotFoundException;
 import com.mindera.HelloMam.exceptions.user.UserNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Date;
 
 import static com.mindera.HelloMam.utils.ExceptionMessages.ERROR_OCCURRED;
 
-@Component
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    //private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<String> genericExceptionHandler(Exception exception) {
-        //logger.error("Unknown exception: " + exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ERROR_OCCURRED + " "  + exception.getMessage());
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public Error genericExceptionHandler(Exception exception, HttpServletRequest request) {
+        return Error.builder()
+                .timestamp(new Date())
+                .message(ERROR_OCCURRED + exception.getMessage())
+                .method(request.getMethod())
+                .path(request.getRequestURI())
+                .build();
     }
 
 
    @ExceptionHandler(value = {UserNotFoundException.class,
             EmailNotFoundException.class, RatingNotFoundException.class, MediaTypeNotFoundException.class,
             RefIdNotFoundException.class, MediaNotFoundException.class})
-    public ResponseEntity<String> handleNotFoundException(Exception exception) {
-        //logger.error("Known exception: " + exception);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+   @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public Error handleNotFoundException(Exception exception, HttpServletRequest request) {
+        return Error.builder()
+                .timestamp(new Date())
+                .message(exception.getMessage())
+                .method(request.getMethod())
+                .path(request.getRequestURI())
+                .build();
     }
 
 
     @ExceptionHandler(value = {DuplicateEmailException.class, DuplicateUsernameException.class})
-    public ResponseEntity<String> handleDuplicateException(Exception exception) {
-        //logger.error("Known exception: " + exception);
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    public Error handleDuplicateException(Exception exception, HttpServletRequest request) {
+        return Error.builder()
+                .timestamp(new Date())
+                .message(exception.getMessage())
+                .method(request.getMethod())
+                .path(request.getRequestURI())
+                .build();
     }
 }

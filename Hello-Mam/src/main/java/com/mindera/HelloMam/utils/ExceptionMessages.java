@@ -11,7 +11,7 @@ public class ExceptionMessages {
     public static final String EMAIL_NOT_FOUND = "This email does not exist.";
     public static final String DUPLICATE_USERNAME = "This username already exists.";
     public static final String DUPLICATE_EMAIL = "This email already exists.";
-    public static final String ERROR_OCCURRED = "An error has occurred";
+    public static final String ERROR_OCCURRED = "An error has occurred: ";
     public static final String USERNAME_NOT_FOUND = "This username does not exist.";
 
 }
