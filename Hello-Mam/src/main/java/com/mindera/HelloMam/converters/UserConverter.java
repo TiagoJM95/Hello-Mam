@@ -23,7 +23,7 @@ public class UserConverter {
         );
     }
 
-    public static User fromUserCreateDtoToUserEntity(UserCreateDto userCreateDto) throws MediaTypeNotFoundException {
+    public static User fromUserCreateDtoToUserEntity(UserCreateDto userCreateDto) {
         return User.builder()
                 .username(userCreateDto.username())
                 .email(userCreateDto.email())

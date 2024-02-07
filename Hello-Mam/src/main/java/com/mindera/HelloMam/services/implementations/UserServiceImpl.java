@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(user);
     }
 
-    public UserGetDto addNewUser(UserCreateDto userCreateDto) throws MediaTypeNotFoundException {
+    public UserGetDto addNewUser(UserCreateDto userCreateDto) {
         User user = fromUserCreateDtoToUserEntity(userCreateDto);
         user.setActive(true);
         return fromUserEntityToUserGetDto(userRepository.save(user));
