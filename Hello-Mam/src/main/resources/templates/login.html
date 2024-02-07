@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -9,8 +10,14 @@
     <!-- Include the 'header' fragment from fragments.html -->
     <div th:insert="~{fragments :: header}"></div>
 
-    <h2>Welcome to the Home Page</h2>
-    <p>This is the body of the home page.</p>
+    <h2>Welcome to the Login Page</h2>
+    <form th:action="@{/login}" method="post">
+        <label for="username"></label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+        <label for="password"></label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
 
     <!-- Include the 'footer' fragment from fragments.html -->
     <div th:insert="~{fragments :: footer}"></div>

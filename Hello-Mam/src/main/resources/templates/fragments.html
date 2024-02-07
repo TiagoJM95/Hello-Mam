@@ -3,7 +3,7 @@
 <head>
     <title>Common Fragments</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.18.0/dist/css/uikit.min.css" />
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:ref="@{/css/main.css}"/>
 </head>
 <body>
 
@@ -18,8 +18,8 @@
                         <img src="https://i.imgur.com/j2wcB8W.jpg" alt="" style="max-height: 70px;">
                     </a>
                     <ul class="uk-navbar-nav">
-                        <li class="uk-active"><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
+                        <li class="uk-active"><a href="/">Home</a></li>
+                        <li><a th:href="@{/about}">About</a></li>
                     </ul>
 
                 </div>

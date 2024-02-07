@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @SpringBootApplication
-@EnableCaching
 @EnableConfigurationProperties(RsaKeyProperties.class)
+@EnableCaching
 @RestController
 public class HelloMamApplication {
 
