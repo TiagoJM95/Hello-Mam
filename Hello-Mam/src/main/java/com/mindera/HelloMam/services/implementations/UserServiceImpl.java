@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
     @Cacheable("users")
     public List<UserGetDto> getAllUsers() {
         return userRepository.findAll().stream()
+                .filter(User::isActive)
                 .map(UserConverter::fromUserEntityToUserGetDto)
                 .toList();
     }
@@ -40,7 +41,11 @@ public class UserServiceImpl implements UserService {
 
     @Cacheable("users")
     public User findById(Long id) throws UserNotFoundException {
-        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        if(!user.isActive()){
+            throw new UserNotFoundException();
+        }
+        return user;
     }
 
     public UserGetDto getUserById(Long id) throws UserNotFoundException {
@@ -67,6 +72,7 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateUsernameException();
         }
         user.setUsername(userUpdateUsernameDto.username());
+        userRepository.save(user);
         return fromUserEntityToUserGetDto(user);
     }
 
@@ -76,24 +82,28 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateEmailException();
         }
         user.setEmail(userUpdateEmailDto.email());
+        userRepository.save(user);
         return fromUserEntityToUserGetDto(user);
     }
 
     public UserGetDto updateName(Long userId, UserUpdateNameDto userUpdateNameDto) throws UserNotFoundException {
         User user = findById(userId);
         user.setName(userUpdateNameDto.name());
+        userRepository.save(user);
         return fromUserEntityToUserGetDto(user);
     }
 
     public UserGetDto updateDateOfBirth(Long userId, UserUpdateDateOfBirthDto userUpdateDateOfBirthDto) throws UserNotFoundException {
         User user = findById(userId);
         user.setDateOfBirth(userUpdateDateOfBirthDto.dateOfBirth());
+        userRepository.save(user);
         return fromUserEntityToUserGetDto(user);
     }
 
     public UserGetDto updateInterests(Long userId, UserUpdateInterestsDto userUpdateInterestsDto) throws UserNotFoundException, MediaTypeNotFoundException {
         User user = findById(userId);
         user.setInterests(UserConverter.fromStringListToEnumList(userUpdateInterestsDto.interests()));
+        userRepository.save(user);
         return fromUserEntityToUserGetDto(user);
     }
 
@@ -103,5 +113,4 @@ public class UserServiceImpl implements UserService {
         user.setActive(false);
         userRepository.save(user);
     }
-
 }
