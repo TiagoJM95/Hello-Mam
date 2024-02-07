@@ -33,7 +33,6 @@ public class RatingServiceImpl implements RatingService {
         this.mediaService = mediaService;
     }
 
-    @Cacheable("ratings")
     public List<RatingGetDto> getAllRating() {
         return ratingRepository.findAll().stream()
                 .map(RatingConverter::fromRatingEntityToRatingGetDto)
@@ -44,6 +43,7 @@ public class RatingServiceImpl implements RatingService {
         return ratingRepository.findById(id).orElseThrow(RatingNotFoundException::new);
     }
 
+    @Cacheable("ratings")
     public RatingGetDto getRatingById(Long id) throws RatingNotFoundException {
         return fromRatingEntityToRatingGetDto(findById(id));
     }
@@ -77,6 +77,7 @@ public class RatingServiceImpl implements RatingService {
     public RatingGetDto updateRating(Long ratingId, RatingUpdateRatingDto ratingUpdateRatingDto) throws RatingNotFoundException {
         Rating rating = findById(ratingId);
         rating.setRating(ratingUpdateRatingDto.rating());
+        ratingRepository.save(rating);
         return fromRatingEntityToRatingGetDto(rating);
     }
 }
