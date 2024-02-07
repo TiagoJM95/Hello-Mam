@@ -29,8 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
-    @Cacheable("users")
+    //@Cacheable("users")
     public List<UserGetDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .filter(User::isActive)
@@ -39,7 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Cacheable("users")
+    //@Cacheable("users")
     public User findById(Long id) throws UserNotFoundException {
         User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         if(!user.isActive()){
@@ -53,11 +52,19 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserGetDto findByEmail(String email) throws EmailNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(EmailNotFoundException::new);
+        User user = userRepository.findByEmail(email).orElseThrow(EmailNotFoundException::new);
+        if (!user.isActive()) {
+            throw new EmailNotFoundException();
+        }
+        return fromUserEntityToUserGetDto(user);
     }
 
     public UserGetDto findByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
+        User user = userRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
+        if (!user.isActive()) {
+            throw new UsernameNotFoundException();
+        }
+        return fromUserEntityToUserGetDto(user);
     }
 
     public UserGetDto addNewUser(UserCreateDto userCreateDto) throws MediaTypeNotFoundException {
