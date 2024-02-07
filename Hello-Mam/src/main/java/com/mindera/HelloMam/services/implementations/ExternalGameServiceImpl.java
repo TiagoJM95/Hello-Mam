@@ -1,6 +1,5 @@
 package com.mindera.HelloMam.services.implementations;
 
-import com.mindera.HelloMam.exceptions.media.RefIdNotFoundException;
 import com.mindera.HelloMam.externals.clients.ExternalGameClient;
 import com.mindera.HelloMam.externals.models.ExternalGame;
 import com.mindera.HelloMam.repositories.MediaRepository;
@@ -10,8 +9,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.mindera.HelloMam.enums.MediaType.GAME;
 
 @Service
 public class ExternalGameServiceImpl implements ExternalGameService {
@@ -29,7 +26,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
 
     @Cacheable("games")
     @Override
-    public List<ExternalGame> getAllVideogames() throws RefIdNotFoundException {
+    public List<ExternalGame> getAllVideogames() {
         List<ExternalGame> games = externalGameClient.getAllVideogames();
         checkIfExistsAndSave(games);
         return games;
@@ -42,7 +39,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
     }
 
     @Override
-    public List<ExternalGame> getGameByTitle(String title) throws RefIdNotFoundException {
+    public List<ExternalGame> getGameByTitle(String title) {
         List<ExternalGame> games = externalGameClient.getGameByTitle(title);
         checkIfExistsAndSave(games);
         return games;
@@ -50,14 +47,14 @@ public class ExternalGameServiceImpl implements ExternalGameService {
 
     @Cacheable("games")
     @Override
-    public List<ExternalGame> getGameRecommendations(int id) throws RefIdNotFoundException {
+    public List<ExternalGame> getGameRecommendations(int id) {
         List<ExternalGame> games = externalGameClient.getGameRecommendations(id);
         checkIfExistsAndSave(games);
         return games;
     }
 
     @Override
-    public List<ExternalGame> getGameByGenre(String genre) throws RefIdNotFoundException {
+    public List<ExternalGame> getGameByGenre(String genre) {
         List<ExternalGame> games = externalGameClient.getGameByGenre(genre);
         checkIfExistsAndSave(games);
         return games;
@@ -65,13 +62,13 @@ public class ExternalGameServiceImpl implements ExternalGameService {
 
     @Cacheable("games")
     @Override
-    public List<ExternalGame> getTopFiveVideoGames() throws RefIdNotFoundException {
+    public List<ExternalGame> getTopFiveVideoGames() {
         List<ExternalGame> games = externalGameClient.getTopFiveVideoGames();
         checkIfExistsAndSave(games);
         return games;
     }
 
-    private void checkIfExistsAndSave(List<ExternalGame> games) throws RefIdNotFoundException {
+    private void checkIfExistsAndSave(List<ExternalGame> games) {
         for (ExternalGame game : games) {
             if (mediaRepository.findByRefId(game.getIgdbId()).isEmpty()) {
                 mediaService.createGame(game);
