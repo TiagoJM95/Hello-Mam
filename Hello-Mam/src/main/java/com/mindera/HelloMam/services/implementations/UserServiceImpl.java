@@ -102,13 +102,6 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(user);
     }
 
-    public UserGetDto updateInterests(Long userId, UserUpdateInterestsDto userUpdateInterestsDto) throws UserNotFoundException, MediaTypeNotFoundException {
-        User user = findById(userId);
-        user.setInterests(UserConverter.fromStringListToEnumList(userUpdateInterestsDto.interests()));
-        userRepository.save(user);
-        return fromUserEntityToUserGetDto(user);
-    }
-
     public void deleteUser(Long id) throws UserNotFoundException {
         User user = findById(id);
         user.setActive(false);

@@ -15,7 +15,6 @@ public record UserCreateDto(
         String name,
         @NotBlank(message = EMAIL_IS_MANDATORY)
         String email,
-        List<String> interests,
         @NotNull(message = DATE_IS_MANDATORY)
         @Past(message = DATE_IN_PAST)
         LocalDate dateOfBirth) {

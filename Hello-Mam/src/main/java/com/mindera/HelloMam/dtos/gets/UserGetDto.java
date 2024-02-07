@@ -9,7 +9,6 @@ public record UserGetDto(
         String username,
         String email,
         String name,
-        List<String> interests,
         LocalDate dateOfBirth
 ) implements Serializable {
 }

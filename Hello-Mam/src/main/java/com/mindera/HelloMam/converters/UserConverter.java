@@ -13,36 +13,12 @@ import static com.mindera.HelloMam.enums.MediaType.getTypeByDescription;
 
 public class UserConverter {
 
-    public static List<MediaType> fromStringListToEnumList(List<String> interests) throws MediaTypeNotFoundException {
-        List<MediaType> list = new ArrayList<>();
-
-        for(String interest : interests) {
-            if(getTypeByDescription(interest).isEmpty()) {
-                throw new MediaTypeNotFoundException();
-            }
-            list.add(getTypeByDescription(interest).get());
-        }
-
-        return list;
-    }
-
-    public static List<String> fromEnumListToStringList(List<MediaType> types) {
-        List<String> list = new ArrayList<>();
-
-        for(MediaType type : types) {
-            list.add(type.getDescription());
-        }
-
-        return list;
-    }
-
     public static UserGetDto fromUserEntityToUserGetDto(User user) {
         return new UserGetDto(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getName(),
-                fromEnumListToStringList(user.getInterests()),
                 user.getDateOfBirth()
         );
     }
@@ -52,7 +28,6 @@ public class UserConverter {
                 .username(userCreateDto.username())
                 .email(userCreateDto.email())
                 .name(userCreateDto.name())
-                .interests(fromStringListToEnumList(userCreateDto.interests()))
                 .dateOfBirth(userCreateDto.dateOfBirth())
                 .build();
     }

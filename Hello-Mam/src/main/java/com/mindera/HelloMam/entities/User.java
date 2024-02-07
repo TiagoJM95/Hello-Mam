@@ -27,7 +27,6 @@ public class User implements Serializable {
     private String email;
     private String name;
     private LocalDate dateOfBirth;
-    private List<MediaType> interests;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "userId")
     private List<Rating> ratings;
     private boolean active;

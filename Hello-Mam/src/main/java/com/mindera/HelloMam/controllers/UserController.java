@@ -77,11 +77,6 @@ public class UserController {
         return new ResponseEntity<>(userService.updateDateOfBirth(id, userUpdateDateOfBirthDto), HttpStatus.ACCEPTED);
     }
 
-    @PatchMapping("/interests/{id}")
-    public ResponseEntity<UserGetDto> updateInterests(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateInterestsDto userUpdateInterestsDto) throws UserNotFoundException, MediaTypeNotFoundException {
-        return new ResponseEntity<>(userService.updateInterests(id, userUpdateInterestsDto), HttpStatus.ACCEPTED);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) throws UserNotFoundException {
         userService.deleteUser(id);
