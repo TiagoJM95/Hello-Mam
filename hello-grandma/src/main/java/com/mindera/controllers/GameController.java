@@ -17,40 +17,40 @@ import java.util.List;
 public class GameController {
 
     @Inject
-    GameServiceImpl videogameService;
+    GameServiceImpl gameService;
 
     @GET
-    public RestResponse<List<GameGetDto>> getAllVideogames(){
-        return RestResponse.ok(videogameService.getAllGames());
+    public RestResponse<List<GameGetDto>> getAllGames(){
+        return RestResponse.ok(gameService.getAllGames());
     }
 
     @GET
     @Path("/{id}")
-    public RestResponse<GameGetDto> getVideogameById(@PathParam("id") int id) throws GameNotFoundException {
-        return RestResponse.ok(videogameService.getGameById(id));
+    public RestResponse<GameGetDto> getGameById(@PathParam("id") int id) throws GameNotFoundException {
+        return RestResponse.ok(gameService.getGameById(id));
     }
 
     @GET
     @Path("/title/{title}")
-    public RestResponse<List<GameGetDto>> getVideoGameByTitle(@PathParam("title") String title) {
-        return RestResponse.ok(videogameService.getGamesByTitle(title));
+    public RestResponse<List<GameGetDto>> getGamesByTitle(@PathParam("title") String title) {
+        return RestResponse.ok(gameService.getGamesByTitle(title));
     }
 
     @GET
     @Path("/recommendation/{id}")
     public RestResponse<List<GameGetDto>> getGameRecommendations(@PathParam("id") int id) {
-        return RestResponse.ok(videogameService.getGameRecommendation(id));
+        return RestResponse.ok(gameService.getGameRecommendations(id));
     }
 
     @GET
     @Path("/genres/{genre}")
-    public RestResponse<List<GameGetDto>> getVideogameByGenre(@PathParam("genre") String genre) throws GameGenreNotFoundException {
-        return RestResponse.ok(videogameService.discoverGames(genre));
+    public RestResponse<List<GameGetDto>> getGamesByGenre(@PathParam("genre") String genre) throws GameGenreNotFoundException {
+        return RestResponse.ok(gameService.getGamesByGenre(genre));
     }
 
     @GET
     @Path("/top")
-    public RestResponse<List<GameGetDto>> getTopFiveVideoGames() {
-        return RestResponse.ok(videogameService.getTopFiveVideoGames());
+    public RestResponse<List<GameGetDto>> getTopRatedGames() {
+        return RestResponse.ok(gameService.getTopRatedGames());
     }
 }

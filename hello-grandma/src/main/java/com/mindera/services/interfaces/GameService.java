@@ -17,11 +17,11 @@ public interface GameService {
 
     List<GameGetDto> getAllGames();
 
-    List<GameGetDto> getGameRecommendation(int igdbId) throws GameGenreNotFoundException ;
+    List<GameGetDto> getGameRecommendations(int igdbId) throws GameGenreNotFoundException ;
 
-    List<GameGetDto> discoverGames(String genres) throws GameGenreNotFoundException;
+    List<GameGetDto> getGamesByGenre(String genres) throws GameGenreNotFoundException;
 
-    List<GameGetDto> getTopFiveVideoGames();
+    List<GameGetDto> getTopRatedGames();
 
     void create(Game game);
 }
