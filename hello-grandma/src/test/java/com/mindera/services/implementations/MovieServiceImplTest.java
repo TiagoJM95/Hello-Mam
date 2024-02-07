@@ -10,11 +10,13 @@ import jakarta.inject.Inject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -23,13 +25,12 @@ class MovieServiceImplTest {
 
     @InjectMock
     MovieRepository movieRepository;
-
     @Inject
     MovieServiceImpl movieService;
 
-    List<Movie> movies = new ArrayList<>();
-    Movie movie;
-    Movie movie2;
+    private List<Movie> movies = new ArrayList<>();
+    private Movie movie;
+    private Movie movie2;
 
 
     @BeforeEach
@@ -124,10 +125,10 @@ class MovieServiceImplTest {
         verify(movieRepository, times(1)).findByTmdbId(wrongId);
     }
 
-    @Test
+   /* @Test
     void testGetMoviesByTitle() {
     }
-
+*/
     @Test
     void testGetAllMovies() {
         when(movieRepository.listAll()).thenReturn(movies);
@@ -139,7 +140,7 @@ class MovieServiceImplTest {
         verify(movieRepository, times(1)).listAll();
     }
 
-    @Test
+   /* @Test
     void testGetMovieDetailsByTmdbId() {
     }
 
@@ -150,52 +151,39 @@ class MovieServiceImplTest {
     @Test
     void testDiscoverMovies() {
     }
-
+*/
     @Test
     void testCreate() {
-        Movie movie1 = new Movie();
-        movieService.create(movie1);
-        verify(movieRepository, times(1)).persist(movie1);
+        Movie movieTest = new Movie();
+        movieService.create(movieTest);
+        verify(movieRepository, times(1)).persist(movieTest);
     }
 
-    @Test
+    /*@Test
     void testGetTopFiveMovies(){
 
     }
-   /* @Test
+*/
+    @Test
     void checkIfExistsAndAddToMongoDb_NotExists() {
-        when(movieRepository.findByTmdbId(anyLong())).thenReturn(Optional.empty());
 
         movieService.checkIfExistsAndAddToMongoDb(movies);
 
-        verify(movieRepository, times(movies.size())).findByTmdbId(anyLong());
-
-        verify(movieService, never()).create(any(Movie.class));
-
-        verify(movieService, times(movies.size())).create(any(Movie.class));
+        verify(movieRepository, times(2)).findByTmdbId(anyLong());
+        assertNotNull(movieRepository.findByTmdbId(60135L));
+        assertNotNull(movieRepository.findByTmdbId(60975L));
     }
 
     @Test
     void checkIfExistsAndAddToMongoDb_CaseExists() {
-        when(movieRepository.findByTmdbId(anyLong())).thenReturn(Optional.of(movie));
+        MovieServiceImpl movieServiceSpy = spy(movieService);
 
-        movieService.checkIfExistsAndAddToMongoDb(movies);
+        when(movieRepository.findByTmdbId(60135L)).thenReturn(Optional.of(movie));
 
-        verify(movieRepository, times(movies.size())).findByTmdbId(anyLong());
+        movieServiceSpy.checkIfExistsAndAddToMongoDb(movies);
 
-        verify(movieService, never()).create(any(Movie.class));
-    }*/
-
-
-    @Test
-    void convertFromObjectListToStringList() {
-    }
-
-    @Test
-    void convertGenreStringToGenreId() {
-    }
-
-    @Test
-    void fromMovieExtensionListToMovieList() {
+        verify(movieRepository, times(2)).findByTmdbId(anyLong());
+        assertNotNull(movieRepository.findByTmdbId(movie2.getTmdbId()));
+        verify(movieServiceSpy, atMost(1)).create(any(Movie.class));
     }
 }
