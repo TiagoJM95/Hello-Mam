@@ -4,7 +4,6 @@ import com.mindera.HelloMam.dtos.creates.UserCreateDto;
 import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.dtos.updates.*;
 import com.mindera.HelloMam.entities.User;
-import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
 import com.mindera.HelloMam.exceptions.user.*;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ public interface UserService {
     List<UserGetDto> getAllUsers();
     UserGetDto findByEmail(String email) throws EmailNotFoundException;
     UserGetDto findByUsername(String username) throws UsernameNotFoundException;
-    UserGetDto addNewUser(UserCreateDto userCreateDto) throws MediaTypeNotFoundException;
+    UserGetDto addNewUser(UserCreateDto userCreateDto);
     UserGetDto updateUsername(Long userId, UserUpdateUsernameDto userUpdateUsernameDto) throws UserNotFoundException, DuplicateUsernameException;
     UserGetDto updateEmail(Long userId, UserUpdateEmailDto userUpdateEmailDto) throws UserNotFoundException, DuplicateEmailException;
     UserGetDto updateName(Long userId, UserUpdateNameDto userUpdateNameDto) throws UserNotFoundException;
