@@ -10,7 +10,6 @@ import com.mindera.HelloMam.exceptions.user.*;
 import com.mindera.HelloMam.repositories.UserRepository;
 import com.mindera.HelloMam.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +27,6 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-
-    //@Cacheable("users")
     public List<UserGetDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .filter(User::isActive)
@@ -37,8 +34,6 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
 
-
-    //@Cacheable("users")
     public User findById(Long id) throws UserNotFoundException {
         User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         if(!user.isActive()){
@@ -113,7 +108,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return fromUserEntityToUserGetDto(user);
     }
-
 
     public void deleteUser(Long id) throws UserNotFoundException {
         User user = findById(id);
