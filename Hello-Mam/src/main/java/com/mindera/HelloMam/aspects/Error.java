@@ -11,11 +11,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class Error {
-
     Date timestamp;
     String message;
     String method;
     String path;
-
 }
-
