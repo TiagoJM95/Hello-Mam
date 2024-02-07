@@ -1,7 +1,6 @@
 package com.mindera.HelloMam.services.interfaces;
 
 import com.mindera.HelloMam.dtos.gets.MediaGetDto;
-import com.mindera.HelloMam.enums.MediaType;
 import com.mindera.HelloMam.exceptions.media.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.media.RefIdNotFoundException;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;

@@ -6,6 +6,7 @@ import com.mindera.HelloMam.externals.models.ExternalGame;
 import com.mindera.HelloMam.repositories.MediaRepository;
 import com.mindera.HelloMam.services.interfaces.ExternalGameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
         this.mediaRepository = mediaRepository;
     }
 
+    @Cacheable("games")
     @Override
     public List<ExternalGame> getAllVideogames() throws RefIdNotFoundException {
         List<ExternalGame> games = externalGameClient.getAllVideogames();
@@ -33,6 +35,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
         return games;
     }
 
+    @Cacheable("games")
     @Override
     public ExternalGame getVideogameById(int id) {
         return externalGameClient.getVideogameById(id);
@@ -45,6 +48,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
         return games;
     }
 
+    @Cacheable("games")
     @Override
     public List<ExternalGame> getGameRecommendations(int id) throws RefIdNotFoundException {
         List<ExternalGame> games = externalGameClient.getGameRecommendations(id);
@@ -59,6 +63,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
         return games;
     }
 
+    @Cacheable("games")
     @Override
     public List<ExternalGame> getTopFiveVideoGames() throws RefIdNotFoundException {
         List<ExternalGame> games = externalGameClient.getTopFiveVideoGames();
