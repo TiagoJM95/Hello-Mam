@@ -62,7 +62,13 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(user);
     }
 
-    public UserGetDto addNewUser(UserCreateDto userCreateDto) {
+    public UserGetDto addNewUser(UserCreateDto userCreateDto) throws DuplicateUsernameException, DuplicateEmailException {
+        if(userRepository.findByUsername(userCreateDto.username()).isPresent()){
+            throw new DuplicateUsernameException();
+        }
+        if(userRepository.findByEmail(userCreateDto.email()).isPresent()){
+            throw new DuplicateEmailException();
+        }
         User user = fromUserCreateDtoToUserEntity(userCreateDto);
         user.setActive(true);
         return fromUserEntityToUserGetDto(userRepository.save(user));

@@ -16,7 +16,7 @@ public interface UserService {
     List<UserGetDto> getAllUsers();
     UserGetDto findByEmail(String email) throws EmailNotFoundException;
     UserGetDto findByUsername(String username) throws UsernameNotFoundException;
-    UserGetDto addNewUser(UserCreateDto userCreateDto);
+    UserGetDto addNewUser(UserCreateDto userCreateDto) throws DuplicateUsernameException, DuplicateEmailException;
     UserGetDto updateUsername(Long userId, UserUpdateUsernameDto userUpdateUsernameDto) throws UserNotFoundException, DuplicateUsernameException;
     UserGetDto updateEmail(Long userId, UserUpdateEmailDto userUpdateEmailDto) throws UserNotFoundException, DuplicateEmailException;
     UserGetDto updateName(Long userId, UserUpdateNameDto userUpdateNameDto) throws UserNotFoundException;
