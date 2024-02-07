@@ -1,6 +1,6 @@
 package com.mindera.repositories;
 
-import com.mindera.entities.Videogame;
+import com.mindera.entities.Game;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
-public class VideogameRepository implements PanacheMongoRepository<Videogame> {
+public class GameRepository implements PanacheMongoRepository<Game> {
 
-    public Optional<Videogame> findByIgdbId(int igdbId) {
+    public Optional<Game> findByIgdbId(int igdbId) {
         return find("igdbId", igdbId).firstResultOptional();
     }
 
-    public List<Videogame> findByTitle(String title){
+    public List<Game> findByTitle(String title){
         return find("title", title).list();
     }
 

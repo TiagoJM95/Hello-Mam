@@ -1,9 +1,8 @@
 package com.mindera.dtos;
 
-import java.time.LocalDate;
 import java.util.List;
 
-public record VideogameGetDto(
+public record GameGetDto(
         int igdbId,
         String name,
         String releaseDate,
