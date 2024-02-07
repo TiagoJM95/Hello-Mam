@@ -3,6 +3,8 @@ package com.mindera.HelloMam.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table
 @NoArgsConstructor
@@ -11,7 +13,7 @@ import lombok.*;
 @Setter
 @Builder
 
-public class Rating {
+public class Rating implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

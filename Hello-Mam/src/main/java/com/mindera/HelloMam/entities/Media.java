@@ -4,6 +4,7 @@ import com.mindera.HelloMam.enums.MediaType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,7 @@ import java.util.List;
 @Setter
 @Builder
 
-public class Media {
+public class Media implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
