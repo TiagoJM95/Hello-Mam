@@ -24,7 +24,6 @@ public class ExternalGameServiceImpl implements ExternalGameService {
         this.mediaRepository = mediaRepository;
     }
 
-    @Cacheable("games")
     @Override
     public List<ExternalGame> getAllVideogames() {
         List<ExternalGame> games = externalGameClient.getAllVideogames();
