@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Home Page</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.18.0/dist/css/uikit.min.css" />
@@ -9,7 +9,7 @@
     <!-- Include the 'header' fragment from fragments.html -->
     <div th:insert="~{fragments :: header}"></div>
 
-    <h2>Welcome to the Home Page</h2>
+    <p sec:authorize="isAuthenticated()">Welcome, <span sec:authentication="principal.name"></span>!</p>
     <p>This is the body of the home page.</p>
 
     <!-- Include the 'footer' fragment from fragments.html -->
