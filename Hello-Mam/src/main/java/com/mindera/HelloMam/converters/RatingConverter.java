@@ -21,7 +21,7 @@ public class RatingConverter {
     }
 
 
-    public static Rating fromRatingEntityToRatingCreateDto(RatingCreateDto ratingCreateDto, User user, Media media) {
+    public static Rating fromRatingCreateDtoToRatingEntity(RatingCreateDto ratingCreateDto, User user, Media media) {
         return Rating.builder()
                 .userId(user)
                 .mediaId(media)
