@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(findById(id));
     }
 
+    @Cacheable("users")
     public UserGetDto findByEmail(String email) throws EmailNotFoundException {
         User user = userRepository.findByEmail(email).orElseThrow(EmailNotFoundException::new);
         if (!user.isActive()) {
@@ -57,6 +58,7 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(user);
     }
 
+    @Cacheable("users")
     public UserGetDto findByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
         if (!user.isActive()) {
@@ -78,7 +80,7 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(userRepository.save(user));
     }
 
-    @CacheEvict(value = "users")
+    @CacheEvict(value = "users", allEntries = true)
     public UserGetDto updateUsername(Long userId, UserUpdateUsernameDto userUpdateUsernameDto) throws UserNotFoundException, DuplicateUsernameException {
         User user = findById(userId);
         if(userRepository.findByUsername(userUpdateUsernameDto.username()).isPresent()){
@@ -89,6 +91,7 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public UserGetDto updateEmail(Long userId, UserUpdateEmailDto userUpdateEmailDto) throws UserNotFoundException, DuplicateEmailException {
         User user = findById(userId);
         if(userRepository.findByEmail(userUpdateEmailDto.email()).isPresent()){
@@ -99,6 +102,7 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public UserGetDto updateName(Long userId, UserUpdateNameDto userUpdateNameDto) throws UserNotFoundException {
         User user = findById(userId);
         user.setName(userUpdateNameDto.name());
@@ -106,6 +110,7 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public UserGetDto updateDateOfBirth(Long userId, UserUpdateDateOfBirthDto userUpdateDateOfBirthDto) throws UserNotFoundException {
         User user = findById(userId);
         user.setDateOfBirth(userUpdateDateOfBirthDto.dateOfBirth());
@@ -113,6 +118,7 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void deleteUser(Long id) throws UserNotFoundException {
         User user = findById(id);
         user.setActive(false);

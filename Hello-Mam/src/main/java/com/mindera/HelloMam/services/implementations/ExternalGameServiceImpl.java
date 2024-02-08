@@ -26,6 +26,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
     }
 
     @Cacheable("games")
+    @CacheEvict(value = "media", allEntries = true)
     @Override
     public List<ExternalGame> getAllVideogames() {
         List<ExternalGame> games = externalGameClient.getAllVideogames();
@@ -34,12 +35,13 @@ public class ExternalGameServiceImpl implements ExternalGameService {
     }
 
     @Cacheable("games")
+    @CacheEvict(value = "media", allEntries = true)
     @Override
     public ExternalGame getVideogameById(int id) {
         return externalGameClient.getVideogameById(id);
     }
 
-    @CacheEvict(value = "games", allEntries = true)
+    @CacheEvict(value = {"games", "media"}, allEntries = true)
     @Override
     public List<ExternalGame> getGameByTitle(String title) {
         List<ExternalGame> games = externalGameClient.getGameByTitle(title);
@@ -48,7 +50,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
     }
 
     @Cacheable("games")
-    @CacheEvict(value = "games", allEntries = true)
+    @CacheEvict(value = {"games", "media"}, allEntries = true)
     @Override
     public List<ExternalGame> getGameRecommendations(int id) {
         List<ExternalGame> games = externalGameClient.getGameRecommendations(id);
@@ -56,7 +58,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
         return games;
     }
 
-    @CacheEvict(value = "games", allEntries = true)
+    @CacheEvict(value = {"games", "media"}, allEntries = true)
     @Override
     public List<ExternalGame> getGameByGenre(String genre) {
         List<ExternalGame> games = externalGameClient.getGameByGenre(genre);
@@ -65,7 +67,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
     }
 
     @Cacheable("games")
-    @CacheEvict(value = "games", allEntries = true)
+    @CacheEvict(value = {"games", "media"}, allEntries = true)
     @Override
     public List<ExternalGame> getTopFiveVideoGames() {
         List<ExternalGame> games = externalGameClient.getTopFiveVideoGames();

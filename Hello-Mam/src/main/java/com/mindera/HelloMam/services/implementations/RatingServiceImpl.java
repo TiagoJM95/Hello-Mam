@@ -14,6 +14,7 @@ import com.mindera.HelloMam.exceptions.user.UserNotFoundException;
 import com.mindera.HelloMam.repositories.RatingRepository;
 import com.mindera.HelloMam.services.interfaces.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ public class RatingServiceImpl implements RatingService {
         this.mediaService = mediaService;
     }
 
+    @Cacheable("ratings")
     public List<RatingGetDto> getAllRating() {
         return ratingRepository.findAll().stream()
                 .map(RatingConverter::fromRatingEntityToRatingGetDto)
@@ -49,6 +51,7 @@ public class RatingServiceImpl implements RatingService {
         return fromRatingEntityToRatingGetDto(findById(id));
     }
 
+    @Cacheable("ratings")
     public List<RatingGetDto> getRatingByUserId(Long userId) throws UserNotFoundException {
         User user = userService.findById(userId);
         return ratingRepository.findAll().stream()
@@ -57,6 +60,7 @@ public class RatingServiceImpl implements RatingService {
                 .toList();
     }
 
+    @Cacheable("ratings")
     public List<RatingGetDto> getRatingByMediaId(Long mediaId) throws MediaNotFoundException {
 
         Media media = mediaService.findById(mediaId);
@@ -67,6 +71,7 @@ public class RatingServiceImpl implements RatingService {
                 .toList();
     }
 
+    @CacheEvict(value = "ratings", allEntries = true)
     public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) throws UserNotFoundException, MediaNotFoundException, DuplicateRatingException {
         Rating ratingToAdd = fromRatingCreateDtoToRatingEntity(ratingCreateDto,
                 userService.findById(ratingCreateDto.userId()),
@@ -77,12 +82,14 @@ public class RatingServiceImpl implements RatingService {
         }
         ratingRepository.save(ratingToAdd);
         return fromRatingEntityToRatingGetDto(ratingToAdd);
+    }
 
-        /*Rating addedRating = ratingRepository.save(fromRatingCreateDtoToRatingEntity(ratingCreateDto,
-                userService.findById(ratingCreateDto.userId()),
-                mediaService.findById(ratingCreateDto.mediaId())));
-
-        return fromRatingEntityToRatingGetDto(addedRating);*/
+    @CacheEvict(value = "ratings", allEntries = true)
+    public RatingGetDto updateRating(Long ratingId, RatingUpdateRatingDto ratingUpdateRatingDto) throws RatingNotFoundException {
+        Rating rating = findById(ratingId);
+        rating.setRating(ratingUpdateRatingDto.rating());
+        ratingRepository.save(rating);
+        return fromRatingEntityToRatingGetDto(rating);
     }
 
     private boolean checkIfRatingExists(Rating ratingToAdd) {
@@ -92,12 +99,5 @@ public class RatingServiceImpl implements RatingService {
             }
         }
         return false;
-    }
-
-    public RatingGetDto updateRating(Long ratingId, RatingUpdateRatingDto ratingUpdateRatingDto) throws RatingNotFoundException {
-        Rating rating = findById(ratingId);
-        rating.setRating(ratingUpdateRatingDto.rating());
-        ratingRepository.save(rating);
-        return fromRatingEntityToRatingGetDto(rating);
     }
 }

@@ -6,12 +6,11 @@ import com.mindera.HelloMam.externals.models.ExternalMovie;
 import com.mindera.HelloMam.repositories.MediaRepository;
 import com.mindera.HelloMam.services.interfaces.ExternalMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.mindera.HelloMam.enums.MediaType.MOVIE;
 
 @Service
 public class ExternalMovieServiceImpl implements ExternalMovieService {
@@ -27,6 +26,8 @@ public class ExternalMovieServiceImpl implements ExternalMovieService {
         this.mediaRepository = mediaRepository;
     }
 
+    @Cacheable("movies")
+    @CacheEvict(value = "media", allEntries = true)
     @Override
     public List<ExternalMovie> getAllMovies() throws RefIdNotFoundException {
         List<ExternalMovie> movies = externalMovieClient.getAllMovies();
@@ -35,11 +36,13 @@ public class ExternalMovieServiceImpl implements ExternalMovieService {
     }
 
     @Cacheable("movies")
+    @CacheEvict(value = "media", allEntries = true)
     @Override
     public ExternalMovie getMovieById(Long id) {
         return externalMovieClient.getMovieById(id);
     }
 
+    @CacheEvict(value = {"movies", "media"}, allEntries = true)
     @Override
     public List<ExternalMovie> getMovieByTitle(String title) throws RefIdNotFoundException {
         List<ExternalMovie> movies = externalMovieClient.getMovieByTitle(title);
@@ -48,6 +51,7 @@ public class ExternalMovieServiceImpl implements ExternalMovieService {
     }
 
     @Cacheable("movies")
+    @CacheEvict(value = {"movies", "media"}, allEntries = true)
     @Override
     public List<ExternalMovie> getMovieRecommendations(Integer id) throws RefIdNotFoundException {
         List<ExternalMovie> movies = externalMovieClient.getMovieRecommendations(id);
@@ -55,6 +59,7 @@ public class ExternalMovieServiceImpl implements ExternalMovieService {
         return movies;
     }
 
+    @CacheEvict(value = {"movies", "media"}, allEntries = true)
     @Override
     public List<ExternalMovie> getDiscoverMovies(String genre) throws RefIdNotFoundException {
         List<ExternalMovie> movies = externalMovieClient.getDiscoverMovies(genre);
@@ -63,6 +68,7 @@ public class ExternalMovieServiceImpl implements ExternalMovieService {
     }
 
     @Cacheable("movies")
+    @CacheEvict(value = {"movies", "media"}, allEntries = true)
     @Override
     public List<ExternalMovie> getTopRatedMovies() throws RefIdNotFoundException {
         List<ExternalMovie> movies = externalMovieClient.getTopRatedMovies();

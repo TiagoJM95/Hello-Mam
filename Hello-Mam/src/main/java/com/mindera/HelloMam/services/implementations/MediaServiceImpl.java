@@ -61,7 +61,6 @@ public class MediaServiceImpl implements MediaService {
         media.setRefId(movie.getTmdbId());
         mediaRepository.save(media);
     }
-
     @Override
     public void createGame(ExternalGame game) {
         Media media = new Media();
