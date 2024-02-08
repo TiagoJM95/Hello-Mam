@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "\"user\"")
+@Table
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
