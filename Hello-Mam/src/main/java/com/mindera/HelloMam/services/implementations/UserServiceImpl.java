@@ -9,6 +9,8 @@ import com.mindera.HelloMam.exceptions.user.*;
 import com.mindera.HelloMam.repositories.UserRepository;
 import com.mindera.HelloMam.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Cacheable("users")
     public List<UserGetDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .filter(User::isActive)
@@ -41,6 +44,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Cacheable("users")
     public UserGetDto getUserById(Long id) throws UserNotFoundException {
         return fromUserEntityToUserGetDto(findById(id));
     }
@@ -61,6 +65,7 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public UserGetDto addNewUser(UserCreateDto userCreateDto) throws DuplicateUsernameException, DuplicateEmailException {
         if(userRepository.findByUsername(userCreateDto.username()).isPresent()){
             throw new DuplicateUsernameException();
@@ -73,6 +78,7 @@ public class UserServiceImpl implements UserService {
         return fromUserEntityToUserGetDto(userRepository.save(user));
     }
 
+    @CacheEvict(value = "users")
     public UserGetDto updateUsername(Long userId, UserUpdateUsernameDto userUpdateUsernameDto) throws UserNotFoundException, DuplicateUsernameException {
         User user = findById(userId);
         if(userRepository.findByUsername(userUpdateUsernameDto.username()).isPresent()){
