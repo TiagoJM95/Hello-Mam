@@ -3,6 +3,7 @@ package com.mindera.HelloMam.aspects;
 import com.mindera.HelloMam.exceptions.media.MediaNotFoundException;
 import com.mindera.HelloMam.exceptions.media.RefIdNotFoundException;
 import com.mindera.HelloMam.exceptions.MediaTypeNotFoundException;
+import com.mindera.HelloMam.exceptions.rating.DuplicateRatingException;
 import com.mindera.HelloMam.exceptions.rating.RatingNotFoundException;
 import com.mindera.HelloMam.exceptions.user.DuplicateEmailException;
 import com.mindera.HelloMam.exceptions.user.DuplicateUsernameException;
@@ -59,7 +60,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(value = {DuplicateEmailException.class, DuplicateUsernameException.class})
+    @ExceptionHandler(value = {DuplicateEmailException.class, DuplicateUsernameException.class, DuplicateRatingException.class})
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public Error handleDuplicateException(Exception exception, HttpServletRequest request) {
         return Error.builder()

@@ -8,6 +8,7 @@ import com.mindera.HelloMam.entities.Media;
 import com.mindera.HelloMam.entities.Rating;
 import com.mindera.HelloMam.entities.User;
 import com.mindera.HelloMam.exceptions.media.MediaNotFoundException;
+import com.mindera.HelloMam.exceptions.rating.DuplicateRatingException;
 import com.mindera.HelloMam.exceptions.rating.RatingNotFoundException;
 import com.mindera.HelloMam.exceptions.user.UserNotFoundException;
 import com.mindera.HelloMam.repositories.RatingRepository;
@@ -66,12 +67,31 @@ public class RatingServiceImpl implements RatingService {
                 .toList();
     }
 
-    public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) throws UserNotFoundException, MediaNotFoundException {
-        Rating addedRating = ratingRepository.save(fromRatingEntityToRatingCreateDto(ratingCreateDto,
+    public RatingGetDto addNewRating(RatingCreateDto ratingCreateDto) throws UserNotFoundException, MediaNotFoundException, DuplicateRatingException {
+        Rating ratingToAdd = fromRatingCreateDtoToRatingEntity(ratingCreateDto,
+                userService.findById(ratingCreateDto.userId()),
+                mediaService.findById(ratingCreateDto.mediaId()));
+
+        if(checkIfRatingExists(ratingToAdd)){
+            throw new DuplicateRatingException("Rating already exists!");
+        }
+        ratingRepository.save(ratingToAdd);
+        return fromRatingEntityToRatingGetDto(ratingToAdd);
+
+        /*Rating addedRating = ratingRepository.save(fromRatingCreateDtoToRatingEntity(ratingCreateDto,
                 userService.findById(ratingCreateDto.userId()),
                 mediaService.findById(ratingCreateDto.mediaId())));
 
-        return fromRatingEntityToRatingGetDto(addedRating);
+        return fromRatingEntityToRatingGetDto(addedRating);*/
+    }
+
+    private boolean checkIfRatingExists(Rating ratingToAdd) {
+        for (Rating rating : ratingRepository.findAll()) {
+            if (rating.equals(ratingToAdd)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public RatingGetDto updateRating(Long ratingId, RatingUpdateRatingDto ratingUpdateRatingDto) throws RatingNotFoundException {
