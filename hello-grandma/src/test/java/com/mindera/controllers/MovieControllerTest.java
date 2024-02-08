@@ -1,7 +1,6 @@
 package com.mindera.controllers;
 
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -17,13 +16,10 @@ class MovieControllerTest {
 
     int testPort = Integer.parseInt(System.getProperty("quarkus.http.test-port", "8080"));
 
-   /* @BeforeEach
-    void setUp() {
-    }*/
 
     @Test
     void getAllMovies() {
-        //int testPort = Integer.parseInt(System.getProperty("quarkus.http.test-port", "8080"));
+
         given()
                 .port(testPort)
                 .when().get("/api/v1/movies")
@@ -67,15 +63,36 @@ class MovieControllerTest {
                 .statusCode(200);
     }
 
-   /* @Test
+
+    @Test
     void getMovieRecommendation() {
+        given()
+                .pathParam("id", 769L)
+                .port(testPort)
+                .when().get("/api/v1/movies/recommendation/{id}")
+                .then()
+                .statusCode(200);
     }
+
 
     @Test
     void discoverMovies() {
+        given()
+                .pathParam("genre", "Action")
+                .port(testPort)
+                .when().get("/api/v1/movies/genres/{genre}")
+                .then()
+                .statusCode(200);
     }
+
 
     @Test
     void getTopRatedMovies() {
-    }*/
+        given()
+                .port(testPort)
+                .when().get("/api/v1/movies/top")
+                .then()
+                .statusCode(200);
+    }
+
 }
