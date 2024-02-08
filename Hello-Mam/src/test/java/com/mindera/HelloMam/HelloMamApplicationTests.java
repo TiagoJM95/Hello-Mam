@@ -1,22 +1,27 @@
-/*
+
 package com.mindera.HelloMam;
 
 import com.mindera.HelloMam.repositories.MediaRepository;
 import com.mindera.HelloMam.repositories.RatingRepository;
 import com.mindera.HelloMam.repositories.UserRepository;
 import org.junit.jupiter.api.*;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.junit.jupiter.api.*;
+import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static org.hamcrest.Matchers.hasSize;
+
+import java.util.ArrayList;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -27,33 +32,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@Import(RedisTestConfiguration.class)
 class HelloMamApplicationTests {
 
 	@Autowired
 	private MockMvc mockMvc;
 
-@Autowired
-private UserRepository userRepository;
+	@MockBean
+	private MediaRepository mediaRepository;
 
-@Autowired
-private RatingRepository ratingRepository;
+	@MockBean
+	private RatingRepository ratingRepository;
 
-@Autowired
-private MediaRepository mediaRepository;
+	@MockBean
+	private UserRepository userRepository;
 
-@Autowired
-private JdbcTemplate jdbcTemplate;
-
-
-	@AfterEach
-	void tearDown() {
-		//reset database
-		userRepository.deleteAll();
-		mediaRepository.deleteAll();
-		ratingRepository.deleteAll();
-		jdbcTemplate.execute("ALTER TABLE user AUTO_INCREMENT = 1");
-		jdbcTemplate.execute("ALTER TABLE media AUTO_INCREMENT = 1");
-		jdbcTemplate.execute("ALTER TABLE rating AUTO_INCREMENT = 1");
+	@BeforeEach
+	void setUp() {
+		Mockito.when(mediaRepository.findAll()).thenReturn(new ArrayList<>());
+		Mockito.when(ratingRepository.findAll()).thenReturn(new ArrayList<>());
+		Mockito.when(userRepository.findAll()).thenReturn(new ArrayList<>());
 	}
 
 
@@ -62,142 +60,37 @@ private JdbcTemplate jdbcTemplate;
 	}
 
 	@Test
-	@DisplayName("Test to ascertain if a get to home returns a 200 OK status code")
-	void getHomeReturns200Ok() throws Exception {
-		this.mockMvc.perform(get("/")).andDo(print())
-				.andExpect(status().isOk());
-	}
-
-	@Test
-	@DisplayName("Test to determine if a get to an empty User database returns an empty database")
-	void getToUserEmptyDB() throws Exception {
-		this.mockMvc.perform(get("/api/v1//user/")).andDo(print())
+	@DisplayName("Test if the media list is empty")
+	void testMediaListIsEmpty() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/media/")
+						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().string(containsString("[]")));
 	}
 
 	@Test
-	@DisplayName("Test to determine the creation of a User and that it returns with id 1")
-	void createUserAndCheckIdNumber() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/user/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"name\":\"Mam\",\"username\":\"Mama\",\"dateOfBirth\":\"1960-01-01\",\"email\":\"mam@test.com\"}"))
-				.andExpect(status().isCreated())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1));
-	}
-
-	@Test
-	@DisplayName("Test to determine the creation of a User and that it returns with all values correctly attributed")
-	void createUserAndCheckValues() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/user/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"name\":\"Mrs Mam\",\"username\":\"Mam\",\"email\":\"mam@test.com\",\"dateOfBirth\":\"1960-01-01\"}"))
-				.andExpect(status().isCreated())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1))
-				.andExpect(jsonPath("$.name").value("Mrs Mam"))
-				.andExpect(jsonPath("$.username").value("Mam"))
-				.andExpect(jsonPath("$.email").value("mam@test.com"))
-				.andExpect(jsonPath("$.dateOfBirth").value("1960-01-01"));
-	}
-
-	@Test
-	@DisplayName("Test to determine if a get to an empty Rating database returns an empty database")
-	public void getToRatingEmptyDB() throws Exception {
-		this.mockMvc.perform(get("/api/v1/rating/")).andDo(print())
+	@DisplayName("Test if the rating list is empty")
+	void testRatingListIsEmpty() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/rating/")
+						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().string(containsString("[]")));
 	}
 
 	@Test
-	@DisplayName("Test to determine the creation of a Rating and that it returns with id 1")
-	public void createRatingAndCheckIdNumber() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/user/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"name\":\"Mrs Mam\",\"username\":\"Mam\",\"email\":\"mam@test.com\",\"dateOfBirth\":\"1960-01-01\"}"))
-				.andExpect(status().isCreated())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1));
-
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/media/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"refId\":\"refIdTest\",\"mediaType\":\"MOVIE\"}"))
-				.andExpect(status().isCreated())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1));
-
-
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/rating/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"rating\":5,\"mediaId\":1,\"userId\":1}"))
-				.andExpect(status().isCreated())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1));
-	}
-
-	@Test
-	@DisplayName("Test to determine the creation of a Rating and that it returns with all values correctly attributed")
-	public void createRatingAndCheckValues() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/user/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"name\":\"Mrs Mam\",\"username\":\"Mam\",\"email\":\"mam@test.com\",\"dateOfBirth\":\"1960-01-01\"}"))
-				.andExpect(status().isCreated())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1));
-
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/media/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"refId\":\"refIdTest\",\"mediaType\":\"MOVIE\"}"))
-				.andExpect(status().isCreated())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1));
-
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/rating/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"mediaId\":1,\"userId\":1,\"rating\":5}"))
-				.andExpect(status().isCreated())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1))
-				.andExpect(jsonPath("$.rating").value(5))
-				.andExpect(jsonPath("$.mediaId.id").value(1))
-				.andExpect(jsonPath("$.userId.id").value(1));
-	}
-
-	@Test
-	@DisplayName("Test to determine if a get to an empty Media database returns an empty database")
-	public void getToMediaEmptyDB() throws Exception {
-		this.mockMvc.perform(get("/api/v1/media/")).andDo(print())
+	@DisplayName("Test if the user list is empty")
+	void testUserListIsEmpty() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/user/")
+						.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().string(containsString("[]")));
 	}
 
-	@Test
-	@DisplayName("Test to determine the creation of a Media and that it returns with id 1")
-	public void createMediaAndCheckIdNumber() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/media/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"refId\":\"refIdTest\",\"mediaType\":\"MOVIE\"}"))
-				.andExpect(status().isCreated())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1));
-	}
 
-	@Test
-	@DisplayName("Test to determine the creation of a Media and that it returns with all values correctly attributed")
-	public void createMediaAndCheckValues() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/media/")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"refId\":\"refIdTest\",\"mediaType\":\"MOVIE\"}"))
-				.andExpect(status().isCreated())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1))
-				.andExpect(jsonPath("$.refId").value("refIdTest"))
-				.andExpect(jsonPath("$.mediaType").value("MOVIE"));
-	}
+
 
 
 
 
 }
-*/
+
