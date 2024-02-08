@@ -1,5 +1,6 @@
 package com.mindera.services.implementations;
 
+import com.mindera.clients.GameExtensionClient;
 import com.mindera.dtos.GameGetDto;
 import com.mindera.entities.Game;
 import com.mindera.exceptions.game.GameNotFoundException;
@@ -9,8 +10,10 @@ import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +26,13 @@ class GameServiceImplTest {
     @InjectMock
     GameRepository gameRepository;
 
+    @Mock
+    GameExtensionClient gameExtensionClient;
+
     @Inject
     GameServiceImpl gameService;
 
     private List<Game> games = new ArrayList<>();
-
     private Game game;
     private Game game2;
 
@@ -66,18 +71,6 @@ class GameServiceImplTest {
         verify(gameRepository, times(1)).listAll();
     }
 
-    /* @Test
-    void testGetAllGames_BadRequest() {
-
-        //invalid genre id
-        when(videogameRepository.listAll()).thenReturn(videogames);
-
-        List<VideogameGetDto> videogameList = videogameService.getAllGames();
-
-        assertEquals(2, videogameList.size());
-
-        verify(videogameRepository, times(1)).listAll();
-    }*/
 
     @Test
     void testFindByIgdbId() throws GameNotFoundException {
@@ -125,24 +118,6 @@ class GameServiceImplTest {
 
         verify(gameRepository, times(1)).findByIgdbId(wrongId);
     }
-/*
-
-    @Test
-    void getGamesByTitle() {
-    }
-
-    @Test
-    void getGameRecommendations() {
-    }
-
-    @Test
-    void getGamesByGenre() {
-    }
-
-    @Test
-    void getTopRatedGames() {
-    }
-*/
 
     @Test
     void testCreate() {
@@ -151,3 +126,4 @@ class GameServiceImplTest {
         verify(gameRepository, times(1)).persist(gameTest);
     }
 }
+

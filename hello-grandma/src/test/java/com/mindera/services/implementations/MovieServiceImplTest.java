@@ -122,10 +122,6 @@ class MovieServiceImplTest {
         verify(movieRepository, times(1)).findByTmdbId(wrongId);
     }
 
-   /* @Test
-    void testGetMoviesByTitle() {
-    }
-*/
     @Test
     void testGetAllMovies() {
         when(movieRepository.listAll()).thenReturn(movies);
@@ -137,18 +133,6 @@ class MovieServiceImplTest {
         verify(movieRepository, times(1)).listAll();
     }
 
-   /* @Test
-    void testGetMovieDetailsByTmdbId() {
-    }
-
-    @Test
-    void testGetMovieRecommendation() {
-    }
-
-    @Test
-    void testDiscoverMovies() {
-    }
-*/
     @Test
     void testCreate() {
         Movie movieTest = new Movie();
@@ -156,11 +140,6 @@ class MovieServiceImplTest {
         verify(movieRepository, times(1)).persist(movieTest);
     }
 
-    /*@Test
-    void testGetTopFiveMovies(){
-
-    }
-*/
     @Test
     void checkIfExistsAndAddToMongoDb_NotExists() {
 
