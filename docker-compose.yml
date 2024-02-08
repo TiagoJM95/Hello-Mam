@@ -36,14 +36,6 @@ services:
     restart: on-failure
     ports:
       - "8082:8080"
-    environment:
-      SPRING_APPLICATION_JSON: '{
-              "spring.datasource.url"  : "jdbc:mysql://mysql-db:3306/helloMam",
-              "spring.datasource.username" : "root",
-              "spring.datasource.password" : "secret",
-              "spring.jpa.hibernate.ddl-auto" : "update"
-            }'
-
 
   hello-grandma:
     depends_on:

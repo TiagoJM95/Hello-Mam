@@ -65,6 +65,7 @@ public class ExternalGameController {
         return ResponseEntity.ok(externalGameService.getVideogameById(id));
     }
 
+
     @GetMapping("/title/{title}")
     public ResponseEntity<List<ExternalGame>> getGameByTitle(@PathParam("title") String title) {
         return ResponseEntity.ok(externalGameService.getGameByTitle(title));
