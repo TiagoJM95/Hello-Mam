@@ -11,12 +11,15 @@ import com.mindera.exceptions.game.GameNotFoundException;
 import com.mindera.clients.GameExtensionClient;
 import com.mindera.repositories.GameRepository;
 import com.mindera.services.interfaces.GameService;
+import io.quarkus.cache.CacheInvalidateAll;
+import io.quarkus.cache.CacheResult;
 import io.quarkus.scheduler.Scheduled;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.resteasy.reactive.Cache;
 
 import java.util.List;
 
@@ -63,6 +66,7 @@ public class GameServiceImpl implements GameService {
         }
     }
 
+    @CacheResult(cacheName = "games")
     @Override
     public List<GameGetDto> getAllGames() {
         return gameRepository.listAll().stream().map(GameConverter::fromEntityToGetDto).toList();
@@ -74,11 +78,14 @@ public class GameServiceImpl implements GameService {
                 -> new GameNotFoundException(VIDEOGAME_NOT_FOUND));
     }
 
+    @CacheResult(cacheName = "games")
     @Override
     public GameGetDto getGameById(int id) throws GameNotFoundException {
         return fromEntityToGetDto(findByIgdbId(id));
     }
 
+    @CacheResult(cacheName = "games")
+    @CacheInvalidateAll(cacheName = "games")
     @Override
     public List<GameGetDto> getGamesByTitle(String title) {
         String query = "search \""+title+"\"; fields *;";
@@ -97,6 +104,8 @@ public class GameServiceImpl implements GameService {
         return mongoList.stream().map(GameConverter::fromEntityToGetDto).toList();
     }
 
+    @CacheResult(cacheName = "games")
+    @CacheInvalidateAll(cacheName = "games")
     @Override
     public List<GameGetDto> getGameRecommendations(int igdbId) {
         String query = "fields *; where similar_games = (" + igdbId + ");";
@@ -106,6 +115,8 @@ public class GameServiceImpl implements GameService {
         return games.stream().map(GameConverter::fromEntityToGetDto).toList();
     }
 
+    @CacheResult(cacheName = "games")
+    @CacheInvalidateAll(cacheName = "games")
     @Override
     public List<GameGetDto> getGamesByGenre(String genre) throws GameGenreNotFoundException {
         GameGenres gameGenre = getGameGenreByName(genre).orElseThrow(()-> new GameGenreNotFoundException("Genre not found"));
@@ -116,6 +127,8 @@ public class GameServiceImpl implements GameService {
         return games.stream().map(GameConverter::fromEntityToGetDto).toList();
     }
 
+    @CacheResult(cacheName = "games")
+    @CacheInvalidateAll(cacheName = "games")
     @Override
     public List<GameGetDto> getTopRatedGames() {
         String query = "fields *; sort rating desc; limit 5;";
