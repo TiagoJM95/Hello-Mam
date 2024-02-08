@@ -30,11 +30,11 @@ public class ExternalGameController {
         this.externalGameService = externalGameService;
     }
 
-    @Operation(summary = "Get all videogames available in the database.")
+    @Operation(summary = "Get all videogames.", description = "Returns a list of all videogames available in the database.")
     @ApiResponse(responseCode = "200", description = "List of videogames available in the database.",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ExternalGame.class))})
     @GetMapping("/")
-    public ResponseEntity<List<ExternalGame>> getAllVideogames() throws RefIdNotFoundException {
+    public ResponseEntity<List<ExternalGame>> getAllVideogames(){
         return ResponseEntity.ok(externalGameService.getAllVideogames());
     }
 
