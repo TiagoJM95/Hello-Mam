@@ -5,6 +5,7 @@ import com.mindera.HelloMam.externals.models.ExternalGame;
 import com.mindera.HelloMam.repositories.MediaRepository;
 import com.mindera.HelloMam.services.interfaces.ExternalGameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
         this.mediaRepository = mediaRepository;
     }
 
+    @Cacheable("games")
     @Override
     public List<ExternalGame> getAllVideogames() {
         List<ExternalGame> games = externalGameClient.getAllVideogames();
@@ -37,6 +39,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
         return externalGameClient.getVideogameById(id);
     }
 
+    @CacheEvict(value = "games", allEntries = true)
     @Override
     public List<ExternalGame> getGameByTitle(String title) {
         List<ExternalGame> games = externalGameClient.getGameByTitle(title);
@@ -45,6 +48,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
     }
 
     @Cacheable("games")
+    @CacheEvict(value = "games", allEntries = true)
     @Override
     public List<ExternalGame> getGameRecommendations(int id) {
         List<ExternalGame> games = externalGameClient.getGameRecommendations(id);
@@ -52,6 +56,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
         return games;
     }
 
+    @CacheEvict(value = "games", allEntries = true)
     @Override
     public List<ExternalGame> getGameByGenre(String genre) {
         List<ExternalGame> games = externalGameClient.getGameByGenre(genre);
@@ -60,6 +65,7 @@ public class ExternalGameServiceImpl implements ExternalGameService {
     }
 
     @Cacheable("games")
+    @CacheEvict(value = "games", allEntries = true)
     @Override
     public List<ExternalGame> getTopFiveVideoGames() {
         List<ExternalGame> games = externalGameClient.getTopFiveVideoGames();
