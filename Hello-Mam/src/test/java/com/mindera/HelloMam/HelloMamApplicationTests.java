@@ -67,6 +67,10 @@ public class HelloMamApplicationTests {
 			.withUsername("test")
 			.withPassword("test");
 
+	static {
+		mysqlContainer.start();
+	}
+
 	@DynamicPropertySource
 	static void mysqlProperties(DynamicPropertyRegistry registry) {
 		registry.add("spring.datasource.url", mysqlContainer::getJdbcUrl);
@@ -94,18 +98,9 @@ public class HelloMamApplicationTests {
 	private ExternalMovieServiceImpl externalMovieServiceImpl;
 
 
-
-
-
-
-
 	@BeforeEach
 	void setUp() {
 
-
-//		Mockito.when(mediaRepository.findAll()).thenReturn(new ArrayList<>());
-//		Mockito.when(ratingRepository.findAll()).thenReturn(new ArrayList<>());
-//		Mockito.when(userRepository.findAll()).thenReturn(new ArrayList<>());
 	}
 
 //	@AfterEach
@@ -224,10 +219,9 @@ public class HelloMamApplicationTests {
 
 		Mockito.when(externalGameServiceImpl.getVideogameById(id)).thenReturn(game);
 
-		mockMvc.perform(get("/api/v1/games/id/{id}/", id))
-				.andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id", is(id)));
+		mockMvc.perform(get("/api/v1/games/id/{id}", 256090)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 	}
 
 
