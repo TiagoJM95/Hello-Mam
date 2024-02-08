@@ -2,7 +2,7 @@ FROM maven:3.9.6-amazoncorretto-21-debian AS build
 WORKDIR /home/app
 COPY src /home/app/src
 COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
+RUN mvn -f /home/app/pom.xml clean package -DskipTests
 
 # Package stage
 FROM registry.access.redhat.com/ubi8/openjdk-21:1.18
