@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
 @Tag(name = "Games", description = "The Games API")
 @RestController
 @RequestMapping("api/v1/games")
@@ -32,8 +31,7 @@ public class ExternalGameController {
 
     @Operation(
             summary = "Get all games",
-            description = "Get all games from the Grandma API",
-            tags = {"Games", "get"}
+            description = "Get all games from the Grandma API"
     )
     @ApiResponse(
             responseCode = "200",
@@ -46,8 +44,7 @@ public class ExternalGameController {
 
     @Operation(
             summary = "Get a game by id",
-            description = "Get a ExternalGame object by specifying its id. The response is ExternalGame object with id, name, release date, rating and a list of it's genres.",
-            tags = {"Games", "get", "id"}
+            description = "Get an ExternalGame object by specifying its id."
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -59,31 +56,79 @@ public class ExternalGameController {
                     description = "The ExternalGame object with the specified id was not found.",
                     content = {@Content(schema = @Schema())})
     })
-    @Parameter(name = "id",description = "Provide a ExternalGame ID to be searched", required = true)
+    @Parameter(name = "id",description = "Provide an ID to be searched", required = true)
     @GetMapping("/id/{id}")
     public ResponseEntity<ExternalGame> getVideogameById(@PathParam("id") int id){
         return ResponseEntity.ok(externalGameService.getVideogameById(id));
     }
 
-
+    @Operation(
+            summary = "Get games by title",
+            description = "Get a list of ExternalGame objects by specifying providing a title."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "List of ExternalGame objects with the specified title.",
+            content = {@Content(schema = @Schema(implementation = ExternalGame.class), mediaType = "application/json")}
+    )
+    @Parameter(name = "title",description = "Provide a title to be searched", required = true)
     @GetMapping("/title/{title}")
     public ResponseEntity<List<ExternalGame>> getGameByTitle(@PathParam("title") String title) {
         return ResponseEntity.ok(externalGameService.getGameByTitle(title));
     }
 
+    @Operation(
+            summary = "Get game recommendations",
+            description = "Get a list of ExternalGame objects by providing the id of another game."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "List of recommended ExternalGame objects.",
+                    content = {@Content(schema = @Schema(implementation = ExternalGame.class), mediaType = "application/json")}),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "The ExternalGame object with the specified id was not found.",
+                    content = {@Content(schema = @Schema())})
+    })
+    @Parameter(name = "id",description = "Provide an ExternalGame ID to be searched", required = true)
     @GetMapping("/recommendations/{id}")
     public ResponseEntity<List<ExternalGame>> getGameRecommendations(@PathParam("id") int id) {
         return ResponseEntity.ok(externalGameService.getGameRecommendations(id));
     }
 
+    @Operation(
+            summary = "Get games by genre",
+            description = "Get a list of ExternalGame objects by providing a game genre."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "List of ExternalGame objects with the specified genre.",
+                    content = {@Content(schema = @Schema(implementation = ExternalGame.class), mediaType = "application/json")}),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "The provided genre is not valid.",
+                    content = {@Content(schema = @Schema())})
+    })
+    @Parameter(name = "genre",description = "Provide a genre to be searched", required = true)
     @GetMapping("/genre/{genre}")
     public ResponseEntity<List<ExternalGame>> getGameByGenre(@PathParam("genre") String genre) {
         return ResponseEntity.ok(externalGameService.getGameByGenre(genre));
     }
 
+    @Operation(
+            summary = "Get top rated games",
+            description = "Get a list of ExternalGame objects sorted by rating."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "List of ExternalGame objects.",
+                    content = {@Content(schema = @Schema(implementation = ExternalGame.class), mediaType = "application/json")})
+    })
     @GetMapping("/top")
     public ResponseEntity<List<ExternalGame>> getTopFiveVideoGames() {
         return ResponseEntity.ok(externalGameService.getTopFiveVideoGames());
     }
-
 }
