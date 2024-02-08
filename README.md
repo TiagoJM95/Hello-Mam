@@ -18,8 +18,7 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-
+[![Contributors](https://img.shields.io/github/contributors/TiagoJM95/Hello-Mam.svg?style=for-the-badge)](https://github.com/TiagoJM95/Hello-Mam/graphs/contributors)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -153,6 +152,4 @@ Carina Cunha - car930193@gmail.com
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/TiagoJM95/Hello-Mam/graphs/contributors
 [product-screenshot]: images/screenshot.png
