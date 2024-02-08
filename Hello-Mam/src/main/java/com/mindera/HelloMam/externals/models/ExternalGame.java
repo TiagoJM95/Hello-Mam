@@ -16,7 +16,7 @@ import java.util.List;
 
 @Schema(name = "ExternalGame", description = "ExternalGame Entity Information")
 public class ExternalGame implements Serializable {
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "ExternalGame Id", example = "123")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "ExternalGame Id", example = "119133")
     private Long igdbId;
     @Schema(description = "ExternalGame's title", example = "Elden Ring")
     private String name;
