@@ -1,6 +1,5 @@
 package com.mindera.HelloMam.controllers;
 
-import com.mindera.HelloMam.caches.RedisTest;
 import com.mindera.HelloMam.dtos.creates.UserCreateDto;
 import com.mindera.HelloMam.dtos.gets.UserGetDto;
 import com.mindera.HelloMam.dtos.updates.*;
@@ -24,12 +23,10 @@ import static com.mindera.HelloMam.utils.Messages.USER_DELETED;
 public class UserController {
 
     private final UserServiceImpl userService;
-    private final RedisTest redisTest;
 
     @Autowired
     public UserController(UserServiceImpl userServiceImpl, StringRedisTemplate redis) {
         this.userService = userServiceImpl;
-        this.redisTest = new RedisTest(redis);
     }
 
     @GetMapping("/")
@@ -86,16 +83,5 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long id) throws UserNotFoundException {
         userService.deleteUser(id);
         return new ResponseEntity<>(USER_DELETED, HttpStatus.NO_CONTENT);
-    }
-
-
-    @GetMapping("/redistest")
-    public ResponseEntity<String> testRedis() {
-        try {
-            redisTest.testRedis();
-            return new ResponseEntity<>("Redis test completed", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Redis test failed: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }
