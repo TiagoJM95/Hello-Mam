@@ -12,6 +12,7 @@ import com.mindera.exceptions.movie.MovieNotFoundException;
 import com.mindera.clients.MovieExtensionClient;
 import com.mindera.repositories.MovieRepository;
 import com.mindera.services.interfaces.MovieService;
+import io.quarkus.cache.CacheInvalidate;
 import io.quarkus.cache.CacheInvalidateAll;
 import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -38,7 +39,7 @@ public class MovieServiceImpl implements MovieService {
     @ConfigProperty(name = "TMDB_API_KEY")
     String apiKey;
 
-    @CacheResult(cacheName = "movies")
+    @CacheResult(cacheName = "getAllMovies")
     @Override
     public List<MovieGetDto> getAllMovies() {
         return movieRepository.listAll().stream().map(MovieConverter::fromEntityToGetDto).toList();
@@ -50,14 +51,15 @@ public class MovieServiceImpl implements MovieService {
                 new MovieNotFoundException("Movie with tmdbId " + id + " not found"));
     }
 
-    @CacheResult(cacheName = "movies")
+    @CacheResult(cacheName = "getMovie")
     @Override
     public MovieGetDto getMovieById(Long id) throws MovieNotFoundException {
         return fromEntityToGetDto(findByTmdbId(id));
     }
 
-    @CacheResult(cacheName = "movies")
-    @CacheInvalidateAll(cacheName = "movies")
+    @CacheResult(cacheName = "getMoviesByTitle")
+    @CacheInvalidate(cacheName = "getAllMovies")
+    @CacheInvalidate(cacheName = "getMovie")
     @Override
     public List<MovieGetDto> getMoviesByTitle(String title) {
         List<Movie> tmdbList = fromMovieExtensionListToMovieList(movieExtensionClient.findMovieByTitle(title, "en-US", 1, APPLICATION_JSON, apiKey).getResults());
@@ -80,8 +82,9 @@ public class MovieServiceImpl implements MovieService {
         return movie;
     }
 
-    @CacheResult(cacheName = "movies")
-    @CacheInvalidateAll(cacheName = "movies")
+    @CacheResult(cacheName = "getMovieRecommendations")
+    @CacheInvalidate(cacheName = "getAllMovies")
+    @CacheInvalidate(cacheName = "getMovie")
     @Override
     public List<MovieGetDto> getMovieRecommendations(Integer movieId) {
         List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.getMovieRecommendationByTmdbId(movieId, APPLICATION_JSON, apiKey).getResults());
@@ -89,8 +92,9 @@ public class MovieServiceImpl implements MovieService {
         return movies.stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
 
-    @CacheResult(cacheName = "movies")
-    @CacheInvalidateAll(cacheName = "movies")
+    @CacheResult(cacheName = "getMoviesByGenre")
+    @CacheInvalidate(cacheName = "getAllMovies")
+    @CacheInvalidate(cacheName = "getMovie")
     @Override
     public List<MovieGetDto> getMoviesByGenre(String genres) throws InvalidGenreException {
         String genreId = convertGenreStringToGenreId(genres);
@@ -100,8 +104,9 @@ public class MovieServiceImpl implements MovieService {
         return movies.stream().map(MovieConverter::fromEntityToGetDto).toList();
     }
 
-    @CacheResult(cacheName = "movies")
-    @CacheInvalidateAll(cacheName = "movies")
+    @CacheResult(cacheName = "getTopRatedMovies")
+    @CacheInvalidate(cacheName = "getAllMovies")
+    @CacheInvalidate(cacheName = "getMovie")
     @Override
     public List<MovieGetDto> getTopRatedMovies() {
         List<Movie> movies = fromMovieExtensionListToMovieList(movieExtensionClient.getTopRatedMovies(1, "vote_average.desc", 1000,
