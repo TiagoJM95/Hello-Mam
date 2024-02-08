@@ -10,13 +10,11 @@ import jakarta.inject.Inject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -95,7 +93,6 @@ class MovieServiceImplTest {
 
         when(movieRepository.findByTmdbId(wrongId)).thenReturn(Optional.empty());
 
-        //verifica se a exceção é lançada quando o método é chamado
         assertThrows(MovieNotFoundException.class, () -> movieService.findByTmdbId(wrongId));
 
         verify(movieRepository, times(1)).findByTmdbId(wrongId);
@@ -175,7 +172,7 @@ class MovieServiceImplTest {
     }
 
     @Test
-    void checkIfExistsAndAddToMongoDb_CaseExists() {
+    void checkIfExistsAndAddToMongoDb() {
         MovieServiceImpl movieServiceSpy = spy(movieService);
 
         when(movieRepository.findByTmdbId(60135L)).thenReturn(Optional.of(movie));

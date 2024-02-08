@@ -11,7 +11,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 
 import java.util.List;
 
-@Path("/api/v1/videogames")
+@Path("/api/v1/games")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class VideogameController{
